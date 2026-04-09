@@ -874,8 +874,9 @@
         }
     }
 
-    /* ── Wire up topic cards with available activities ── */
-    document.querySelectorAll('.topic-card[data-topic]').forEach(function(card) {
+    /* ── Wire up sub-topic cards with available activities ── */
+    /* Only targets cards inside topic views, not the hub's 5 main topic cards */
+    document.querySelectorAll('.view:not(#view-hub) .topic-card[data-topic]').forEach(function(card) {
         var topic = card.getAttribute('data-topic');
         if (AVAILABLE_ACTIVITIES[topic]) {
             card.onclick = function() { launchActivity(topic); };
