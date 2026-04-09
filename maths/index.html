@@ -16,6 +16,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <!-- MathLive -->
     <script defer src="https://unpkg.com/mathlive"></script>
+    <!-- Desmos Graphing Calculator API -->
+    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../shared/css/subject-base.css">
@@ -100,6 +106,10 @@
                     <span id="auth-info"></span>
                     <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
                     <button class="btn btn-sm" onclick="changeCourse()" style="background:var(--border);color:var(--text-light);">Change Course</button>
+                    <button class="btn btn-sm btn-primary" onclick="showDashboard()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
                     <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                         Settings
@@ -753,6 +763,49 @@
         <div id="view-activity" class="view">
             <div id="activity-container"></div>
         </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: DASHBOARD - Progress overview
+             ═══════════════════════════════════════════════ -->
+        <div id="view-dashboard" class="view">
+            <button class="back-btn" onclick="showView('hub')">Back to Hub</button>
+            <header>
+                <h1>Dashboard</h1>
+                <p>Your progress across topics</p>
+            </header>
+
+            <!-- Overview stats bar -->
+            <div class="score-bar" id="dash-overview" style="margin-bottom:24px;">
+                <div class="score-item"><div class="label">Total Questions</div><div class="value primary" id="dash-total-q">0</div></div>
+                <div class="score-item"><div class="label">Overall Accuracy</div><div class="value primary" id="dash-accuracy">-</div></div>
+                <div class="score-item"><div class="label">Best Streak</div><div class="value success" id="dash-streak">0</div></div>
+                <div class="score-item"><div class="label">Topics Attempted</div><div class="value primary" id="dash-topics">0</div></div>
+            </div>
+
+            <!-- Doughnut chart -->
+            <div style="max-width:400px;margin:0 auto 32px;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
+                <h3 style="margin:0 0 16px;text-align:center;font-size:1rem;color:var(--text);">Questions by Topic</h3>
+                <canvas id="dash-chart" width="360" height="360"></canvas>
+            </div>
+
+            <!-- Per-topic progress bars -->
+            <div id="dash-topic-bars" style="max-width:600px;margin:0 auto;"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             FLOATING CALCULATOR (Desmos)
+             ═══════════════════════════════════════════════ -->
+        <button class="calc-btn" id="calc-btn" title="Calculator">&#129518;</button>
+        <div class="calc-modal" id="calc-modal">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-bottom:1px solid var(--border);">
+                <span style="font-weight:600;font-size:0.85rem;color:var(--text);">Calculator</span>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="calc-clear-btn" id="calc-clear-btn">Clear</button>
+                    <button style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-light);line-height:1;" id="calc-close-btn" title="Close">&times;</button>
+                </div>
+            </div>
+            <div class="calc-container" id="calc-container"></div>
+        </div>
     </div>
 
     <!-- Firebase (compat for vanilla JS) -->
@@ -986,6 +1039,163 @@
     searchInput.addEventListener('blur', () => {
         setTimeout(() => searchResults.classList.remove('show'), 200);
     });
+
+    /* ═══════════════════════════════════════════════
+       DESMOS FLOATING CALCULATOR
+       ═══════════════════════════════════════════════ */
+    (function() {
+        var calcBtn = document.getElementById('calc-btn');
+        var calcModal = document.getElementById('calc-modal');
+        var calcCloseBtn = document.getElementById('calc-close-btn');
+        var calcClearBtn = document.getElementById('calc-clear-btn');
+        window.desmosCalc = null;
+
+        function openCalc() {
+            calcModal.classList.add('show');
+            calcBtn.classList.add('active');
+            if (!window.desmosCalc) {
+                var container = document.getElementById('calc-container');
+                window.desmosCalc = Desmos.GraphingCalculator(container, {
+                    settingsMenu: false,
+                    border: false,
+                    expressionsCollapsed: false
+                });
+            }
+        }
+
+        function closeCalc() {
+            calcModal.classList.remove('show');
+            calcBtn.classList.remove('active');
+        }
+
+        calcBtn.addEventListener('click', function() {
+            calcModal.classList.contains('show') ? closeCalc() : openCalc();
+        });
+
+        calcCloseBtn.addEventListener('click', closeCalc);
+
+        calcClearBtn.addEventListener('click', function() {
+            if (window.desmosCalc) {
+                window.desmosCalc.setBlank();
+            }
+        });
+    })();
+
+    /* ═══════════════════════════════════════════════
+       DASHBOARD
+       ═══════════════════════════════════════════════ */
+    var dashChart = null;
+
+    function showDashboard() {
+        showView('dashboard');
+        renderDashboard();
+    }
+
+    function renderDashboard() {
+        var raw = localStorage.getItem('maths_activityStats');
+        var stats = {};
+        try { stats = raw ? JSON.parse(raw) : {}; } catch(e) { stats = {}; }
+
+        var topics = Object.keys(stats);
+        var totalScore = 0, totalQ = 0, bestStreak = 0;
+
+        topics.forEach(function(t) {
+            var s = stats[t];
+            totalScore += (s.score || 0);
+            totalQ += (s.total || 0);
+            if ((s.bestStreak || 0) > bestStreak) bestStreak = s.bestStreak;
+        });
+
+        var accuracy = totalQ > 0 ? Math.round((totalScore / totalQ) * 100) : 0;
+
+        document.getElementById('dash-total-q').textContent = totalQ;
+        document.getElementById('dash-accuracy').textContent = totalQ > 0 ? accuracy + '%' : '-';
+        document.getElementById('dash-streak').textContent = bestStreak;
+        document.getElementById('dash-topics').textContent = topics.length;
+
+        // Doughnut chart
+        var chartCanvas = document.getElementById('dash-chart');
+        var labels = [];
+        var data = [];
+        var colors = [
+            '#4f46e5', '#06b6d4', '#10b981', '#f59e0b', '#ef4444',
+            '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1',
+            '#84cc16', '#0ea5e9'
+        ];
+
+        topics.forEach(function(t) {
+            labels.push(t.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }));
+            data.push(stats[t].total || 0);
+        });
+
+        if (dashChart) {
+            dashChart.destroy();
+            dashChart = null;
+        }
+
+        if (topics.length > 0 && typeof Chart !== 'undefined') {
+            dashChart = new Chart(chartCanvas, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors.slice(0, topics.length),
+                        borderWidth: 2,
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#1a1a2e',
+                                padding: 12,
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            chartCanvas.parentElement.querySelector('h3').textContent = topics.length === 0
+                ? 'No activity data yet - complete some trainers!'
+                : 'Questions by Topic';
+        }
+
+        // Per-topic progress bars
+        var barsContainer = document.getElementById('dash-topic-bars');
+        if (topics.length === 0) {
+            barsContainer.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:24px;">Complete some activities to see your progress here.</p>';
+            return;
+        }
+
+        var html = '<div style="background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">';
+        html += '<h3 style="margin:0 0 16px;font-size:1rem;color:var(--text);">Accuracy by Topic</h3>';
+
+        topics.forEach(function(t, i) {
+            var s = stats[t];
+            var topicAcc = s.total > 0 ? Math.round((s.score / s.total) * 100) : 0;
+            var name = t.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+            var color = colors[i % colors.length];
+
+            html += '<div style="margin-bottom:14px;">';
+            html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">';
+            html += '<span style="font-size:0.88rem;font-weight:500;color:var(--text);">' + name + '</span>';
+            html += '<span style="font-size:0.78rem;color:var(--text-light);">' + s.score + '/' + s.total + ' (' + topicAcc + '%)</span>';
+            html += '</div>';
+            html += '<div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;">';
+            html += '<div style="height:100%;width:' + topicAcc + '%;background:' + color + ';border-radius:4px;transition:width 0.5s ease;"></div>';
+            html += '</div>';
+            html += '</div>';
+        });
+
+        html += '</div>';
+        barsContainer.innerHTML = html;
+    }
     </script>
 </body>
 </html>
