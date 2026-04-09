@@ -1,0 +1,541 @@
+/* ================================================================
+   PREMIUM / FREE TIER CSS
+   Shared across all subjects and the hub
+   ================================================================ */
+
+/* ── Locked Cards ─────────────────────────────────────────── */
+.premium-locked {
+    position: relative;
+    opacity: 0.6;
+    filter: grayscale(0.3);
+    cursor: pointer !important;
+    transition: opacity 0.3s, filter 0.3s;
+}
+.premium-locked:hover {
+    opacity: 0.75;
+    filter: grayscale(0.15);
+}
+.premium-locked * {
+    pointer-events: none;
+}
+.premium-lock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4361ee, #6f86ff);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.4);
+    z-index: 2;
+    pointer-events: none;
+    line-height: 1.4;
+}
+.premium-lock-badge.pro-locked {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+body.dark-mode .premium-lock-badge {
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.6);
+}
+body.dark-mode .premium-lock-badge.pro-locked {
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.6);
+}
+
+/* ── Premium User Badge (next to name) ────────────────────── */
+.premium-user-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 10px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.premium-user-badge.owner {
+    background: linear-gradient(135deg, #ff6b6b, #c44569);
+    color: #fff;
+}
+.premium-user-badge.grand-scholar {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: #fff;
+}
+.premium-user-badge.developer {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
+}
+.premium-user-badge.student,
+.premium-user-badge.founder {
+    background: linear-gradient(135deg, #4361ee, #6f86ff);
+    color: #fff;
+}
+.premium-user-badge.pro,
+.premium-user-badge.standard {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+.premium-user-badge.gift {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+
+/* ── Settings Plan Row ────────────────────────────────────── */
+.premium-plan-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 8px;
+}
+.premium-plan-label.free {
+    color: var(--text-light);
+}
+.premium-plan-label.owner {
+    background: linear-gradient(135deg, #ff6b6b, #c44569);
+    color: #fff;
+}
+.premium-plan-label.grand-scholar {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: #fff;
+}
+.premium-plan-label.developer {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
+}
+.premium-plan-label.student,
+.premium-plan-label.founder {
+    background: linear-gradient(135deg, #4361ee, #6f86ff);
+    color: #fff;
+}
+.premium-plan-label.pro,
+.premium-plan-label.standard {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+
+/* ── Upgrade Modal ────────────────────────────────────────── */
+.premium-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.premium-modal-overlay.show {
+    display: flex;
+}
+.premium-modal {
+    background: var(--card, #fff);
+    border-radius: 20px;
+    padding: 32px 28px;
+    max-width: 780px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 16px 64px rgba(0,0,0,0.2);
+    position: relative;
+    animation: premiumModalIn 0.3s ease;
+}
+@keyframes premiumModalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+body.dark-mode .premium-modal {
+    background: var(--card, #16213e);
+}
+.premium-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+    line-height: 1;
+}
+.premium-modal h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-align: center;
+}
+.premium-modal-sub {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.88rem;
+    margin-bottom: 18px;
+    line-height: 1.5;
+}
+
+/* ── Billing Toggle ──────────────────────────────────────── */
+.billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.billing-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+.billing-label.active {
+    color: var(--text, #2b2d42);
+}
+body.dark-mode .billing-label.active {
+    color: #fff;
+}
+.billing-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+.billing-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.billing-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.3s;
+}
+.billing-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+.billing-switch input:checked + .billing-slider {
+    background: var(--primary, #4361ee);
+}
+.billing-switch input:checked + .billing-slider::before {
+    transform: translateX(20px);
+}
+.billing-save {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.1);
+    padding: 2px 8px;
+    border-radius: 8px;
+}
+
+/* ── Plan Cards (3-column) ───────────────────────────────── */
+.premium-plans {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+.premium-plans.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+@media (max-width: 640px) {
+    .premium-plans.three-col { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .premium-plans { grid-template-columns: 1fr; }
+}
+.premium-plan-card {
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.premium-plan-card:hover {
+    transform: translateY(-2px);
+}
+body.dark-mode .premium-plan-card {
+    border-color: rgba(255,255,255,0.1);
+}
+
+/* Student card */
+.premium-plan-card.student-card {
+    border-color: #4361ee;
+    background: linear-gradient(180deg, rgba(67, 97, 238, 0.04), transparent);
+}
+.student-card .premium-plan-price {
+    color: #4361ee;
+}
+
+/* Pro card */
+.premium-plan-card.pro-card {
+    border-color: #f59e0b;
+    background: linear-gradient(180deg, rgba(245, 158, 11, 0.06), transparent);
+}
+.pro-card .premium-plan-price {
+    color: #d97706;
+}
+.pro-card .premium-plan-cta {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+
+/* Free card */
+.premium-plan-card.free-card {
+    opacity: 0.85;
+}
+.free-card .premium-plan-cta.free-cta {
+    background: var(--bg-alt, #e9ecef);
+    color: var(--text-light);
+    cursor: default;
+}
+
+.premium-plan-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.premium-plan-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.premium-plan-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+.premium-plan-price span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+.premium-plan-card ul {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 14px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+.premium-plan-card li::before {
+    content: '\2713 ';
+    color: var(--success, #06d6a0);
+    font-weight: 700;
+    margin-right: 4px;
+}
+.premium-plan-cta {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    background: var(--primary, #4361ee);
+    transition: filter 0.2s;
+    margin-top: auto;
+}
+.premium-plan-cta:hover {
+    filter: brightness(1.1);
+}
+.premium-plan-cta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.premium-modal-note {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+.premium-plans li.not-included {
+    color: var(--text-light, #999);
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+.premium-plans li.not-included::before {
+    content: '\2717' !important;
+    color: #ccc !important;
+}
+
+/* ── Coming Soon Tag ─────────────────────────────────────── */
+.coming-soon-tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: rgba(67, 97, 238, 0.1);
+    color: var(--primary, #4361ee);
+    padding: 1px 6px;
+    border-radius: 6px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* ── Hub Pricing Section ──────────────────────────────────── */
+.pricing-section {
+    margin: 32px 0;
+    text-align: center;
+}
+.pricing-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.pricing-section .pricing-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+.pricing-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    max-width: 780px;
+    margin: 0 auto;
+}
+@media (max-width: 640px) {
+    .pricing-cards { grid-template-columns: 1fr; }
+}
+/* Glassmorphism for pricing when wallpaper active */
+body.has-bg .pricing-header {
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border-radius: var(--radius, 14px); padding: 20px 24px; margin-bottom: 20px;
+}
+body.has-bg .premium-plan-card { background: rgba(255,255,255,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+body.dark-mode.has-bg .pricing-header { background: rgba(22,33,62,0.92); }
+body.dark-mode.has-bg .premium-plan-card { background: rgba(22,33,62,0.92); }
+
+/* ── Leaderboard Premium Badge ────────────────────────────── */
+.lb-badge {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 1px 6px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    border-radius: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.lb-badge.owner {
+    background: linear-gradient(135deg, #ff6b6b, #c44569);
+    color: #fff;
+}
+.lb-badge.grand-scholar {
+    background: linear-gradient(135deg, #00b894, #00cec9);
+    color: #fff;
+}
+.lb-badge.developer {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #fff;
+}
+.lb-badge.student,
+.lb-badge.founder {
+    background: linear-gradient(135deg, #4361ee, #6f86ff);
+    color: #fff;
+}
+.lb-badge.pro,
+.lb-badge.standard {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+.lb-badge.gift {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+}
+
+/* ── Role Icon (image inside badge) ──────────────────────── */
+.role-icon {
+    height: 14px;
+    width: 14px;
+    vertical-align: middle;
+    margin-right: 3px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.lb-badge .role-icon {
+    height: 12px;
+    width: 12px;
+    margin-right: 2px;
+}
+
+/* ── Daily Limit Counter ─────────────────────────────────── */
+.daily-limit-counter {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9000;
+    background: var(--card, #fff);
+    color: var(--text, #2b2d42);
+    border: 2px solid rgba(67, 97, 238, 0.25);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+    pointer-events: none;
+    user-select: none;
+}
+body.dark-mode .daily-limit-counter {
+    background: var(--card, #16213e);
+    border-color: rgba(67, 97, 238, 0.35);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.daily-limit-counter.daily-limit-low {
+    border-color: #ffc107;
+    color: #8b6914;
+    background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02));
+}
+body.dark-mode .daily-limit-counter.daily-limit-low {
+    color: #ffc107;
+}
+.daily-limit-counter.daily-limit-exhausted {
+    border-color: var(--error, #ef476f);
+    color: var(--error, #ef476f);
+    background: linear-gradient(135deg, rgba(239,71,111,0.08), rgba(239,71,111,0.02));
+}
+@media (max-width: 480px) {
+    .daily-limit-counter {
+        bottom: 12px;
+        right: 12px;
+        font-size: 0.75rem;
+        padding: 5px 12px;
+    }
+}

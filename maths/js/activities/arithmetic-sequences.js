@@ -452,17 +452,62 @@ const ARITH_SEQ = {
 
     load() {
         this.init();
+        this.score = 0;
+        this.total = 0;
+        this.streak = 0;
         this.answered = false;
         this.hintIdx = 0;
 
-        // Attempt review question (25% chance)
-        let reviewQ = null;
-        if (typeof getWrongAnswer === 'function') {
-            reviewQ = (Math.random() < 0.25) ? getWrongAnswer('arith-seq', this.level) : null;
+        var container = document.getElementById('activity-container');
+        if (!container) return;
+
+        container.innerHTML =
+            '<button class="back-btn" onclick="ARITH_SEQ.unload()">Arithmetic Sequences (1.2-1.3)</button>' +
+            '<header style="text-align:center;margin-bottom:24px;">' +
+            '<h1>Arithmetic Sequences</h1>' +
+            '<p>IB Math AA 1.2-1.3 - Common difference, nth term, series, sigma notation</p>' +
+            '</header>' +
+            '<div class="score-bar">' +
+            '<div class="score-item"><div class="label">Score</div><div class="value" id="arith-seq-score">0 / 0</div></div>' +
+            '<div class="score-item"><div class="label">Streak</div><div class="value" id="arith-seq-streak">0</div></div>' +
+            '<div class="score-item"><div class="label">Accuracy</div><div class="value" id="arith-seq-pct">-</div></div>' +
+            '</div>' +
+            '<div class="question-card" id="arith-seq-card"></div>' +
+            '<details class="workout-section"><summary>Working Out</summary><div class="workout-content" contenteditable="true"></div></details>' +
+            '<div class="hint-box" id="arith-seq-hint"></div>' +
+            '<div class="feedback" id="arith-seq-fb"><div class="feedback-title" id="arith-seq-fb-title"></div><div class="feedback-explanation" id="arith-seq-fb-expl"></div></div>' +
+            '<div style="display:flex;justify-content:center;gap:12px;margin-top:12px;">' +
+            '<button class="btn btn-hint" id="arith-seq-hint-btn" onclick="ARITH_SEQ.showHint()">Hint</button>' +
+            '<button class="btn btn-primary next-btn" id="arith-seq-next" onclick="ARITH_SEQ.loadQuestion()">Next Question</button>' +
+            '</div>';
+
+        this.loadQuestion();
+    },
+
+    unload() {
+        var container = document.getElementById('activity-container');
+        if (container) container.innerHTML = '';
+        if (typeof showView === 'function') showView('number-algebra');
+    },
+
+    showHint() {
+        var q = this.currentQ;
+        if (!q || !q.hintTex || this.hintIdx >= q.hintTex.length) return;
+        var box = document.getElementById('arith-seq-hint');
+        if (box) {
+            box.classList.add('show');
+            box.innerHTML = (box.innerHTML ? box.innerHTML + '<br>' : '') + '\\(' + q.hintTex[this.hintIdx] + '\\)';
+            this.hintIdx++;
         }
-        this.currentQ = reviewQ || this.next();
-        const q = this.currentQ;
-        const dl = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
+    },
+
+    loadQuestion() {
+        this.answered = false;
+        this.hintIdx = 0;
+
+        this.currentQ = this.next();
+        var q = this.currentQ;
+        var dl = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
 
         // Build question card HTML
         let h = '<div class="difficulty-tag ' + q.difficulty + '">' + dl[q.difficulty] + '</div>';

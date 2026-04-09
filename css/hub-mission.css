@@ -1,0 +1,534 @@
+/* ================================================================
+   HUB MISSION CSS - Daily Mission Screen Redesign
+   Transforms the hub from a static link list into a motivating
+   daily study screen. Mobile-first, dark mode ready.
+   ================================================================ */
+
+/* ── CSS Custom Properties (extend existing :root) ── */
+:root {
+    --mission-gradient: linear-gradient(135deg, #4361ee, #7c3aed);
+    --mission-bg: rgba(67, 97, 238, 0.04);
+    --mission-border: rgba(67, 97, 238, 0.15);
+    --streak-gold: #f59e0b;
+    --streak-bg: rgba(245, 158, 11, 0.06);
+    --phase-active: rgba(67, 97, 238, 0.08);
+    --phase-border: rgba(67, 97, 238, 0.2);
+    --chip-green: #10b981;
+    --chip-orange: #f59e0b;
+    --chip-red: #ef4444;
+    --chip-gray: #94a3b8;
+}
+body.dark-mode {
+    --mission-bg: rgba(99, 102, 241, 0.08);
+    --mission-border: rgba(99, 102, 241, 0.25);
+    --streak-bg: rgba(245, 158, 11, 0.1);
+    --phase-active: rgba(99, 102, 241, 0.12);
+    --phase-border: rgba(99, 102, 241, 0.3);
+}
+
+/* ================================================================
+   1. DAILY MISSION CARD
+   ================================================================ */
+.daily-mission {
+    background: var(--card, #fff);
+    border: 2px solid var(--mission-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+}
+.daily-mission::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--mission-gradient);
+}
+.daily-mission-ring {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+.daily-mission-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.daily-mission-ring .ring-bg {
+    fill: none;
+    stroke: var(--border, #e5e7eb);
+    stroke-width: 6;
+}
+.daily-mission-ring .ring-fill {
+    fill: none;
+    stroke: url(#mission-gradient);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 226;
+    stroke-dashoffset: 226;
+    transition: stroke-dashoffset 0.8s ease;
+}
+.daily-mission-ring .ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary, #4361ee);
+}
+.daily-mission-content {
+    flex: 1;
+    min-width: 0;
+}
+.daily-mission-days {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary, #4361ee);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.daily-mission-days .edit-date-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-light, #6c757d);
+    padding: 2px;
+}
+.daily-mission-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text, #1a1a2e);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+.daily-mission-sub {
+    font-size: 0.85rem;
+    color: var(--text-light, #6c757d);
+    line-height: 1.4;
+}
+.daily-mission-progress {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+}
+.daily-mission-dot {
+    width: 28px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border, #e5e7eb);
+    transition: background 0.3s;
+}
+.daily-mission-dot.done {
+    background: var(--mission-gradient);
+}
+
+/* ================================================================
+   2. WARM WELCOME (signed-out hero)
+   ================================================================ */
+.warm-welcome {
+    text-align: center;
+    padding: 48px 24px 40px;
+    margin-bottom: 24px;
+}
+.warm-welcome-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text, #1a1a2e);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+.warm-welcome-sub {
+    font-size: 0.95rem;
+    color: var(--text-light, #6c757d);
+    margin-bottom: 24px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+.warm-welcome-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--mission-gradient);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.warm-welcome-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+}
+.warm-welcome-stats {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    font-size: 0.82rem;
+    color: var(--text-light, #6c757d);
+}
+.warm-welcome-stats span {
+    font-weight: 700;
+    color: var(--text, #1a1a2e);
+}
+
+/* ================================================================
+   3. STREAK HERO
+   ================================================================ */
+.streak-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.streak-hero-card {
+    background: var(--card, #fff);
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+}
+.streak-hero-card.streak {
+    background: var(--streak-bg);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+.streak-hero-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light, #6c757d);
+    margin-bottom: 6px;
+}
+.streak-hero-val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text, #1a1a2e);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.streak-hero-val .flame {
+    font-size: 1.3rem;
+}
+.streak-weekly {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+}
+.streak-day {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--border, #e5e7eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-light, #94a3b8);
+}
+.streak-day.active {
+    background: var(--streak-gold);
+    color: #fff;
+}
+.streak-day.today {
+    border: 2px solid var(--streak-gold);
+}
+/* XP bar inside streak hero */
+.streak-xp-bar {
+    height: 6px;
+    background: var(--border, #e5e7eb);
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+.streak-xp-fill {
+    height: 100%;
+    background: var(--primary, #4361ee);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+.streak-xp-text {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+/* ================================================================
+   4. SUBJECT CARD ENHANCEMENTS
+   ================================================================ */
+.subject-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.subject-status-chip.on-track {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--chip-green);
+}
+.subject-status-chip.needs-attention {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--chip-orange);
+}
+.subject-status-chip.not-started {
+    background: rgba(148, 163, 184, 0.1);
+    color: var(--chip-gray);
+}
+.subject-status-chip.strong {
+    background: rgba(67, 97, 238, 0.1);
+    color: var(--primary, #4361ee);
+}
+.subject-status-chip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.subject-micro-bar {
+    height: 3px;
+    background: var(--border, #e5e7eb);
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+}
+.subject-micro-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--primary, #4361ee);
+    transition: width 0.5s ease;
+    width: 0%;
+}
+.subject-weakest {
+    font-size: 0.7rem;
+    color: var(--text-light, #6c757d);
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.subject-cta {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5) !important;
+    margin-top: 4px;
+}
+
+/* ================================================================
+   5. STUDY PHASE GUIDE
+   ================================================================ */
+.study-phase-guide {
+    margin-bottom: 24px;
+}
+.study-phase-guide-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-light, #6c757d);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+}
+.study-phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.study-phase {
+    background: var(--card, #fff);
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color 0.2s, background 0.2s;
+}
+.study-phase.current {
+    border-color: var(--phase-border);
+    background: var(--phase-active);
+}
+.study-phase-num {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: var(--text-light, #94a3b8);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+}
+.study-phase.current .study-phase-num {
+    color: var(--primary, #4361ee);
+}
+.study-phase-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text, #1a1a2e);
+    margin-bottom: 8px;
+}
+.study-phase-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.study-phase-link {
+    font-size: 0.8rem;
+    color: var(--primary, #4361ee);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.study-phase-link:hover {
+    text-decoration: underline;
+}
+.study-phase-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--primary, #4361ee);
+    color: #fff;
+    margin-left: 4px;
+}
+
+/* ================================================================
+   6. LIVE STATS FOOTER
+   ================================================================ */
+.live-stats-strip {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 0;
+    font-size: 0.8rem;
+    color: var(--text-light, #6c757d);
+    flex-wrap: wrap;
+}
+.live-stats-strip .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.live-stats-strip .stat-val {
+    font-weight: 700;
+    color: var(--text, #1a1a2e);
+}
+.live-stats-strip .stat-divider {
+    color: var(--border, #e5e7eb);
+}
+
+/* ================================================================
+   7. ENTRANCE ANIMATIONS
+   ================================================================ */
+@media (prefers-reduced-motion: no-preference) {
+    .hub-entrance {
+        opacity: 0;
+        transform: translateY(16px);
+        animation: hubEnter 0.4s ease forwards;
+    }
+    .hub-entrance:nth-child(1) { animation-delay: 0s; }
+    .hub-entrance:nth-child(2) { animation-delay: 0.06s; }
+    .hub-entrance:nth-child(3) { animation-delay: 0.12s; }
+    .hub-entrance:nth-child(4) { animation-delay: 0.18s; }
+    .hub-entrance:nth-child(5) { animation-delay: 0.24s; }
+
+    @keyframes hubEnter {
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+
+/* ================================================================
+   8. RESPONSIVE
+   ================================================================ */
+@media (max-width: 600px) {
+    .daily-mission {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 16px;
+        gap: 16px;
+    }
+    .daily-mission-ring {
+        width: 64px;
+        height: 64px;
+    }
+    .daily-mission-progress {
+        justify-content: center;
+    }
+    .streak-hero {
+        grid-template-columns: 1fr;
+    }
+    .study-phases {
+        grid-template-columns: 1fr;
+    }
+    .daily-mission-title {
+        font-size: 1.05rem;
+    }
+    .warm-welcome-title {
+        font-size: 1.3rem;
+    }
+    .warm-welcome-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .live-stats-strip {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    .live-stats-strip .stat-divider {
+        display: none;
+    }
+}
+
+/* ================================================================
+   9. DARK MODE OVERRIDES
+   ================================================================ */
+body.dark-mode .daily-mission {
+    background: var(--card, #1e1e2e);
+}
+body.dark-mode .streak-hero-card {
+    background: var(--card, #1e1e2e);
+    border-color: var(--border, rgba(255,255,255,0.08));
+}
+body.dark-mode .streak-hero-card.streak {
+    background: var(--streak-bg);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+body.dark-mode .study-phase {
+    background: var(--card, #1e1e2e);
+    border-color: var(--border, rgba(255,255,255,0.08));
+}
+body.dark-mode .warm-welcome-cta {
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+body.dark-mode .streak-day {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-light);
+}
+body.dark-mode .streak-day.active {
+    background: var(--streak-gold);
+    color: #fff;
+}
+body.dark-mode .subject-micro-bar {
+    background: rgba(255,255,255,0.08);
+}

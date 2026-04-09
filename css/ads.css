@@ -1,0 +1,125 @@
+/* ================================================================
+   ADS CSS
+   Shared across all subjects and the hub
+   Side rails (left + right) + bottom banner
+   ================================================================ */
+
+/* ── Ad Containers (common) ──────────────────────────── */
+.ad-container {
+    position: fixed;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+/* ── Side Rails ──────────────────────────────────────── */
+.ad-rail {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+}
+.ad-rail-left {
+    left: calc((100vw - 780px) / 2 - 160px - 24px);
+}
+.ad-rail-right {
+    right: calc((100vw - 780px) / 2 - 160px - 24px);
+}
+/* Subject pages have narrower max-width (680px) */
+body[data-page-type="subject"] .ad-rail-left {
+    left: calc((100vw - 680px) / 2 - 160px - 24px);
+}
+body[data-page-type="subject"] .ad-rail-right {
+    right: calc((100vw - 680px) / 2 - 160px - 24px);
+}
+
+/* ── Bottom Banner ───────────────────────────────────── */
+.ad-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Push footer content above bottom banner */
+body.has-ads {
+    padding-bottom: 100px;
+}
+
+/* ── Dark Mode ───────────────────────────────────────── */
+body.dark-mode .ad-bottom {
+    background: rgba(30, 30, 40, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Custom Wallpaper (glassmorphism) ────────────────── */
+body.has-bg .ad-bottom {
+    background: rgba(255, 255, 255, 0.12);
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+body.has-bg.dark-mode .ad-bottom {
+    background: rgba(0, 0, 0, 0.25);
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Placeholder Styling ─────────────────────────────── */
+.ad-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    background: rgba(0, 0, 0, 0.02);
+}
+body.dark-mode .ad-placeholder {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.02);
+}
+.ad-rail .ad-placeholder {
+    width: 160px;
+    height: 600px;
+}
+.ad-bottom .ad-placeholder {
+    width: 728px;
+    max-width: 100%;
+    height: 90px;
+}
+
+/* ── Desktop sidebar: hide side rails (sidebar occupies that space) ── */
+body.device-desktop .ad-rail {
+    display: none !important;
+}
+
+/* ── Responsive: hide side rails on narrow viewports ── */
+@media (max-width: 1200px) {
+    .ad-rail {
+        display: none !important;
+    }
+}
+
+/* ── Premium Users: hide all ads ─────────────────────── */
+body.premium-user .ad-container {
+    display: none !important;
+}
+body.premium-user {
+    padding-bottom: 0 !important;
+}
+
+/* ── In-Activity: hide all ads during trainers/lessons ─ */
+body.in-activity .ad-container {
+    display: none !important;
+}
+body.in-activity {
+    padding-bottom: 0 !important;
+}

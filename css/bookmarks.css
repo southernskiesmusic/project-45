@@ -1,0 +1,138 @@
+/* ================================================================
+   BOOKMARKS - button (subject pages) + hub section
+   ================================================================ */
+
+/* ---- Bookmark toggle button on topic cards ---- */
+.bookmark-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 2;
+    padding: 4px;
+    color: var(--text-light, #6c757d);
+    line-height: 1;
+}
+.bookmark-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.15);
+}
+.bookmark-btn.active {
+    opacity: 1;
+}
+.bookmark-btn.active svg {
+    fill: var(--primary, #4a90d9);
+    stroke: var(--primary, #4a90d9);
+}
+
+/* ---- Hub: My Study List section ---- */
+.bookmarks-section {
+    margin-bottom: 28px;
+}
+.bookmarks-section h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text, #2b2d42);
+    margin-bottom: 14px;
+}
+
+.bookmarks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.bookmark-card {
+    display: block;
+    position: relative;
+    background: var(--card, #ffffff);
+    border-radius: var(--radius, 16px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 14px 16px;
+    padding-right: 36px;
+    text-decoration: none;
+    color: inherit;
+    border-left: 4px solid var(--primary, #4361ee);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.bookmark-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.bookmark-subject {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.bookmark-title {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text, #2b2d42);
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.bookmark-type {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: var(--primary-light, #eef0ff);
+    color: var(--primary, #4361ee);
+}
+
+.bookmark-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--text-light, #6c757d);
+    opacity: 0.5;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 2px 6px;
+}
+.bookmark-remove:hover {
+    opacity: 1;
+    color: var(--error);
+}
+
+/* ---- Dark mode ---- */
+body.dark-mode .bookmarks-section h2 { color: var(--text); }
+body.dark-mode .bookmark-card {
+    background: var(--card);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+body.dark-mode .bookmark-title { color: var(--text); }
+
+/* ---- Wallpaper glassmorphism ---- */
+body.has-bg .bookmark-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+body.dark-mode.has-bg .bookmark-card {
+    background: rgba(22,33,62,0.88);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+    .bookmarks-grid {
+        grid-template-columns: 1fr;
+    }
+}

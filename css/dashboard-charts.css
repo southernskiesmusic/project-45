@@ -1,0 +1,159 @@
+/* ================================================================
+   DASHBOARD CHARTS & SCORE TRACKLIST
+   Shared styles for performance chart and session tracklist
+   ================================================================ */
+
+/* -- Chart Section ------------------------------------------------ */
+.dash-chart-section {
+    margin-top: 12px;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--card, rgba(255,255,255,0.06));
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+body:not(.dark-mode) .dash-chart-section {
+    background: #fff;
+    border: 1px solid #e9ecef;
+}
+.dash-chart-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.dash-chart-toggle {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+.dash-chart-toggle button {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06);
+    color: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+.dash-chart-toggle button.active {
+    background: var(--primary, #4f8cff);
+    border-color: var(--primary, #4f8cff);
+    color: #fff;
+}
+.dash-chart-canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 220px;
+}
+.dash-chart-canvas-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+.dash-chart-empty {
+    text-align: center;
+    padding: 40px 10px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.9rem;
+}
+
+/* -- Score Tracklist ---------------------------------------------- */
+.dash-tracklist {
+    margin-top: 12px;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--card, rgba(255,255,255,0.06));
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.dash-tracklist-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.dash-tracklist-wrap {
+    max-height: 340px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.dash-tracklist-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.dash-tracklist-table th {
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    background: inherit;
+}
+.dash-tracklist-table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.dash-tracklist-table tr:last-child td {
+    border-bottom: none;
+}
+.tl-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.tl-badge.green  { background: rgba(34,197,94,0.18); color: #22c55e; }
+.tl-badge.yellow { background: rgba(234,179,8,0.18); color: #eab308; }
+.tl-badge.red    { background: rgba(239,68,68,0.18); color: var(--error); }
+.tl-trend {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+.tl-trend.up   { color: #22c55e; }
+.tl-trend.down { color: var(--error); }
+.tl-trend.flat { color: rgba(255,255,255,0.35); }
+.dash-tracklist-empty {
+    text-align: center;
+    padding: 30px 10px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.9rem;
+}
+
+/* -- Light / non-dark overrides ----------------------------------- */
+body:not(.dark-mode) .dash-chart-section,
+body:not(.dark-mode) .dash-tracklist {
+    background: #fff;
+    border-color: #e9ecef;
+}
+body:not(.dark-mode) .dash-chart-toggle button {
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.04);
+}
+body:not(.dark-mode) .dash-chart-empty,
+body:not(.dark-mode) .dash-tracklist-empty {
+    color: rgba(0,0,0,0.4);
+}
+body:not(.dark-mode) .dash-tracklist-table th {
+    border-bottom-color: rgba(0,0,0,0.1);
+}
+body:not(.dark-mode) .dash-tracklist-table td {
+    border-bottom-color: rgba(0,0,0,0.05);
+}
+body:not(.dark-mode) .tl-trend.flat {
+    color: rgba(0,0,0,0.35);
+}
+
+/* -- Mobile ------------------------------------------------------- */
+@media (max-width: 600px) {
+    .dash-chart-canvas-wrap { height: 180px; }
+    .dash-tracklist-wrap { max-height: 260px; }
+    .dash-tracklist-table { font-size: 0.8rem; }
+    .dash-tracklist-table th,
+    .dash-tracklist-table td { padding: 5px 6px; }
+}

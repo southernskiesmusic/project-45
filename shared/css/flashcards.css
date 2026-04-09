@@ -1,0 +1,170 @@
+/* ================================================================
+   Flashcard System - Shared Styles
+   ================================================================ */
+
+/* ---------- Dashboard ---------- */
+.fc-dashboard { max-width: 600px; margin: 0 auto; padding: 16px; }
+
+.fc-stats-bar {
+    display: flex; gap: 8px; justify-content: center;
+    margin-bottom: 12px; flex-wrap: wrap;
+}
+.fc-stat {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px 16px; border-radius: var(--radius, 12px);
+    min-width: 70px;
+}
+.fc-stat-num { font-size: 1.5rem; font-weight: 700; }
+.fc-stat-label { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.fc-stat-new { background: rgba(100, 100, 255, 0.12); color: #6366f1; }
+.fc-stat-learning { background: rgba(255, 160, 50, 0.12); color: #f59e0b; }
+.fc-stat-reviewing { background: rgba(50, 180, 100, 0.12); color: #22c55e; }
+.fc-stat-mastered { background: rgba(140, 80, 255, 0.12); color: #8b5cf6; }
+
+body.dark-mode .fc-stat-new { background: rgba(100, 100, 255, 0.2); color: #818cf8; }
+body.dark-mode .fc-stat-learning { background: rgba(255, 160, 50, 0.2); color: #fbbf24; }
+body.dark-mode .fc-stat-reviewing { background: rgba(50, 180, 100, 0.2); color: #4ade80; }
+body.dark-mode .fc-stat-mastered { background: rgba(140, 80, 255, 0.2); color: #a78bfa; }
+
+/* Progress bar */
+.fc-progress-bar {
+    width: 100%; height: 8px; border-radius: 4px;
+    background: var(--border, rgba(0,0,0,0.08)); overflow: hidden; margin-bottom: 4px;
+}
+.fc-progress-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, #8b5cf6, #6366f1);
+    transition: width 0.4s ease;
+}
+.fc-progress-text {
+    text-align: center; font-size: 0.82rem; opacity: 0.7; margin-bottom: 16px;
+}
+
+/* Study button */
+.fc-study-btn {
+    display: block; width: 100%; padding: 14px; margin-bottom: 8px;
+    font-size: 1.05rem; font-weight: 600; border: none; border-radius: var(--radius, 12px);
+    background: var(--primary, #4361ee); color: #fff; cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+}
+.fc-study-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+.fc-study-btn:disabled { opacity: 0.5; cursor: default; }
+.fc-study-all-btn {
+    display: block; width: 100%; padding: 10px; margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+/* Section title */
+.fc-section-title {
+    font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+    opacity: 0.6; margin: 0 0 10px;
+}
+
+/* Deck list */
+.fc-deck-list { display: flex; flex-direction: column; gap: 6px; }
+.fc-deck-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-radius: var(--radius, 12px);
+    background: var(--card, rgba(255,255,255,0.06));
+    border: 1px solid var(--border, rgba(0,0,0,0.06));
+    cursor: pointer; transition: background 0.15s, transform 0.15s;
+}
+.fc-deck-item:hover { background: var(--shadow, rgba(0,0,0,0.04)); transform: translateX(2px); }
+.fc-deck-name { font-weight: 600; }
+.fc-deck-count { font-size: 0.82rem; opacity: 0.7; }
+.fc-deck-done { color: #22c55e; }
+
+/* ---------- Study Session ---------- */
+.fc-study { max-width: 520px; margin: 0 auto; padding: 16px; }
+.fc-study-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+}
+.fc-progress { font-size: 0.85rem; font-weight: 600; opacity: 0.7; }
+.fc-level {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 3px 10px; border-radius: 20px; font-weight: 700;
+}
+.fc-level-new { background: rgba(100, 100, 255, 0.15); color: #6366f1; }
+.fc-level-learning { background: rgba(255, 160, 50, 0.15); color: #f59e0b; }
+.fc-level-reviewing { background: rgba(50, 180, 100, 0.15); color: #22c55e; }
+.fc-level-mastered { background: rgba(140, 80, 255, 0.15); color: #8b5cf6; }
+
+/* Card flip */
+.fc-card {
+    perspective: 800px; cursor: pointer;
+    min-height: 220px; margin-bottom: 16px;
+}
+.fc-card-inner {
+    position: relative; width: 100%; min-height: 220px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fc-card-flipped .fc-card-inner { transform: rotateY(180deg); }
+
+.fc-card-front, .fc-card-back {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    padding: 28px 24px; border-radius: var(--radius, 12px);
+    background: var(--card, rgba(255,255,255,0.06));
+    border: 1px solid var(--border, rgba(0,0,0,0.06));
+    box-shadow: 0 4px 20px var(--shadow, rgba(0,0,0,0.08));
+    text-align: center; font-size: 1.1rem; line-height: 1.6;
+    overflow-y: auto; word-break: break-word;
+}
+.fc-card-front { font-weight: 600; font-size: 1.2rem; }
+.fc-card-back { transform: rotateY(180deg); font-size: 1.05rem; }
+
+.fc-tap-hint {
+    text-align: center; font-size: 0.82rem; opacity: 0.5;
+    animation: fc-pulse 2s ease-in-out infinite;
+}
+@keyframes fc-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.3; } }
+
+/* Assessment buttons */
+.fc-assess-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+}
+.fc-btn-again, .fc-btn-hard, .fc-btn-good, .fc-btn-easy {
+    padding: 12px 6px; font-weight: 700; font-size: 0.9rem;
+    border: none; border-radius: var(--radius, 12px); cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s; color: #fff;
+}
+.fc-btn-again { background: #ef4444; }
+.fc-btn-hard  { background: #f59e0b; }
+.fc-btn-good  { background: #22c55e; }
+.fc-btn-easy  { background: #3b82f6; }
+.fc-btn-again:hover, .fc-btn-hard:hover, .fc-btn-good:hover, .fc-btn-easy:hover {
+    opacity: 0.85; transform: translateY(-1px);
+}
+
+/* ---------- Complete ---------- */
+.fc-complete { text-align: center; padding: 40px 16px; max-width: 500px; margin: 0 auto; }
+.fc-complete-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff; font-size: 2rem; line-height: 64px;
+    margin: 0 auto 16px; font-weight: 700;
+}
+.fc-complete h2 { margin: 0 0 8px; }
+.fc-complete p { opacity: 0.7; margin-bottom: 20px; }
+.fc-done-btn { max-width: 300px; margin: 16px auto 0; }
+
+/* ---------- Exit button in study ---------- */
+.fc-exit-btn {
+    font-size: 0.82rem; padding: 6px 14px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .fc-stats-bar { gap: 4px; }
+    .fc-stat { padding: 8px 10px; min-width: 60px; }
+    .fc-stat-num { font-size: 1.2rem; }
+    .fc-card { min-height: 180px; }
+    .fc-card-inner { min-height: 180px; }
+    .fc-card-front, .fc-card-back { padding: 20px 16px; font-size: 1rem; }
+    .fc-card-front { font-size: 1.05rem; }
+    .fc-assess-row { gap: 4px; }
+    .fc-btn-again, .fc-btn-hard, .fc-btn-good, .fc-btn-easy { padding: 10px 4px; font-size: 0.8rem; }
+}

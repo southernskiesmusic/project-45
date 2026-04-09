@@ -1,0 +1,281 @@
+/* ================================================================
+   LIGHT MODE — opt-in override for dark-default standalone pages
+   Apply via body.light-mode class (toggled by js/theme-toggle.js)
+   ================================================================ */
+
+body.light-mode {
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --text-light: #6c757d;
+    --text-dim: #94a3b8;
+    --border: rgba(0,0,0,0.08);
+    --border-hover: rgba(0,0,0,0.15);
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --primary: #4361ee;
+    --primary-light: #eef0ff;
+    --accent: #4361ee;
+    --accent2: #7c3aed;
+    --glow: rgba(67,97,238,0.15);
+    --success: #06d6a0;
+    --success-light: #e6faf4;
+    --error: #ef476f;
+    --warning: #f39c12;
+    --bg-glass: rgba(255,255,255,0.85);
+    --bg-glass-hover: rgba(255,255,255,0.95);
+
+    /* Leaderboard overrides */
+    --lb-bg: #f5f7fa;
+    --lb-card: #fff;
+    --lb-text: #1a1a2e;
+    --lb-text-light: #6c757d;
+    --lb-border: rgba(0,0,0,0.08);
+    --lb-primary: #4361ee;
+    --lb-glow: rgba(67,97,238,0.15);
+}
+
+/* Remove grain texture in light mode */
+body.light-mode::before {
+    display: none !important;
+}
+
+/* Scrollbar */
+body.light-mode ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+}
+body.light-mode ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.25);
+}
+
+/* Hub-specific light overrides */
+body.light-mode .hub-topbar {
+    background: rgba(255,255,255,0.9) !important;
+    border-bottom-color: rgba(0,0,0,0.06) !important;
+}
+body.light-mode .topbar-brand {
+    color: var(--text) !important;
+}
+body.light-mode .topbar-56 {
+    color: var(--primary) !important;
+}
+body.light-mode .topbar-streak,
+body.light-mode .topbar-gem-pill,
+body.light-mode #hub-gem-pill {
+    background: rgba(0,0,0,0.04) !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    color: var(--text) !important;
+}
+body.light-mode .topbar-avatar {
+    border-color: rgba(0,0,0,0.1) !important;
+    background: rgba(0,0,0,0.04) !important;
+    color: var(--text) !important;
+}
+body.light-mode .topbar-dropdown {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important;
+}
+body.light-mode .topbar-dd-item {
+    color: var(--text) !important;
+}
+body.light-mode .topbar-dd-item:hover {
+    background: rgba(0,0,0,0.04) !important;
+}
+body.light-mode .topbar-dd-sep {
+    background: rgba(0,0,0,0.06) !important;
+}
+
+/* Cards */
+body.light-mode .subject-card,
+body.light-mode .daily-mission,
+body.light-mode .exam-banner,
+body.light-mode .resume-card,
+body.light-mode .streak-hero-card,
+body.light-mode .study-phase,
+body.light-mode .hub-stat,
+body.light-mode .hub-lb-card {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+body.light-mode .subject-card:hover {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.15) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+}
+
+/* Text colors */
+body.light-mode .warm-welcome-title,
+body.light-mode .daily-mission-title,
+body.light-mode .subject-card-name,
+body.light-mode .streak-hero-val,
+body.light-mode .hub-stat-val,
+body.light-mode .exam-banner-title,
+body.light-mode .resume-card-title {
+    color: var(--text) !important;
+}
+body.light-mode .warm-welcome-sub,
+body.light-mode .daily-mission-sub,
+body.light-mode .daily-mission-days,
+body.light-mode .subject-card-count,
+body.light-mode .streak-hero-label,
+body.light-mode .hub-stat-lbl,
+body.light-mode .exam-banner-sub,
+body.light-mode .resume-card-sub,
+body.light-mode .streak-xp-text,
+body.light-mode .hub-xp-text {
+    color: var(--text-light) !important;
+}
+
+/* Progress bars */
+body.light-mode .streak-xp-bar,
+body.light-mode .hub-xp-bar,
+body.light-mode .subject-micro-bar,
+body.light-mode .resume-progress-bar {
+    background: rgba(0,0,0,0.06) !important;
+}
+
+/* Streak days */
+body.light-mode .streak-day {
+    background: rgba(0,0,0,0.04) !important;
+    color: var(--text-light) !important;
+}
+body.light-mode .streak-day.active {
+    background: rgba(67,97,238,0.1) !important;
+    color: var(--primary) !important;
+}
+
+/* Inputs & forms */
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.12) !important;
+    color: var(--text) !important;
+}
+
+/* Modals */
+body.light-mode .onboard-modal,
+body.light-mode .classroom-modal {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 16px 60px rgba(0,0,0,0.15) !important;
+}
+
+/* Feedback panel */
+body.light-mode .fb-float-panel {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important;
+}
+
+/* Suggestion box */
+body.light-mode .suggestions-section > div,
+body.light-mode #admin-contact-display {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+
+/* Footer */
+body.light-mode .hub-footer {
+    border-top-color: rgba(0,0,0,0.06) !important;
+    color: var(--text-light) !important;
+}
+
+/* Section labels */
+body.light-mode .section-label {
+    color: var(--primary) !important;
+}
+body.light-mode .study-phase-guide-title {
+    color: var(--primary) !important;
+}
+
+/* Mobile nav */
+body.light-mode .hub-mobile-nav {
+    background: rgba(255,255,255,0.92) !important;
+    border-top-color: rgba(0,0,0,0.06) !important;
+}
+body.light-mode .hub-mobile-nav a {
+    color: var(--text-light) !important;
+}
+body.light-mode .hub-mobile-nav a.active {
+    color: var(--primary) !important;
+}
+
+/* Pill labels (onboarding) */
+body.light-mode .pill-label {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    color: var(--text) !important;
+}
+body.light-mode .pill-label:has(input:checked) {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+}
+
+/* Subject group */
+body.light-mode .subject-group {
+    background: #fafafa !important;
+    border-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Study phase */
+body.light-mode .study-phase.current {
+    border-color: var(--primary) !important;
+    background: rgba(67,97,238,0.04) !important;
+}
+body.light-mode .study-phase-link {
+    background: rgba(0,0,0,0.02) !important;
+    border-color: rgba(0,0,0,0.06) !important;
+    color: var(--text) !important;
+}
+
+/* Leaderboard toggle */
+body.light-mode .lb-toggle-btn.active {
+    background: rgba(67,97,238,0.08) !important;
+}
+body.light-mode .lb-section-tab.active {
+    color: #fff !important;
+}
+
+/* Generic card-like elements for other pages */
+body.light-mode .tier-card,
+body.light-mode .step,
+body.light-mode .calc-card,
+body.light-mode .privacy-item,
+body.light-mode .faq-item,
+body.light-mode .pilot-form-card {
+    background: #fff !important;
+    border-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Theme toggle button itself */
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 76px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 899;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.08);
+}
+body.light-mode .theme-toggle-btn {
+    background: #fff;
+    border-color: rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}

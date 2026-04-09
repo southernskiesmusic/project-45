@@ -1,0 +1,118 @@
+/*
+ * page-shell.css - Shared layout shell for all standalone pages
+ *
+ * Provides: sticky topbar, back link, page title, max-width container,
+ * dark mode + wallpaper support. Use alongside styles.css.
+ *
+ * Usage:
+ *   <link rel="stylesheet" href="styles.css">
+ *   <link rel="stylesheet" href="css/page-shell.css">
+ *
+ * HTML pattern:
+ *   <div class="page-topbar">
+ *       <a href="./" class="page-back">&#8592; Home</a>
+ *       <span class="page-title">Page Name</span>
+ *   </div>
+ *   <div id="app"> ... </div>
+ */
+
+/* ---- Body override for sticky topbar ---- */
+body.page-shell { padding: 0; }
+body.page-shell #app {
+    max-width: 720px; margin: 0 auto;
+    padding: 20px; padding-top: 0;
+}
+
+/* ---- Topbar ---- */
+.page-topbar {
+    position: sticky; top: 0; z-index: 1000;
+    display: flex; align-items: center; gap: 12px;
+    height: 52px; padding: 0 16px;
+    background: var(--card); border-bottom: 0.5px solid var(--border);
+}
+body.dark-mode .page-topbar {
+    border-bottom-color: rgba(255,255,255,0.06);
+}
+body.has-bg .page-topbar {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+body.dark-mode.has-bg .page-topbar {
+    background: rgba(22,33,62,0.92);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+
+/* ---- Back link ---- */
+.page-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500;
+    color: var(--color-brand, #534AB7);
+    text-decoration: none; padding: 6px 0;
+}
+.page-back:hover { opacity: 0.8; }
+
+/* ---- Page title ---- */
+.page-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+}
+
+/* ---- Section label (reusable) ---- */
+.page-section-label {
+    font-size: 11px; font-weight: 500; text-transform: uppercase;
+    color: #6b6860; letter-spacing: 0.04em; margin-bottom: 8px;
+    padding-top: 16px;
+}
+
+/* ---- Card base (reusable) ---- */
+.page-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: var(--radius, 16px); padding: 16px;
+}
+body.dark-mode .page-card {
+    border-color: rgba(255,255,255,0.06);
+}
+body.has-bg .page-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+body.dark-mode.has-bg .page-card {
+    background: rgba(22,33,62,0.92);
+}
+
+/* ---- Link card (clickable) ---- */
+.page-link-card {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: var(--radius, 16px); padding: 14px 16px;
+    text-decoration: none; color: var(--text);
+    transition: border-color 0.15s, transform 0.15s;
+    min-height: 44px;
+}
+.page-link-card:hover {
+    border-color: var(--color-brand, #534AB7);
+    transform: translateY(-1px);
+}
+body.dark-mode .page-link-card {
+    background: var(--card); border-color: rgba(255,255,255,0.06);
+}
+body.has-bg .page-link-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+body.dark-mode.has-bg .page-link-card {
+    background: rgba(22,33,62,0.92);
+}
+
+/* ---- Footer ---- */
+.page-footer {
+    text-align: center; padding: 24px 16px;
+    font-size: 12px; color: var(--text-light); opacity: 0.6;
+}
+
+/* ---- 375px tightening ---- */
+@media (max-width: 375px) {
+    body.page-shell #app { padding: 12px; padding-top: 0; }
+    .page-topbar { height: 48px; padding: 0 10px; }
+    .page-back { font-size: 12px; }
+    .page-title { font-size: 14px; }
+}

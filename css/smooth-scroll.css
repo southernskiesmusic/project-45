@@ -1,0 +1,201 @@
+/* ── Smooth Scrolling & Micro-interactions ─────────────
+   Adds polished transitions, scroll behavior, fade-in
+   animations, loading skeletons, and hover effects.
+   ────────────────────────────────────────────────────── */
+
+/* ---- Smooth scroll ---- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---- Fade-in on scroll (JS adds .fade-in-visible) ---- */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fade-in.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children (apply .fade-in-stagger to parent) */
+.fade-in-stagger > .fade-in:nth-child(1) { transition-delay: 0s; }
+.fade-in-stagger > .fade-in:nth-child(2) { transition-delay: 0.06s; }
+.fade-in-stagger > .fade-in:nth-child(3) { transition-delay: 0.12s; }
+.fade-in-stagger > .fade-in:nth-child(4) { transition-delay: 0.18s; }
+.fade-in-stagger > .fade-in:nth-child(5) { transition-delay: 0.24s; }
+.fade-in-stagger > .fade-in:nth-child(6) { transition-delay: 0.30s; }
+.fade-in-stagger > .fade-in:nth-child(7) { transition-delay: 0.36s; }
+.fade-in-stagger > .fade-in:nth-child(8) { transition-delay: 0.42s; }
+.fade-in-stagger > .fade-in:nth-child(n+9) { transition-delay: 0.48s; }
+
+/* ---- Interactive element transitions ---- */
+a,
+button,
+.subject-card,
+.project-card,
+.testimonial-card,
+.hub-tl-card,
+input,
+select,
+textarea {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s ease,
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              color 0.15s ease,
+              opacity 0.2s ease;
+}
+
+/* ---- Polished hover transforms ---- */
+.subject-card:hover,
+.project-card:hover,
+.testimonial-card:hover,
+.hub-tl-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+body.dark-mode .subject-card:hover,
+body.dark-mode .project-card:hover,
+body.dark-mode .testimonial-card:hover,
+body.dark-mode .hub-tl-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Buttons - subtle press */
+button:active:not(:disabled),
+.subject-card:active {
+  transform: scale(0.97);
+}
+
+/* Focus-visible ring */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary, #4361ee);
+  outline-offset: 2px;
+}
+
+/* ---- Scroll-to-top button ---- */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 800;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--card, #fff);
+  color: var(--text, #2b2d42);
+  border: 1.5px solid var(--border, #e0e0e0);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-top-btn:hover {
+  background: var(--primary, #4361ee);
+  color: #fff;
+  border-color: var(--primary, #4361ee);
+  box-shadow: 0 4px 20px rgba(67, 97, 238, 0.35);
+}
+body.dark-mode .scroll-top-btn {
+  background: var(--card, #16213e);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+body.dark-mode .scroll-top-btn:hover {
+  background: var(--primary, #4361ee);
+  color: #fff;
+}
+
+/* ---- Loading skeleton ---- */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--border-light, #f0f0f0);
+  border-radius: 8px;
+  color: transparent !important;
+}
+.skeleton * {
+  visibility: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+body.dark-mode .skeleton {
+  background: rgba(255, 255, 255, 0.06);
+}
+body.dark-mode .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+}
+@keyframes skeletonShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ---- Page transition (fade between views) ---- */
+.page-transition {
+  animation: pageFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Scroll-snap sections (opt-in: add .snap-container to parent) ---- */
+.snap-container {
+  scroll-snap-type: y proximity;
+}
+.snap-container > section,
+.snap-container > .snap-section {
+  scroll-snap-align: start;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-in { transition: none; opacity: 1; transform: none; }
+  .skeleton::after { animation: none; }
+  .page-transition { animation: none; opacity: 1; transform: none; }
+  a, button, .subject-card, .project-card, .testimonial-card, .hub-tl-card,
+  input, select, textarea {
+    transition: none;
+  }
+  .scroll-top-btn { transition: opacity 0.15s ease; }
+}

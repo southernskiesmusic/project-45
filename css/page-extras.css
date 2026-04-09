@@ -1,0 +1,69 @@
+/* page-extras.css - Shared styles for leaderboard + other projects on subject pages */
+
+/* ── Leaderboard ─────────────────────────────────── */
+.hub-leaderboard { margin-top: 32px; }
+.hub-leaderboard h2 { text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+.hub-lb-scroll { max-height: 480px; overflow-y: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
+.hub-lb-scroll::-webkit-scrollbar { width: 6px; }
+.hub-lb-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+body.dark-mode .hub-lb-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
+.hub-lb-table { width: 100%; border-collapse: collapse; background: var(--card); overflow: hidden; }
+.hub-lb-table thead th { position: sticky; top: 0; z-index: 2; }
+.hub-lb-table th { background: var(--primary); color: #fff; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; text-align: left; }
+.hub-lb-table td { padding: 10px 14px; font-size: 0.88rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.hub-lb-table tr:last-child td { border-bottom: none; }
+.hub-lb-table .lb-me { background: var(--primary-light); font-weight: 700; }
+.hub-lb-table .lb-avatar { width: 24px; height: 24px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+.hub-lb-table .lb-pos { font-weight: 700; color: var(--primary); }
+.lb-toggle { display: flex; justify-content: center; gap: 4px; margin-bottom: 14px; }
+.lb-toggle-btn { padding: 6px 18px; border-radius: 8px; border: 1.5px solid #d0d0d0; background: transparent; color: var(--text-light); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.lb-toggle-btn.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.lb-toggle-btn:not(.active):hover { border-color: var(--primary); color: var(--primary); }
+body.dark-mode .lb-toggle-btn { border-color: #2a2a4a; color: var(--text-light); }
+body.dark-mode .lb-toggle-btn.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+body.has-bg .hub-leaderboard h2 { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+body.has-bg .hub-lb-table { background: rgba(255,255,255,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+body.dark-mode.has-bg .hub-lb-table { background: rgba(22,33,62,0.92); }
+
+/* ── Other Projects ──────────────────────────────── */
+.other-projects { margin-top: 40px; }
+.other-projects h2 { text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+.other-projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+.project-card {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 24px 20px; text-decoration: none; color: inherit; display: block;
+    border: 2px solid transparent; transition: all 0.25s ease;
+}
+.project-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(67,97,238,0.18); }
+.project-icon { font-size: 2rem; margin-bottom: 10px; }
+.project-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--primary); }
+.project-card p { font-size: 0.85rem; color: var(--text-light); line-height: 1.5; margin-bottom: 10px; }
+body.has-bg .other-projects h2 { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+body.has-bg .project-card { background: rgba(255,255,255,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+body.dark-mode.has-bg .project-card { background: rgba(22,33,62,0.92); }
+
+/* ── Spotify Card ────────────────────────────────── */
+.spotify-music-card { display: flex !important; align-items: center; gap: 16px; cursor: pointer; }
+.spotify-music-card:hover { border-color: #1db954; box-shadow: 0 12px 40px rgba(29,185,52,0.18); }
+.spotify-music-card:hover .spotify-listen-btn { background: #1ed760; transform: scale(1.04); }
+.vinyl-disc {
+    width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+    background: radial-gradient(circle, transparent 28%, rgba(40,40,40,0.4) 29%, transparent 30%, transparent 42%, rgba(40,40,40,0.15) 43%, transparent 44%, transparent 56%, rgba(40,40,40,0.15) 57%, transparent 58%, transparent 70%, rgba(40,40,40,0.15) 71%, transparent 72%), conic-gradient(from 0deg, #1a1a1a, #2a2a2a, #1a1a1a, #2a2a2a, #1a1a1a, #2a2a2a, #1a1a1a);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3); position: relative;
+    animation: vinyl-spin 4s linear infinite paused;
+}
+.spotify-music-card:hover .vinyl-disc { animation-play-state: running; }
+@keyframes vinyl-spin { to { transform: rotate(360deg); } }
+.vinyl-label { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 2px solid #333; }
+.spotify-card-body { flex: 1; min-width: 0; }
+.spotify-card-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spotify-card-body p { font-size: 0.82rem; color: var(--text-light); margin-bottom: 10px; }
+.spotify-listen-btn { display: inline-flex; align-items: center; gap: 6px; background: #1db954; color: #fff; font-size: 0.82rem; font-weight: 700; padding: 8px 18px; border-radius: 20px; transition: background 0.2s, transform 0.2s; }
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 560px) {
+    .other-projects-grid { grid-template-columns: 1fr; }
+    .hub-lb-table th, .hub-lb-table td { padding: 8px 6px; font-size: 0.78rem; }
+    .hub-lb-table .lb-avatar { width: 20px; height: 20px; margin-right: 4px; }
+}

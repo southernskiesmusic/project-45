@@ -1,0 +1,101 @@
+/* ── Desktop Layout Overrides ── */
+
+/* Desktop: flex wrapper with sidebar + content (+ optional right sidebar) */
+body.device-desktop #desktop-layout {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Let #app fill remaining space but stay readable */
+body.device-desktop #desktop-layout > #app {
+    flex: 1;
+    min-width: 0;
+    max-width: 860px;
+}
+
+/* ── Right Sidebar (challenges) - hub only ── */
+#p56-right-sidebar {
+    width: 280px;
+    min-width: 280px;
+    max-height: calc(100vh - 40px);
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Keep 2-column grids on desktop (sidebar takes the extra space) */
+body.device-desktop .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+body.device-desktop .topic-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+body.device-desktop .other-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Mobile: no sidebar, block layout */
+body.device-mobile #desktop-layout {
+    display: block;
+}
+body.device-mobile #p56-sidebar {
+    display: none;
+}
+body.device-mobile #p56-right-sidebar {
+    display: none;
+}
+
+/* Hide sidebar during active paper */
+body.device-desktop #desktop-layout:has(#view-paper-active.active) > #p56-sidebar {
+    display: none;
+}
+body.device-desktop #desktop-layout:has(#view-paper-active.active) > #app {
+    max-width: none;
+}
+
+/* Hide floating toggle on desktop */
+body.device-desktop .p56-mobile-toggle {
+    display: none;
+}
+
+/* Existing media queries at 560px/600px/480px remain untouched.
+   They still fire for narrow desktop windows. Override 3-col
+   back to 1-col at narrow widths even on desktop. */
+@media (max-width: 800px) {
+    /* At narrow widths, 2-col is already the default - no override needed */
+}
+/* Hide right sidebar when viewport is too narrow for 3-column */
+@media (max-width: 1100px) {
+    #p56-right-sidebar {
+        display: none;
+    }
+    body.device-desktop #desktop-layout {
+        max-width: 1200px;
+    }
+}
+@media (max-width: 560px) {
+    body.device-desktop .subject-grid {
+        grid-template-columns: 1fr;
+    }
+    body.device-desktop .topic-grid {
+        grid-template-columns: 1fr;
+    }
+    body.device-desktop .other-projects-grid {
+        grid-template-columns: 1fr;
+    }
+    body.device-desktop #desktop-layout {
+        flex-direction: column;
+    }
+    body.device-desktop #p56-sidebar {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        max-height: none;
+    }
+}

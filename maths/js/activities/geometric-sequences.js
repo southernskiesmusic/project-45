@@ -717,6 +717,9 @@ const GEO_SEQ = {
                 <div id="geo-seq-options-area"></div>
             </div>
 
+            <!-- Working out -->
+            <details class="workout-section"><summary>Working Out</summary><div class="workout-content" contenteditable="true"></div></details>
+
             <!-- Hint box -->
             <div class="hint-box" id="geo-seq-hint-box"></div>
 

@@ -437,12 +437,57 @@ const BINOMIAL = {
 
     load() {
         this.init();
+        this.score = 0;
+        this.total = 0;
+        this.streak = 0;
+        this.answered = false;
+        this.hintIdx = 0;
+
+        var container = document.getElementById('activity-container');
+        if (!container) return;
+
+        container.innerHTML =
+            '<button class="back-btn" onclick="BINOMIAL.unload()">Binomial Theorem (1.10)</button>' +
+            '<header style="text-align:center;margin-bottom:24px;">' +
+            '<h1>Binomial Theorem</h1>' +
+            '<p>IB Math AA 1.10 - Binomial expansion, coefficients, Pascal\'s triangle</p>' +
+            '</header>' +
+            '<div class="score-bar">' +
+            '<div class="score-item"><div class="label">Score</div><div class="value" id="binom-score">0 / 0</div></div>' +
+            '<div class="score-item"><div class="label">Streak</div><div class="value" id="binom-streak">0</div></div>' +
+            '<div class="score-item"><div class="label">Accuracy</div><div class="value" id="binom-pct">-</div></div>' +
+            '</div>' +
+            '<div class="question-card" id="binom-card"></div>' +
+            '<details class="workout-section"><summary>Working Out</summary><div class="workout-content" contenteditable="true"></div></details>' +
+            '<div class="hint-box" id="binom-hint"></div>' +
+            '<div class="feedback" id="binom-fb"><div class="feedback-title" id="binom-fb-title"></div><div class="feedback-explanation" id="binom-fb-expl"></div></div>' +
+            '<div style="display:flex;justify-content:center;gap:12px;margin-top:12px;">' +
+            '<button class="btn btn-hint" id="binom-hint-btn" onclick="BINOMIAL.showHint()">Hint</button>' +
+            '<button class="btn btn-primary next-btn" id="binom-next" onclick="BINOMIAL.loadQuestion()">Next Question</button>' +
+            '</div>';
+
+        this.loadQuestion();
+    },
+
+    showHint() {
+        var q = this.currentQ;
+        if (!q || !q.hintTex || this.hintIdx >= q.hintTex.length) return;
+        var box = document.getElementById('binom-hint');
+        if (box) {
+            box.classList.add('show');
+            box.innerHTML = (box.innerHTML ? box.innerHTML + '<br>' : '') + '\\(' + q.hintTex[this.hintIdx] + '\\)';
+            this.hintIdx++;
+            if (typeof renderMath === 'function') renderMath();
+        }
+    },
+
+    loadQuestion() {
         this.answered = false;
         this.hintIdx = 0;
 
         this.currentQ = this.next();
-        const q = this.currentQ;
-        const dl = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
+        var q = this.currentQ;
+        var dl = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
 
         // Build question card HTML
         let h = '<div class="difficulty-tag ' + q.difficulty + '">' + dl[q.difficulty] + '</div>';
@@ -467,7 +512,6 @@ const BINOMIAL = {
         document.getElementById('binom-fb').classList.remove('show', 'correct', 'incorrect');
         document.getElementById('binom-next').classList.remove('show');
         if (typeof resetHint === 'function') resetHint('binom-hint', 'binom-hint-btn');
-        document.getElementById('binom-workout').innerHTML = '';
         if (typeof renderMath === 'function') renderMath();
 
         if (q.type === 'mc') {
