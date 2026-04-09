@@ -751,6 +751,12 @@
                 </div>
             </div>
         </div>
+        <!-- ═══════════════════════════════════════════════
+             VIEW: ACTIVITY - Trainer / Lesson container
+             ═══════════════════════════════════════════════ -->
+        <div id="view-activity" class="view">
+            <div id="activity-container"></div>
+        </div>
     </div>
 
     <!-- Auth + Config -->
@@ -760,9 +766,53 @@
     <!-- Scripts -->
     <script src="js/utils.js"></script>
     <script src="js/init.js"></script>
+    <!-- Activities -->
+    <script src="js/activities/lines.js"></script>
+    <script src="js/activities/arithmetic-sequences.js"></script>
+    <!-- Lessons -->
+    <script src="js/lessons/lines.js"></script>
+    <script src="js/lessons/arithmetic-sequences.js"></script>
     <script>
     /* ── Init Firebase Auth ── */
     if (typeof Auth !== 'undefined') Auth.init();
+
+    /* ── Activity launcher ── */
+    var AVAILABLE_ACTIVITIES = {
+        'lines': { obj: typeof LINES !== 'undefined' ? LINES : null, label: 'Lines', parent: 'functions' },
+        'arithmetic-sequences': { obj: typeof ARITH_SEQ !== 'undefined' ? ARITH_SEQ : null, label: 'Arithmetic Sequences', parent: 'number-algebra' }
+    };
+
+    function launchActivity(topicId) {
+        var act = AVAILABLE_ACTIVITIES[topicId];
+        if (act && act.obj && act.obj.load) {
+            showView('activity');
+            act.obj.load();
+            // Re-render KaTeX after load
+            setTimeout(function() {
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(document.getElementById('activity-container'), {
+                        delimiters: [
+                            { left: '\\(', right: '\\)', display: false },
+                            { left: '\\[', right: '\\]', display: true }
+                        ]
+                    });
+                }
+            }, 50);
+        }
+    }
+
+    /* ── Wire up topic cards with available activities ── */
+    document.querySelectorAll('.topic-card[data-topic]').forEach(function(card) {
+        var topic = card.getAttribute('data-topic');
+        if (AVAILABLE_ACTIVITIES[topic]) {
+            card.onclick = function() { launchActivity(topic); };
+            card.style.cursor = 'pointer';
+        } else {
+            card.style.opacity = '0.6';
+            card.style.cursor = 'default';
+            card.title = 'Coming soon';
+        }
+    });
 
     /* ── State ── */
     var selectedCourse = localStorage.getItem('p45-course') || null;
