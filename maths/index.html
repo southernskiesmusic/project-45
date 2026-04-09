@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maths AA - Project 45</title>
-    <meta name="description" content="IB Mathematics Analysis & Approaches - Interactive trainers and guided lessons for SL and HL.">
+    <title>Mathematics - Project 45</title>
+    <meta name="description" content="IB Mathematics AA & AI - Interactive trainers and guided lessons for SL and HL.">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,13 +29,75 @@
 
     <div id="app" role="main">
         <!-- ═══════════════════════════════════════════════
+             VIEW: COURSE SELECT
+             ═══════════════════════════════════════════════ -->
+        <div id="view-course-select" class="view active">
+            <div class="hub-header">
+                <h1>Mathematics</h1>
+                <p>Select your course</p>
+            </div>
+            <div class="select-grid">
+                <div class="select-card" onclick="selectCourse('aa')">
+                    <div class="select-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.5">
+                            <path d="M8 38L24 10L40 38" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 28h20" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h2>Mathematics AA</h2>
+                    <p>Analysis and Approaches</p>
+                    <span class="select-detail">Emphasis on algebraic methods, calculus, and mathematical proof</span>
+                </div>
+                <div class="select-card" onclick="selectCourse('ai')">
+                    <div class="select-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.5">
+                            <circle cx="24" cy="24" r="14"/>
+                            <path d="M14 24h20M24 14v20" stroke-linecap="round"/>
+                            <circle cx="24" cy="24" r="4" fill="var(--primary)" stroke="none"/>
+                        </svg>
+                    </div>
+                    <h2>Mathematics AI</h2>
+                    <p>Applications and Interpretation</p>
+                    <span class="select-detail">Emphasis on modelling, statistics, and technology</span>
+                    <span class="select-coming-soon">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: LEVEL SELECT
+             ═══════════════════════════════════════════════ -->
+        <div id="view-level-select" class="view">
+            <div class="hub-header">
+                <h1 id="level-select-title">Mathematics AA</h1>
+                <p>Select your level</p>
+            </div>
+            <div class="select-grid">
+                <div class="select-card" onclick="selectLevel('sl')">
+                    <div class="select-card-badge sl">SL</div>
+                    <h2>Standard Level</h2>
+                    <p>Core curriculum</p>
+                    <span class="select-detail">150 hours - Algebra, functions, trigonometry, statistics, and introductory calculus</span>
+                </div>
+                <div class="select-card" onclick="selectLevel('hl')">
+                    <div class="select-card-badge hl">HL</div>
+                    <h2>Higher Level</h2>
+                    <p>Extended curriculum</p>
+                    <span class="select-detail">240 hours - Everything in SL plus complex numbers, vectors in 3D, advanced calculus, and proof</span>
+                </div>
+            </div>
+            <button class="back-btn" onclick="showView('course-select')" style="margin-top:16px;">Change course</button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
              VIEW: HUB - Topic selection
              ═══════════════════════════════════════════════ -->
-        <div id="view-hub" class="view active">
+        <div id="view-hub" class="view">
             <div class="hub-header">
-                <h1>Mathematics AA</h1>
-                <p>Analysis and Approaches - SL & HL</p>
+                <h1 id="hub-title">Mathematics AA</h1>
+                <p id="hub-subtitle">Analysis and Approaches - SL & HL</p>
                 <div class="auth-bar">
+                    <button class="btn btn-sm" onclick="changeCourse()" style="background:var(--border);color:var(--text-light);">Change Course</button>
                     <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                         Settings
@@ -688,6 +750,10 @@
     <!-- Scripts -->
     <script src="js/init.js"></script>
     <script>
+    /* ── State ── */
+    var selectedCourse = localStorage.getItem('p45-course') || null;
+    var selectedLevel = localStorage.getItem('p45-level') || null;
+
     /* ── View management ── */
     function showView(viewId) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -696,6 +762,70 @@
             target.classList.add('active');
             window.scrollTo(0, 0);
         }
+    }
+
+    /* ── Course selection ── */
+    function selectCourse(course) {
+        if (course === 'ai') return; // Coming soon
+        selectedCourse = course;
+        localStorage.setItem('p45-course', course);
+        const name = course === 'aa' ? 'Mathematics AA' : 'Mathematics AI';
+        document.getElementById('level-select-title').textContent = name;
+        showView('level-select');
+    }
+
+    /* ── Level selection ── */
+    function selectLevel(level) {
+        selectedLevel = level;
+        localStorage.setItem('p45-level', level);
+        applySelection();
+        showView('hub');
+    }
+
+    /* ── Apply course + level to hub ── */
+    function applySelection() {
+        const courseName = selectedCourse === 'aa' ? 'Mathematics AA' : 'Mathematics AI';
+        const levelName = selectedLevel === 'hl' ? 'HL' : 'SL';
+        const courseDesc = selectedCourse === 'aa' ? 'Analysis and Approaches' : 'Applications and Interpretation';
+
+        document.getElementById('hub-title').textContent = courseName + ' ' + levelName;
+        document.getElementById('hub-subtitle').textContent = courseDesc;
+
+        // Filter topic cards: SL sees only SL, HL sees SL + HL
+        const isHL = selectedLevel === 'hl';
+        document.querySelectorAll('.topic-card[data-topic]').forEach(card => {
+            const badge = card.querySelector('.level-badge');
+            if (!badge) return;
+            const cardLevel = badge.textContent.trim().toLowerCase();
+            if (isHL) {
+                card.style.display = '';
+            } else {
+                card.style.display = cardLevel === 'hl' ? 'none' : '';
+            }
+        });
+
+        // Show/hide HL section labels
+        document.querySelectorAll('.section-label').forEach(label => {
+            const text = label.textContent.trim().toLowerCase();
+            if (text.includes('hl')) {
+                label.style.display = isHL ? '' : 'none';
+            }
+        });
+    }
+
+    /* ── Change course/level from hub ── */
+    function changeCourse() {
+        localStorage.removeItem('p45-course');
+        localStorage.removeItem('p45-level');
+        selectedCourse = null;
+        selectedLevel = null;
+        showView('course-select');
+    }
+
+    /* ── Restore saved selection on load ── */
+    if (selectedCourse && selectedLevel) {
+        applySelection();
+        showView('hub');
     }
 
     /* ── Dark mode toggle ── */
@@ -733,7 +863,8 @@
         const title = card.querySelector('h2')?.textContent || '';
         const desc = card.querySelector('p')?.textContent || '';
         const tag = card.querySelector('.topic-tag')?.textContent || '';
-        const level = card.querySelector('.level-badge')?.textContent || '';
+        const badge = card.querySelector('.level-badge');
+        const level = badge ? badge.textContent.trim() : '';
         const topic = card.getAttribute('data-topic');
         const view = card.closest('.view')?.id?.replace('view-', '') || 'hub';
         searchIndex.push({ title, desc, tag, level, topic, view });
@@ -743,11 +874,14 @@
         const q = searchInput.value.toLowerCase().trim();
         if (!q) { searchResults.classList.remove('show'); return; }
 
-        const matches = searchIndex.filter(item =>
-            item.title.toLowerCase().includes(q) ||
-            item.desc.toLowerCase().includes(q) ||
-            item.tag.toLowerCase().includes(q)
-        ).slice(0, 8);
+        const isHL = selectedLevel === 'hl';
+        const matches = searchIndex.filter(item => {
+            // Filter by level
+            if (!isHL && item.level.toLowerCase() === 'hl') return false;
+            return item.title.toLowerCase().includes(q) ||
+                   item.desc.toLowerCase().includes(q) ||
+                   item.tag.toLowerCase().includes(q);
+        }).slice(0, 8);
 
         if (matches.length === 0) {
             searchResults.innerHTML = '<div style="padding:12px 18px;color:var(--text-light);font-size:0.88rem;">No results found</div>';
@@ -758,7 +892,7 @@
                         <div class="search-result-title">${m.title}</div>
                         <div class="search-result-sub">${m.desc}</div>
                     </div>
-                    <span class="search-level ${m.level.toLowerCase().includes('hl') ? 'hl' : 'sl'}">${m.level}</span>
+                    <span class="search-level ${m.level.toLowerCase() === 'hl' ? 'hl' : 'sl'}">${m.level}</span>
                 </div>
             `).join('');
         }
