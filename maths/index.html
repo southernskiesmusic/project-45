@@ -769,24 +769,44 @@
     <!-- Activities -->
     <script src="js/activities/lines.js"></script>
     <script src="js/activities/arithmetic-sequences.js"></script>
+    <script src="js/activities/geometric-sequences.js"></script>
+    <script src="js/activities/exponents.js"></script>
+    <script src="js/activities/logarithms.js"></script>
+    <script src="js/activities/binomial-theorem.js"></script>
     <!-- Lessons -->
     <script src="js/lessons/lines.js"></script>
     <script src="js/lessons/arithmetic-sequences.js"></script>
+    <script src="js/lessons/geometric-sequences.js"></script>
+    <script src="js/lessons/exponents.js"></script>
+    <script src="js/lessons/logarithms.js"></script>
+    <script src="js/lessons/binomial-theorem.js"></script>
     <script>
     /* ── Init Firebase Auth ── */
     if (typeof Auth !== 'undefined') Auth.init();
 
     /* ── Activity launcher ── */
     var AVAILABLE_ACTIVITIES = {
-        'lines': { obj: typeof LINES !== 'undefined' ? LINES : null, label: 'Lines', parent: 'functions' },
-        'arithmetic-sequences': { obj: typeof ARITH_SEQ !== 'undefined' ? ARITH_SEQ : null, label: 'Arithmetic Sequences', parent: 'number-algebra' }
+        'lines': { obj: typeof LINES !== 'undefined' ? LINES : null, parent: 'functions' },
+        'arithmetic-sequences': { obj: typeof ARITH_SEQ !== 'undefined' ? ARITH_SEQ : null, parent: 'number-algebra' },
+        'geometric-sequences': { obj: typeof GEO_SEQ !== 'undefined' ? GEO_SEQ : null, parent: 'number-algebra' },
+        'exponents': { obj: typeof EXPONENTS !== 'undefined' ? EXPONENTS : null, parent: 'functions' },
+        'logarithms': { obj: typeof LOGARITHMS !== 'undefined' ? LOGARITHMS : null, parent: 'functions' },
+        'binomial-theorem': { obj: typeof BINOMIAL !== 'undefined' ? BINOMIAL : null, parent: 'number-algebra' }
     };
 
     function launchActivity(topicId) {
         var act = AVAILABLE_ACTIVITIES[topicId];
         if (act && act.obj && act.obj.load) {
             showView('activity');
-            act.obj.load();
+            try {
+                act.obj.load();
+            } catch (e) {
+                console.error('Failed to load activity ' + topicId + ':', e);
+                document.getElementById('activity-container').innerHTML =
+                    '<div style="text-align:center;padding:40px;"><h2>Oops</h2><p>Something went wrong loading this activity.</p>' +
+                    '<button class="btn btn-primary" onclick="showView(\'hub\')">Back to Hub</button></div>';
+                return;
+            }
             // Re-render KaTeX after load
             setTimeout(function() {
                 if (typeof renderMathInElement === 'function') {
