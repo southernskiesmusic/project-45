@@ -860,17 +860,16 @@
                     '<button class="btn btn-primary" onclick="showView(\'hub\')">Back to Hub</button></div>';
                 return;
             }
-            // Re-render KaTeX after load
-            setTimeout(function() {
-                if (typeof renderMathInElement === 'function') {
-                    renderMathInElement(document.getElementById('activity-container'), {
-                        delimiters: [
-                            { left: '\\(', right: '\\)', display: false },
-                            { left: '\\[', right: '\\]', display: true }
-                        ]
-                    });
-                }
-            }, 50);
+            // Re-render KaTeX after load + watch for DOM changes (new questions)
+            setTimeout(function() { renderActivityKaTeX(); }, 50);
+            // Auto-render KaTeX whenever activity container content changes
+            if (!window._katexObserver) {
+                var ac = document.getElementById('activity-container');
+                window._katexObserver = new MutationObserver(function() {
+                    setTimeout(function() { renderActivityKaTeX(); }, 20);
+                });
+                window._katexObserver.observe(ac, { childList: true, subtree: true });
+            }
         }
     }
 

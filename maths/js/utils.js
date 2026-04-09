@@ -2,6 +2,23 @@
  * utils.js - Shared math utilities for Project 45 Maths AA
  */
 
+/* Re-render KaTeX in the activity container - call after inserting question HTML */
+function renderActivityKaTeX() {
+    if (typeof renderMathInElement === 'function') {
+        var container = document.getElementById('activity-container');
+        if (container) {
+            renderMathInElement(container, {
+                delimiters: [
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                    { left: '$$', right: '$$', display: true }
+                ],
+                throwOnError: false
+            });
+        }
+    }
+}
+
 const MathUtils = {
     // Random integer in [min, max]
     randInt(min, max) {
