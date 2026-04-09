@@ -1,0 +1,176 @@
+/* Maths AA - subject-specific overrides (base loaded from shared/css/subject-base.css) */
+
+:root {
+    --primary: #4361ee;
+    --primary-light: #eef0ff;
+}
+
+/* ---- Topic tag variants (maths-specific, by IB AA topic) ---- */
+.topic-tag.t1 { background: #fdebd0; color: #b9770e; }  /* Number & Algebra */
+.topic-tag.t2 { background: #d6eaf8; color: #2471a3; }  /* Functions */
+.topic-tag.t3 { background: #f72585; color: #fff; }      /* Geometry & Trig */
+.topic-tag.t4 { background: #ffa62b; color: #fff; }      /* Stats & Probability */
+.topic-tag.t5 { background: #845ec2; color: #fff; }      /* Calculus */
+
+/* ---- Search Bar ---- */
+.search-bar { position: relative; margin-bottom: 20px; }
+.search-input {
+    width: 100%; padding: 14px 18px; font-size: 1rem; border: 2px solid transparent;
+    border-radius: var(--radius); background: var(--card); color: var(--text);
+    box-shadow: var(--shadow); transition: border-color 0.2s;
+    font-family: inherit;
+}
+.search-input:focus { border-color: var(--primary); outline: 2px solid var(--primary, #4361ee); outline-offset: 2px; }
+.search-input::placeholder { color: var(--text-light); opacity: 0.6; }
+.search-results {
+    display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: var(--card); border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    max-height: 340px; overflow-y: auto; z-index: 100; padding: 8px 0;
+}
+.search-results.show { display: block; }
+.search-result {
+    padding: 10px 18px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+    transition: background 0.15s;
+}
+.search-result:hover, .search-result.active { background: var(--primary-light); }
+.search-result-icon { font-size: 1.1rem; opacity: 0.6; flex-shrink: 0; }
+.search-result-text { flex: 1; }
+.search-result-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.search-result-sub { font-size: 0.78rem; color: var(--text-light); }
+.search-result-type {
+    font-size: 0.68rem; font-weight: 600; padding: 2px 8px; border-radius: 8px;
+    flex-shrink: 0; text-transform: uppercase;
+}
+.search-result-type.topic { background: var(--primary-light); color: var(--primary); }
+.search-result-type.activity { background: var(--success-light); color: var(--success); }
+.search-result-type.lesson { background: #fef3c7; color: #b45309; }
+.search-level {
+    font-size: 0.62rem; font-weight: 700; padding: 2px 6px; border-radius: 6px;
+    flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.02em;
+}
+.search-level.sl { background: rgba(67,97,238,0.12); color: #4361ee; }
+.search-level.hl { background: rgba(0,184,148,0.12); color: #00b894; }
+.topic-card.search-hidden { display: none; }
+
+/* ---- Topic Card Icons ---- */
+.topic-card-inner { display: flex; align-items: flex-start; gap: 14px; }
+.topic-card-icon { flex-shrink: 0; width: 48px; height: 48px; color: var(--primary); opacity: 0.7; }
+.topic-card-icon svg { width: 100%; height: 100%; }
+.topic-card-body { flex: 1; min-width: 0; }
+
+/* ---- Topic card (maths overrides) ---- */
+.topic-card:hover {
+    border-color: var(--primary); transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(67,97,238,0.15);
+}
+.topic-card h2 {
+    font-size: 1.2rem; font-weight: 700; color: var(--primary);
+    margin-bottom: 6px;
+}
+.topic-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+
+/* ---- Score bar (maths layout) ---- */
+.score-bar {
+    display: flex; justify-content: center; gap: 16px;
+    margin-bottom: 24px; flex-wrap: wrap;
+}
+.score-item {
+    background: var(--card); padding: 10px 20px; border-radius: 12px;
+    box-shadow: var(--shadow); text-align: center; min-width: 90px;
+}
+.score-item .label {
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 2px;
+}
+.score-item .value { font-size: 1.3rem; font-weight: 700; }
+
+/* ---- Question card (maths) ---- */
+.question-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 32px; margin-bottom: 20px;
+    text-align: center;
+}
+.rule-tag, .difficulty-tag {
+    display: inline-block; font-size: 0.78rem; font-weight: 600;
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+}
+.rule-tag { background: var(--primary-light); color: var(--primary); }
+.difficulty-tag.easy   { background: var(--success-light); color: #047857; }
+.difficulty-tag.medium { background: #fff3cd; color: #856404; }
+.difficulty-tag.hard   { background: var(--error-light); color: #be123c; }
+
+.question-text { font-size: 1.15rem; margin-bottom: 4px; line-height: 1.5; }
+.question-prompt { font-size: 1.55rem; font-weight: 600; margin: 14px 0 4px; line-height: 2; }
+.question-hint { font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px; }
+
+/* ---- MC Options ---- */
+.options-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 20px;
+}
+.option-btn {
+    background: var(--card); border: 2px solid var(--border); border-radius: 12px;
+    padding: 16px 8px 16px 40px; cursor: pointer; font-size: 1.05rem;
+    transition: all 0.2s ease; font-family: inherit; line-height: 1.6;
+    position: relative; text-align: center;
+}
+.option-btn::before {
+    content: attr(data-i);
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #e8e8e8; color: #666; font-size: 0.75rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+}
+.option-btn[data-i="0"]::before { content: "1"; }
+.option-btn[data-i="1"]::before { content: "2"; }
+.option-btn[data-i="2"]::before { content: "3"; }
+.option-btn[data-i="3"]::before { content: "4"; }
+.option-btn:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-light);
+    transform: translateY(-2px);
+}
+.option-btn.correct { border-color: var(--success); background: var(--success-light); }
+.option-btn.incorrect { border-color: var(--error); background: var(--error-light); }
+.option-btn:disabled { cursor: default; opacity: 0.7; }
+
+/* ---- Input area (maths) ---- */
+.input-area {
+    margin-top: 20px; display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+}
+.lr-math-field { width: 100%; max-width: 280px; font-size: 1.5rem; padding: 10px 16px; }
+
+/* ---- Buttons (maths overrides) ---- */
+.btn-hint {
+    background: none; border: 2px solid var(--border); color: var(--text-light);
+    padding: 8px 20px; font-size: 0.88rem;
+}
+.btn-hint:hover { border-color: #ffc107; color: #856404; background: #fff8e1; }
+.hint-box {
+    background: #fff8e1; border: 2px solid #ffc107; border-radius: var(--radius);
+    padding: 16px 20px; margin-bottom: 20px; text-align: center;
+    font-size: 0.95rem; line-height: 1.8; display: none;
+}
+.hint-box.show { display: block; }
+
+/* ---- SL/HL badges on topic cards ---- */
+.level-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 6px;
+}
+.level-badge.sl { background: rgba(67,97,238,0.12); color: #4361ee; }
+.level-badge.hl { background: rgba(0,184,148,0.12); color: #00b894; }
+.level-badge.both { background: rgba(139,92,246,0.12); color: #8b5cf6; }
+
+/* ---- Dark mode overrides ---- */
+body.dark-mode .topic-tag.t1 { background: rgba(185,119,14,0.2); color: #f0c040; }
+body.dark-mode .topic-tag.t2 { background: rgba(36,113,163,0.2); color: #5dade2; }
+body.dark-mode .topic-tag.t3 { background: rgba(247,37,133,0.2); color: #f72585; }
+body.dark-mode .topic-tag.t4 { background: rgba(255,166,43,0.2); color: #ffa62b; }
+body.dark-mode .topic-tag.t5 { background: rgba(132,94,194,0.2); color: #a78bfa; }

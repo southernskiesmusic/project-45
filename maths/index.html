@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths AA - Project 45</title>
+    <meta name="description" content="IB Mathematics Analysis & Approaches - Interactive trainers and guided lessons for SL and HL.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <!-- MathLive -->
+    <script defer src="https://unpkg.com/mathlive"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../shared/css/subject-base.css">
+</head>
+<body>
+    <a href="#app" class="skip-to-content">Skip to content</a>
+    <a href="../" class="back-to-hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Project 45
+    </a>
+
+    <div id="app" role="main">
+        <!-- ═══════════════════════════════════════════════
+             VIEW: HUB - Topic selection
+             ═══════════════════════════════════════════════ -->
+        <div id="view-hub" class="view active">
+            <div class="hub-header">
+                <h1>Mathematics AA</h1>
+                <p>Analysis and Approaches - SL & HL</p>
+                <div class="auth-bar">
+                    <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+                <div class="settings-dropdown" id="settings-panel">
+                    <div class="settings-item">
+                        <span>Dark Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-toggle" onchange="toggleDark()">
+                            <span>Toggle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <!-- Topic Cards -->
+            <div class="topic-grid">
+                <!-- ── Topic 1: Number & Algebra ── -->
+                <div class="section-label">IB Math AA Topics</div>
+
+                <div class="topic-card" data-topic="number-algebra" onclick="showView('number-algebra')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="24" font-weight="700" fill="currentColor" stroke="none">1</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Number & Algebra</h2>
+                            <p>Sequences, series, binomial theorem, proof, complex numbers</p>
+                            <span class="topic-tag t1">Topic 1</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Topic 2: Functions ── -->
+                <div class="topic-card" data-topic="functions" onclick="showView('functions')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="24" font-weight="700" fill="currentColor" stroke="none">2</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Functions</h2>
+                            <p>Lines, quadratics, exponents, logarithms, transformations, polynomials</p>
+                            <span class="topic-tag t2">Topic 2</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Topic 3: Geometry & Trigonometry ── -->
+                <div class="topic-card" data-topic="geometry-trig" onclick="showView('geometry-trig')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="24" font-weight="700" fill="currentColor" stroke="none">3</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Geometry & Trigonometry</h2>
+                            <p>Triangles, unit circle, trig equations, vectors, planes</p>
+                            <span class="topic-tag t3">Topic 3</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Topic 4: Statistics & Probability ── -->
+                <div class="topic-card" data-topic="stats-probability" onclick="showView('stats-probability')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="24" font-weight="700" fill="currentColor" stroke="none">4</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Statistics & Probability</h2>
+                            <p>Descriptive stats, regression, distributions, Venn diagrams, counting</p>
+                            <span class="topic-tag t4">Topic 4</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Topic 5: Calculus ── -->
+                <div class="topic-card" data-topic="calculus" onclick="showView('calculus')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="24" font-weight="700" fill="currentColor" stroke="none">5</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Calculus</h2>
+                            <p>Limits, derivatives, integrals, optimisation, differential equations</p>
+                            <span class="topic-tag t5">Topic 5</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic 1 - Number & Algebra
+             ═══════════════════════════════════════════════ -->
+        <div id="view-number-algebra" class="view">
+            <button class="back-btn" onclick="showView('hub')">Number & Algebra</button>
+            <header>
+                <h1>Topic 1: Number & Algebra</h1>
+                <p>Sequences, series, proof, and complex numbers</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL Content</div>
+
+                <div class="topic-card" data-topic="numbers-rounding">
+                    <h2>Numbers & Rounding</h2>
+                    <p>Number sets, approximation, significant figures, percentage error</p>
+                    <span class="topic-tag t1">1.1</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="arithmetic-sequences">
+                    <h2>Arithmetic Sequences</h2>
+                    <p>Common difference, nth term, arithmetic series, sigma notation</p>
+                    <span class="topic-tag t1">1.2-1.3</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="geometric-sequences">
+                    <h2>Geometric Sequences</h2>
+                    <p>Common ratio, nth term, geometric series, infinite sums, compound interest</p>
+                    <span class="topic-tag t1">1.4</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="financial-maths">
+                    <h2>Financial Mathematics</h2>
+                    <p>Percentage change, compound interest, depreciation, annuities, amortisation</p>
+                    <span class="topic-tag t1">1.5</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="binomial-theorem">
+                    <h2>Binomial Theorem</h2>
+                    <p>Pascal's triangle, binomial expansion, general term</p>
+                    <span class="topic-tag t1">1.6</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="deductive-proof">
+                    <h2>Deductive Proof</h2>
+                    <p>Direct proof, basic logical structure, algebraic proofs</p>
+                    <span class="topic-tag t1">1.7</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" data-topic="methods-of-proof">
+                    <h2>Methods of Proof</h2>
+                    <p>Proof by contradiction, contrapositive, counterexample</p>
+                    <span class="topic-tag t1">1.8</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="mathematical-induction">
+                    <h2>Mathematical Induction</h2>
+                    <p>Principle of induction, divisibility, inequalities, series proofs</p>
+                    <span class="topic-tag t1">1.9</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="systems-of-equations">
+                    <h2>Systems of Linear Equations</h2>
+                    <p>2x2 and 3x3 systems, Gaussian elimination, unique/infinite/no solutions</p>
+                    <span class="topic-tag t1">1.10</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="complex-numbers-cartesian">
+                    <h2>Complex Numbers (Cartesian)</h2>
+                    <p>i, arithmetic, conjugates, Argand diagram, modulus, argument</p>
+                    <span class="topic-tag t1">1.11-1.12</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="complex-numbers-polar">
+                    <h2>Complex Numbers (Polar)</h2>
+                    <p>Polar form, Euler's form, De Moivre's theorem, nth roots</p>
+                    <span class="topic-tag t1">1.13-1.15</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic 2 - Functions
+             ═══════════════════════════════════════════════ -->
+        <div id="view-functions" class="view">
+            <button class="back-btn" onclick="showView('hub')">Functions</button>
+            <header>
+                <h1>Topic 2: Functions</h1>
+                <p>Lines, quadratics, exponents, logarithms, transformations</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL Content</div>
+
+                <div class="topic-card" data-topic="lines">
+                    <h2>Lines</h2>
+                    <p>Gradient, equations of lines, parallel & perpendicular, intersection</p>
+                    <span class="topic-tag t2">2.1</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="quadratics">
+                    <h2>Quadratics</h2>
+                    <p>Factoring, completing the square, discriminant, vertex form</p>
+                    <span class="topic-tag t2">2.2</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="functions-domain-range">
+                    <h2>Functions, Domain & Range</h2>
+                    <p>Function notation, domain, range, graphs of common functions</p>
+                    <span class="topic-tag t2">2.3</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="composition-inverse">
+                    <h2>Composition & Inverse</h2>
+                    <p>Composite functions, inverse functions, self-inverse, reflection in y=x</p>
+                    <span class="topic-tag t2">2.4-2.5</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="transformations">
+                    <h2>Transformations</h2>
+                    <p>Translations, reflections, stretches, combined transformations</p>
+                    <span class="topic-tag t2">2.6</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="asymptotes">
+                    <h2>Asymptotes</h2>
+                    <p>Horizontal, vertical, and oblique asymptotes, rational function graphs</p>
+                    <span class="topic-tag t2">2.7</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="exponents">
+                    <h2>Exponents</h2>
+                    <p>Laws of exponents, rational exponents, solving exponential equations</p>
+                    <span class="topic-tag t2">2.8</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="logarithms">
+                    <h2>Logarithms</h2>
+                    <p>Log rules, change of base, solving log equations</p>
+                    <span class="topic-tag t2">2.9</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="exponential-equations">
+                    <h2>Exponential Equations</h2>
+                    <p>Exponential growth/decay, solving with logarithms, modelling</p>
+                    <span class="topic-tag t2">2.10</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" data-topic="polynomials">
+                    <h2>Polynomials</h2>
+                    <p>Factor theorem, remainder theorem, sum/product of roots, polynomial division</p>
+                    <span class="topic-tag t2">2.11-2.12</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="rational-functions">
+                    <h2>Rational Functions & Inequalities</h2>
+                    <p>Partial fractions, rational inequalities, sign diagrams</p>
+                    <span class="topic-tag t2">2.13-2.14</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="modulus">
+                    <h2>Modulus Equations & Inequalities</h2>
+                    <p>|f(x)| graphs, solving modulus equations, modulus inequalities</p>
+                    <span class="topic-tag t2">2.15</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="symmetries">
+                    <h2>Symmetries & More Transformations</h2>
+                    <p>Even/odd functions, reciprocal transformations, absolute value transformations</p>
+                    <span class="topic-tag t2">2.16</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic 3 - Geometry & Trigonometry
+             ═══════════════════════════════════════════════ -->
+        <div id="view-geometry-trig" class="view">
+            <button class="back-btn" onclick="showView('hub')">Geometry & Trig</button>
+            <header>
+                <h1>Topic 3: Geometry & Trigonometry</h1>
+                <p>Triangles, trigonometric functions, vectors, and 3D geometry</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL Content</div>
+
+                <div class="topic-card" data-topic="3d-geometry-triangles">
+                    <h2>3D Geometry & Triangles</h2>
+                    <p>Volume, surface area, sine rule, cosine rule, area of triangle</p>
+                    <span class="topic-tag t3">3.1-3.3</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="arcs-sectors">
+                    <h2>Arcs & Sectors</h2>
+                    <p>Radian measure, arc length, sector area, segment area</p>
+                    <span class="topic-tag t3">3.4</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="unit-circle">
+                    <h2>Unit Circle & Identities</h2>
+                    <p>sin, cos, tan on the unit circle, Pythagorean identity, exact values</p>
+                    <span class="topic-tag t3">3.5</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="trig-equations">
+                    <h2>Trigonometric Equations</h2>
+                    <p>Solving trig equations, general solutions, quadratic trig equations</p>
+                    <span class="topic-tag t3">3.6</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="trig-functions">
+                    <h2>Trigonometric Functions</h2>
+                    <p>Graphs of sin, cos, tan; amplitude, period, phase shift; modelling</p>
+                    <span class="topic-tag t3">3.7</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" data-topic="further-trig-identities">
+                    <h2>Further Trig Identities</h2>
+                    <p>Compound angle, double angle, half angle, product-to-sum</p>
+                    <span class="topic-tag t3">3.8</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="further-trig-functions">
+                    <h2>Further Trig Functions</h2>
+                    <p>Reciprocal trig functions, inverse trig functions, a cos x + b sin x</p>
+                    <span class="topic-tag t3">3.9</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="vectors-algebra">
+                    <h2>Algebra of Vectors</h2>
+                    <p>Vector notation, addition, scalar multiplication, dot product, angles</p>
+                    <span class="topic-tag t3">3.10-3.12</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="vector-lines">
+                    <h2>Vector Equation of a Line</h2>
+                    <p>Parametric and Cartesian forms, parallel/intersecting/skew lines</p>
+                    <span class="topic-tag t3">3.13-3.14</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="vectors-kinematics">
+                    <h2>Vectors in Kinematics</h2>
+                    <p>Velocity, displacement, closest approach, collision problems</p>
+                    <span class="topic-tag t3">3.15</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="cross-product">
+                    <h2>Cross Product</h2>
+                    <p>Vector product, area of parallelogram/triangle, properties</p>
+                    <span class="topic-tag t3">3.16</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="planes">
+                    <h2>Planes</h2>
+                    <p>Equation of a plane, normal vector, Cartesian & parametric forms</p>
+                    <span class="topic-tag t3">3.17</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="intersections-distances">
+                    <h2>Intersections & Distances</h2>
+                    <p>Line-plane intersection, plane-plane intersection, distances</p>
+                    <span class="topic-tag t3">3.18-3.19</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic 4 - Statistics & Probability
+             ═══════════════════════════════════════════════ -->
+        <div id="view-stats-probability" class="view">
+            <button class="back-btn" onclick="showView('hub')">Stats & Probability</button>
+            <header>
+                <h1>Topic 4: Statistics & Probability</h1>
+                <p>Data analysis, distributions, and probability theory</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL Content</div>
+
+                <div class="topic-card" data-topic="stats-basic">
+                    <h2>Statistics: Basic Concepts</h2>
+                    <p>Mean, median, mode, quartiles, standard deviation, cumulative frequency</p>
+                    <span class="topic-tag t4">4.1-4.3</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="linear-regression">
+                    <h2>Linear Regression</h2>
+                    <p>Scatter diagrams, correlation, line of best fit, r and r-squared</p>
+                    <span class="topic-tag t4">4.4</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="probability-venn">
+                    <h2>Probability I: Venn Diagrams</h2>
+                    <p>Sample space, events, Venn diagrams, two-way tables, conditional probability</p>
+                    <span class="topic-tag t4">4.5-4.7</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="probability-trees">
+                    <h2>Probability II: Tree Diagrams</h2>
+                    <p>Tree diagrams, independent events, Bayes' theorem (simple)</p>
+                    <span class="topic-tag t4">4.8</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="binomial-distribution">
+                    <h2>Binomial Distribution</h2>
+                    <p>Binomial model, expected value, variance, GDC calculations</p>
+                    <span class="topic-tag t4">4.10</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="normal-distribution">
+                    <h2>Normal Distribution</h2>
+                    <p>Bell curve, z-scores, inverse normal, GDC calculations</p>
+                    <span class="topic-tag t4">4.11</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" data-topic="discrete-distributions">
+                    <h2>Discrete Distributions</h2>
+                    <p>Probability distributions, expected value, variance, Poisson distribution</p>
+                    <span class="topic-tag t4">4.9</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="continuous-distributions">
+                    <h2>Continuous Distributions</h2>
+                    <p>PDF, CDF, expected value, variance, median from PDF</p>
+                    <span class="topic-tag t4">4.12</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="counting-probability">
+                    <h2>Counting & Probability</h2>
+                    <p>Permutations, combinations, counting principles, advanced probability</p>
+                    <span class="topic-tag t4">4.13</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic 5 - Calculus
+             ═══════════════════════════════════════════════ -->
+        <div id="view-calculus" class="view">
+            <button class="back-btn" onclick="showView('hub')">Calculus</button>
+            <header>
+                <h1>Topic 5: Calculus</h1>
+                <p>Differentiation, integration, and differential equations</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL Content</div>
+
+                <div class="topic-card" data-topic="limits">
+                    <h2>The Concept of the Limit</h2>
+                    <p>Informal limits, limits from tables/graphs, limit notation</p>
+                    <span class="topic-tag t5">5.1</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="derivatives-basic">
+                    <h2>Derivatives: Basic Rules</h2>
+                    <p>Power rule, sum/difference, product rule, quotient rule</p>
+                    <span class="topic-tag t5">5.2</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="chain-rule">
+                    <h2>Chain Rule</h2>
+                    <p>Composite function differentiation, nested functions</p>
+                    <span class="topic-tag t5">5.3</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="tangent-normal">
+                    <h2>Tangent & Normal Lines</h2>
+                    <p>Equation of tangent, equation of normal, applications</p>
+                    <span class="topic-tag t5">5.4</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="monotony-concavity">
+                    <h2>Monotony & Concavity</h2>
+                    <p>Increasing/decreasing, local max/min, inflection points, second derivative</p>
+                    <span class="topic-tag t5">5.5-5.6</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="graph-of-f">
+                    <h2>The Graph of f</h2>
+                    <p>Curve sketching, connecting f, f', f''; graphical analysis</p>
+                    <span class="topic-tag t5">5.7</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="optimisation">
+                    <h2>Optimisation</h2>
+                    <p>Maximum/minimum problems, modelling with derivatives</p>
+                    <span class="topic-tag t5">5.8</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="indefinite-integrals">
+                    <h2>Indefinite Integrals</h2>
+                    <p>Antiderivatives, basic integration rules, substitution (simple)</p>
+                    <span class="topic-tag t5">5.9-5.10</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="definite-integrals">
+                    <h2>Definite Integrals & Areas</h2>
+                    <p>Fundamental theorem, area under curve, area between curves</p>
+                    <span class="topic-tag t5">5.11</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="topic-card" data-topic="kinematics">
+                    <h2>Kinematics</h2>
+                    <p>Displacement, velocity, acceleration; integration & differentiation</p>
+                    <span class="topic-tag t5">5.12</span>
+                    <span class="level-badge sl">SL</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" data-topic="more-derivatives">
+                    <h2>More Derivatives</h2>
+                    <p>Derivatives of trig, exponential, logarithmic functions</p>
+                    <span class="topic-tag t5">5.13</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="implicit-differentiation">
+                    <h2>Implicit Differentiation</h2>
+                    <p>Implicit derivatives, more kinematics applications</p>
+                    <span class="topic-tag t5">5.14</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="related-rates">
+                    <h2>Related Rates</h2>
+                    <p>Connected rates of change, practical applications</p>
+                    <span class="topic-tag t5">5.15</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="limits-lhopital">
+                    <h2>Limits & L'Hopital's Rule</h2>
+                    <p>Formal limits, L'Hopital's rule, derivatives from first principles</p>
+                    <span class="topic-tag t5">5.16-5.17</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="more-integrals">
+                    <h2>More Integrals & Substitution</h2>
+                    <p>Advanced integration, trigonometric substitution, partial fractions</p>
+                    <span class="topic-tag t5">5.18-5.19</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="integration-by-parts">
+                    <h2>Integration by Parts</h2>
+                    <p>Integration by parts formula, repeated application, LIATE</p>
+                    <span class="topic-tag t5">5.20</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="further-areas-volumes">
+                    <h2>Further Areas & Volumes</h2>
+                    <p>Volumes of revolution, area between curves (advanced)</p>
+                    <span class="topic-tag t5">5.21</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="differential-equations">
+                    <h2>Differential Equations</h2>
+                    <p>Separable ODEs, integrating factor, slope fields, Euler's method</p>
+                    <span class="topic-tag t5">5.22</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+
+                <div class="topic-card" data-topic="maclaurin-series">
+                    <h2>Maclaurin Series</h2>
+                    <p>Maclaurin expansion, common series, extended binomial theorem</p>
+                    <span class="topic-tag t5">5.23</span>
+                    <span class="level-badge hl">HL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/init.js"></script>
+    <script>
+    /* ── View management ── */
+    function showView(viewId) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById('view-' + viewId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    }
+
+    /* ── Dark mode toggle ── */
+    function toggleDark() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('p45-dark', document.body.classList.contains('dark-mode'));
+    }
+    if (localStorage.getItem('p45-dark') === 'true') {
+        document.body.classList.add('dark-mode');
+        const dt = document.getElementById('dark-toggle');
+        if (dt) dt.checked = true;
+    }
+
+    /* ── KaTeX auto-render ── */
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false }
+                ]
+            });
+        }
+    });
+
+    /* ── Search ── */
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    // Build search index from topic cards
+    const searchIndex = [];
+    document.querySelectorAll('.topic-card[data-topic]').forEach(card => {
+        const title = card.querySelector('h2')?.textContent || '';
+        const desc = card.querySelector('p')?.textContent || '';
+        const tag = card.querySelector('.topic-tag')?.textContent || '';
+        const level = card.querySelector('.level-badge')?.textContent || '';
+        const topic = card.getAttribute('data-topic');
+        const view = card.closest('.view')?.id?.replace('view-', '') || 'hub';
+        searchIndex.push({ title, desc, tag, level, topic, view });
+    });
+
+    searchInput.addEventListener('input', () => {
+        const q = searchInput.value.toLowerCase().trim();
+        if (!q) { searchResults.classList.remove('show'); return; }
+
+        const matches = searchIndex.filter(item =>
+            item.title.toLowerCase().includes(q) ||
+            item.desc.toLowerCase().includes(q) ||
+            item.tag.toLowerCase().includes(q)
+        ).slice(0, 8);
+
+        if (matches.length === 0) {
+            searchResults.innerHTML = '<div style="padding:12px 18px;color:var(--text-light);font-size:0.88rem;">No results found</div>';
+        } else {
+            searchResults.innerHTML = matches.map(m => `
+                <div class="search-result" onclick="showView('${m.view}')">
+                    <div class="search-result-text">
+                        <div class="search-result-title">${m.title}</div>
+                        <div class="search-result-sub">${m.desc}</div>
+                    </div>
+                    <span class="search-level ${m.level.toLowerCase().includes('hl') ? 'hl' : 'sl'}">${m.level}</span>
+                </div>
+            `).join('');
+        }
+        searchResults.classList.add('show');
+    });
+
+    searchInput.addEventListener('blur', () => {
+        setTimeout(() => searchResults.classList.remove('show'), 200);
+    });
+    </script>
+</body>
+</html>
