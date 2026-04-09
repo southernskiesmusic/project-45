@@ -436,15 +436,11 @@ const BINOMIAL = {
     },
 
     load() {
+        this.init();
         this.answered = false;
         this.hintIdx = 0;
 
-        // Attempt review question (25% chance)
-        let reviewQ = null;
-        if (typeof getWrongAnswer === 'function') {
-            reviewQ = (Math.random() < 0.25) ? getWrongAnswer('binom', this.level) : null;
-        }
-        this.currentQ = reviewQ || this.next();
+        this.currentQ = this.next();
         const q = this.currentQ;
         const dl = { easy: 'Easy', medium: 'Medium', hard: 'Challenging' };
 

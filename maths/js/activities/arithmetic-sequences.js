@@ -451,6 +451,7 @@ const ARITH_SEQ = {
     },
 
     load() {
+        this.init();
         this.answered = false;
         this.hintIdx = 0;
 
