@@ -1045,12 +1045,17 @@
        ═══════════════════════════════════════════════ */
     (function() {
         var calcBtn = document.getElementById('calc-btn');
+        if (typeof Desmos === 'undefined' && calcBtn) calcBtn.style.display = 'none';
         var calcModal = document.getElementById('calc-modal');
         var calcCloseBtn = document.getElementById('calc-close-btn');
         var calcClearBtn = document.getElementById('calc-clear-btn');
         window.desmosCalc = null;
 
         function openCalc() {
+            if (typeof Desmos === 'undefined') {
+                alert('Calculator is loading. Please try again in a moment.');
+                return;
+            }
             calcModal.classList.add('show');
             calcBtn.classList.add('active');
             if (!window.desmosCalc) {
