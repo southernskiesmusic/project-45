@@ -201,18 +201,26 @@ const GEO_SEQ = {
 
     // 5. Find r from two non-consecutive terms
     qFindRFromTwoTerms() {
-        // Pick r as a small integer so results are clean
-        const rChoices = [2, 3, -2, -3];
+        // Pick r and gap so the answer is unambiguous
+        // When gap is even, r^gap is always positive, so we can't distinguish +r from -r
+        // Solution: use odd gaps for negative r, any gap for positive r
+        const gap = MathUtils.randInt(2, 4);
+        let rChoices;
+        if (gap % 2 === 0) {
+            // Even gap: only use positive r (avoids ambiguity)
+            rChoices = [2, 3, 4];
+        } else {
+            // Odd gap: can use negative r (sign is determinable)
+            rChoices = [2, 3, -2, -3];
+        }
         const r = MathUtils.pick(rChoices);
-        const u1 = MathUtils.randInt(2, 10);
+        const u1 = MathUtils.randInt(2, 8);
         const p = MathUtils.randInt(2, 4);
-        const q = p + MathUtils.randInt(2, 4); // q > p, gap of 2-4
+        const q = p + gap;
         const up = u1 * Math.pow(r, p - 1);
         const uq = u1 * Math.pow(r, q - 1);
-        const gap = q - p;
 
-        // r^gap = uq / up, so r = (uq / up)^(1/gap)
-        // Since we chose integer r, this will be clean
+        // r^gap = uq / up
         const ratio = uq / up;
 
         return {
@@ -225,8 +233,8 @@ const GEO_SEQ = {
             answerTex: 'r = ' + r,
             options: [],
             hintTex: [
-                'Use \\(\\frac{u_q}{u_p} = r^{q-p}\\), so \\(r = \\left(\\frac{u_q}{u_p}\\right)^{\\frac{1}{q-p}}\\).',
-                'r = \\left(\\frac{' + uq + '}{' + up + '}\\right)^{\\frac{1}{' + gap + '}} = \\left(' + ratio + '\\right)^{\\frac{1}{' + gap + '}} = ' + r
+                'Use \\(\\frac{u_q}{u_p} = r^{q-p}\\), so \\(r^{' + gap + '} = \\frac{' + uq + '}{' + up + '} = ' + ratio + '\\).',
+                'r = ' + (gap === 1 ? ratio : '(' + ratio + ')^{1/' + gap + '}') + ' = ' + r
             ],
             explain: 'Since \\(u_q = u_p \\cdot r^{q-p}\\), we have \\(r^{' + gap + '} = \\frac{u_{' + q + '}}{u_{' + p + '}} = \\frac{' + uq + '}{' + up + '} = ' + ratio + '\\).<br>' +
                 'Therefore \\(r = ' + (gap === 1 ? ratio : '(' + ratio + ')^{1/' + gap + '}') + ' = ' + r + '\\).'
