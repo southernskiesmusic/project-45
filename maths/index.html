@@ -9,22 +9,30 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
     <!-- MathLive -->
-    <script defer src="https://unpkg.com/mathlive"></script>
+    <script type="module">import 'https://unpkg.com/mathlive@0.101.0?module';</script>
     <!-- Desmos Graphing Calculator API -->
     <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <!-- SortableJS -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../shared/css/subject-base.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/premium.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/sidebar.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/pathway.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/desktop-layout.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/bookmarks.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/dashboard-charts.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/review-queue.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../shared/css/flashcards.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/light-mode.css" media="print" onload="this.media='all'">
 </head>
 <body>
     <a href="#app" class="skip-to-content">Skip to content</a>
@@ -765,31 +773,41 @@
         </div>
 
         <!-- ═══════════════════════════════════════════════
+             VIEW: LESSON - Guided lesson container
+             ═══════════════════════════════════════════════ -->
+        <div id="view-lesson" class="view">
+            <button class="back-btn" id="lesson-back-btn">Back</button>
+            <header><h2 id="lesson-title"></h2><p id="lesson-subtitle"></p></header>
+            <div class="lesson-progress"><div class="lesson-progress-fill" id="lesson-progress-fill"></div></div>
+            <div class="lesson-content" id="lesson-content"></div>
+            <div class="lesson-nav" id="lesson-nav"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
              VIEW: DASHBOARD - Progress overview
              ═══════════════════════════════════════════════ -->
         <div id="view-dashboard" class="view">
-            <button class="back-btn" onclick="showView('hub')">Back to Hub</button>
-            <header>
-                <h1>Dashboard</h1>
-                <p>Your progress across topics</p>
-            </header>
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Progress Dashboard</h2></header>
+            <div id="dash-content"></div>
+        </div>
 
-            <!-- Overview stats bar -->
-            <div class="score-bar" id="dash-overview" style="margin-bottom:24px;">
-                <div class="score-item"><div class="label">Total Questions</div><div class="value primary" id="dash-total-q">0</div></div>
-                <div class="score-item"><div class="label">Overall Accuracy</div><div class="value primary" id="dash-accuracy">-</div></div>
-                <div class="score-item"><div class="label">Best Streak</div><div class="value success" id="dash-streak">0</div></div>
-                <div class="score-item"><div class="label">Topics Attempted</div><div class="value primary" id="dash-topics">0</div></div>
-            </div>
+        <!-- ═══════════════════════════════════════════════
+             VIEW: FLASHCARDS
+             ═══════════════════════════════════════════════ -->
+        <div id="view-flashcards" class="view">
+            <button class="back-btn" data-back="hub">Back</button>
+            <header><h2>Flashcards</h2></header>
+            <div id="fc-container"></div>
+        </div>
 
-            <!-- Doughnut chart -->
-            <div style="max-width:400px;margin:0 auto 32px;background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
-                <h3 style="margin:0 0 16px;text-align:center;font-size:1rem;color:var(--text);">Questions by Topic</h3>
-                <canvas id="dash-chart" width="360" height="360"></canvas>
-            </div>
-
-            <!-- Per-topic progress bars -->
-            <div id="dash-topic-bars" style="max-width:600px;margin:0 auto;"></div>
+        <!-- ═══════════════════════════════════════════════
+             VIEW: PATHWAY
+             ═══════════════════════════════════════════════ -->
+        <div id="view-pathway" class="view">
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Learning Pathway</h2></header>
+            <div id="pathway-content"></div>
         </div>
 
         <!-- ═══════════════════════════════════════════════
@@ -808,17 +826,29 @@
         </div>
     </div>
 
-    <!-- Firebase (compat for vanilla JS) -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <!-- Auth + Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+
+    <!-- Config + Infrastructure -->
     <script src="../shared/js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="../shared/js/auth-base.js"></script>
-    <!-- Scripts -->
+    <script src="../shared/js/escape.js"></script>
+    <script src="../shared/js/error-boundary.js"></script>
+    <script src="../shared/js/analytics.js"></script>
+    <script src="../shared/js/cookie-consent.js"></script>
+    <script src="../shared/js/page-flash.js"></script>
+
+    <!-- Core Utils -->
+    <script>var STORAGE_PREFIX = 'maths_';</script>
     <script src="js/utils.js"></script>
-    <script src="js/init.js"></script>
+    <script src="../shared/js/activity-utils.js"></script>
+
+    <!-- UI Systems -->
+    <script src="../shared/js/floating-back.js"></script>
+    <script src="../shared/js/scratchpad.js"></script>
+
     <!-- Activities -->
     <script src="js/activities/lines.js"></script>
     <script src="js/activities/arithmetic-sequences.js"></script>
@@ -826,381 +856,47 @@
     <script src="js/activities/exponents.js"></script>
     <script src="js/activities/logarithms.js"></script>
     <script src="js/activities/binomial-theorem.js"></script>
-    <!-- Lessons -->
+
+    <!-- Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../shared/js/dashboard-base.js"></script>
+
+    <!-- Auth -->
+    <script src="js/auth.js"></script>
+    <script src="../shared/js/auth-base.js"></script>
+
+    <!-- Lesson Engine + Lessons -->
+    <script src="../shared/js/lesson-engine.js"></script>
     <script src="js/lessons/lines.js"></script>
     <script src="js/lessons/arithmetic-sequences.js"></script>
     <script src="js/lessons/geometric-sequences.js"></script>
     <script src="js/lessons/exponents.js"></script>
     <script src="js/lessons/logarithms.js"></script>
     <script src="js/lessons/binomial-theorem.js"></script>
-    <script>
-    /* ── Init Firebase Auth ── */
-    if (typeof Auth !== 'undefined') Auth.init();
 
-    /* ── Activity launcher ── */
-    var AVAILABLE_ACTIVITIES = {
-        'lines': { obj: typeof LINES !== 'undefined' ? LINES : null, parent: 'functions' },
-        'arithmetic-sequences': { obj: typeof ARITH_SEQ !== 'undefined' ? ARITH_SEQ : null, parent: 'number-algebra' },
-        'geometric-sequences': { obj: typeof GEO_SEQ !== 'undefined' ? GEO_SEQ : null, parent: 'number-algebra' },
-        'exponents': { obj: typeof EXPONENTS !== 'undefined' ? EXPONENTS : null, parent: 'functions' },
-        'logarithms': { obj: typeof LOGARITHMS !== 'undefined' ? LOGARITHMS : null, parent: 'functions' },
-        'binomial-theorem': { obj: typeof BINOMIAL !== 'undefined' ? BINOMIAL : null, parent: 'number-algebra' }
-    };
+    <!-- SRS + Flashcards -->
+    <script src="../shared/js/srs.js"></script>
+    <script src="../shared/js/flashcard-engine.js"></script>
 
-    function launchActivity(topicId) {
-        var act = AVAILABLE_ACTIVITIES[topicId];
-        if (act && act.obj && act.obj.load) {
-            showView('activity');
-            try {
-                act.obj.load();
-            } catch (e) {
-                console.error('Failed to load activity ' + topicId + ':', e);
-                document.getElementById('activity-container').innerHTML =
-                    '<div style="text-align:center;padding:40px;"><h2>Oops</h2><p>Something went wrong loading this activity.</p>' +
-                    '<button class="btn btn-primary" onclick="showView(\'hub\')">Back to Hub</button></div>';
-                return;
-            }
-            // Re-render KaTeX after load + watch for DOM changes (new questions)
-            setTimeout(function() { renderActivityKaTeX(); }, 50);
-            // Auto-render KaTeX whenever activity container content changes
-            if (!window._katexObserver) {
-                var ac = document.getElementById('activity-container');
-                window._katexObserver = new MutationObserver(function() {
-                    setTimeout(function() { renderActivityKaTeX(); }, 20);
-                });
-                window._katexObserver.observe(ac, { childList: true, subtree: true });
-            }
-        }
-    }
+    <!-- Pathway -->
+    <script src="../shared/js/pathway.js"></script>
 
-    /* ── Wire up sub-topic cards with available activities ── */
-    /* Only targets cards inside topic views, not the hub's 5 main topic cards */
-    document.querySelectorAll('.view:not(#view-hub) .topic-card[data-topic]').forEach(function(card) {
-        var topic = card.getAttribute('data-topic');
-        if (AVAILABLE_ACTIVITIES[topic]) {
-            card.onclick = function() { launchActivity(topic); };
-            card.style.cursor = 'pointer';
-        } else {
-            card.style.opacity = '0.6';
-            card.style.cursor = 'default';
-            card.title = 'Coming soon';
-        }
-    });
+    <!-- Paper Generator -->
+    <script src="../shared/js/paper-gen-utils.js"></script>
+    <script src="../shared/js/paper-formula.js"></script>
+    <script src="../shared/js/paper-ai-feedback.js"></script>
 
-    /* ── State ── */
-    var selectedCourse = localStorage.getItem('p45-course') || null;
-    var selectedLevel = localStorage.getItem('p45-level') || null;
+    <!-- AI -->
+    <script src="../shared/js/ai-explain.js"></script>
+    <script src="../shared/js/ai-chat.js"></script>
 
-    /* ── View management ── */
-    function showView(viewId) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        const target = document.getElementById('view-' + viewId);
-        if (target) {
-            target.classList.add('active');
-            window.scrollTo(0, 0);
-        }
-    }
+    <!-- Remote Config -->
+    <script src="../shared/js/remote-config.js"></script>
 
-    /* ── Course selection ── */
-    function selectCourse(course) {
-        if (course === 'ai') return; // Coming soon
-        selectedCourse = course;
-        localStorage.setItem('p45-course', course);
-        const name = course === 'aa' ? 'Mathematics AA' : 'Mathematics AI';
-        document.getElementById('level-select-title').textContent = name;
-        showView('level-select');
-    }
+    <!-- Subject Base (MUST be before init.js) -->
+    <script src="../shared/js/subject-base.js"></script>
 
-    /* ── Level selection ── */
-    function selectLevel(level) {
-        selectedLevel = level;
-        localStorage.setItem('p45-level', level);
-        applySelection();
-        showView('hub');
-    }
-
-    /* ── Apply course + level to hub ── */
-    function applySelection() {
-        const courseName = selectedCourse === 'aa' ? 'Mathematics AA' : 'Mathematics AI';
-        const levelName = selectedLevel === 'hl' ? 'HL' : 'SL';
-        const courseDesc = selectedCourse === 'aa' ? 'Analysis and Approaches' : 'Applications and Interpretation';
-
-        document.getElementById('hub-title').textContent = courseName + ' ' + levelName;
-        document.getElementById('hub-subtitle').textContent = courseDesc;
-
-        // Filter topic cards: SL sees only SL, HL sees SL + HL
-        const isHL = selectedLevel === 'hl';
-        document.querySelectorAll('.topic-card[data-topic]').forEach(card => {
-            const badge = card.querySelector('.level-badge');
-            if (!badge) return;
-            const cardLevel = badge.textContent.trim().toLowerCase();
-            if (isHL) {
-                card.style.display = '';
-            } else {
-                card.style.display = cardLevel === 'hl' ? 'none' : '';
-            }
-        });
-
-        // Show/hide HL section labels
-        document.querySelectorAll('.section-label').forEach(label => {
-            const text = label.textContent.trim().toLowerCase();
-            if (text.includes('hl')) {
-                label.style.display = isHL ? '' : 'none';
-            }
-        });
-    }
-
-    /* ── Change course/level from hub ── */
-    function changeCourse() {
-        localStorage.removeItem('p45-course');
-        localStorage.removeItem('p45-level');
-        selectedCourse = null;
-        selectedLevel = null;
-        showView('course-select');
-    }
-
-    /* ── Restore saved selection on load ── */
-    if (selectedCourse && selectedLevel) {
-        applySelection();
-        showView('hub');
-    }
-
-    /* ── Dark mode toggle ── */
-    function toggleDark() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('p45-dark', document.body.classList.contains('dark-mode'));
-    }
-    if (localStorage.getItem('p45-dark') === 'true') {
-        document.body.classList.add('dark-mode');
-        const dt = document.getElementById('dark-toggle');
-        if (dt) dt.checked = true;
-    }
-
-    /* ── KaTeX auto-render ── */
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof renderMathInElement === 'function') {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: '\\(', right: '\\)', display: false },
-                    { left: '\\[', right: '\\]', display: true },
-                    { left: '$$', right: '$$', display: true },
-                    { left: '$', right: '$', display: false }
-                ]
-            });
-        }
-    });
-
-    /* ── Search ── */
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-
-    // Build search index from topic cards
-    const searchIndex = [];
-    document.querySelectorAll('.topic-card[data-topic]').forEach(card => {
-        const title = card.querySelector('h2')?.textContent || '';
-        const desc = card.querySelector('p')?.textContent || '';
-        const tag = card.querySelector('.topic-tag')?.textContent || '';
-        const badge = card.querySelector('.level-badge');
-        const level = badge ? badge.textContent.trim() : '';
-        const topic = card.getAttribute('data-topic');
-        const view = card.closest('.view')?.id?.replace('view-', '') || 'hub';
-        searchIndex.push({ title, desc, tag, level, topic, view });
-    });
-
-    searchInput.addEventListener('input', () => {
-        const q = searchInput.value.toLowerCase().trim();
-        if (!q) { searchResults.classList.remove('show'); return; }
-
-        const isHL = selectedLevel === 'hl';
-        const matches = searchIndex.filter(item => {
-            // Filter by level
-            if (!isHL && item.level.toLowerCase() === 'hl') return false;
-            return item.title.toLowerCase().includes(q) ||
-                   item.desc.toLowerCase().includes(q) ||
-                   item.tag.toLowerCase().includes(q);
-        }).slice(0, 8);
-
-        if (matches.length === 0) {
-            searchResults.innerHTML = '<div style="padding:12px 18px;color:var(--text-light);font-size:0.88rem;">No results found</div>';
-        } else {
-            searchResults.innerHTML = matches.map(m => `
-                <div class="search-result" onclick="showView('${m.view}')">
-                    <div class="search-result-text">
-                        <div class="search-result-title">${m.title}</div>
-                        <div class="search-result-sub">${m.desc}</div>
-                    </div>
-                    <span class="search-level ${m.level.toLowerCase() === 'hl' ? 'hl' : 'sl'}">${m.level}</span>
-                </div>
-            `).join('');
-        }
-        searchResults.classList.add('show');
-    });
-
-    searchInput.addEventListener('blur', () => {
-        setTimeout(() => searchResults.classList.remove('show'), 200);
-    });
-
-    /* ═══════════════════════════════════════════════
-       DESMOS FLOATING CALCULATOR
-       ═══════════════════════════════════════════════ */
-    (function() {
-        var calcBtn = document.getElementById('calc-btn');
-        if (typeof Desmos === 'undefined' && calcBtn) calcBtn.style.display = 'none';
-        var calcModal = document.getElementById('calc-modal');
-        var calcCloseBtn = document.getElementById('calc-close-btn');
-        var calcClearBtn = document.getElementById('calc-clear-btn');
-        window.desmosCalc = null;
-
-        function openCalc() {
-            if (typeof Desmos === 'undefined') {
-                alert('Calculator is loading. Please try again in a moment.');
-                return;
-            }
-            calcModal.classList.add('show');
-            calcBtn.classList.add('active');
-            if (!window.desmosCalc) {
-                var container = document.getElementById('calc-container');
-                window.desmosCalc = Desmos.GraphingCalculator(container, {
-                    settingsMenu: false,
-                    border: false,
-                    expressionsCollapsed: false
-                });
-            }
-        }
-
-        function closeCalc() {
-            calcModal.classList.remove('show');
-            calcBtn.classList.remove('active');
-        }
-
-        calcBtn.addEventListener('click', function() {
-            calcModal.classList.contains('show') ? closeCalc() : openCalc();
-        });
-
-        calcCloseBtn.addEventListener('click', closeCalc);
-
-        calcClearBtn.addEventListener('click', function() {
-            if (window.desmosCalc) {
-                window.desmosCalc.setBlank();
-            }
-        });
-    })();
-
-    /* ═══════════════════════════════════════════════
-       DASHBOARD
-       ═══════════════════════════════════════════════ */
-    var dashChart = null;
-
-    function showDashboard() {
-        showView('dashboard');
-        renderDashboard();
-    }
-
-    function renderDashboard() {
-        var raw = localStorage.getItem('maths_activityStats');
-        var stats = {};
-        try { stats = raw ? JSON.parse(raw) : {}; } catch(e) { stats = {}; }
-
-        var topics = Object.keys(stats);
-        var totalScore = 0, totalQ = 0, bestStreak = 0;
-
-        topics.forEach(function(t) {
-            var s = stats[t];
-            totalScore += (s.score || 0);
-            totalQ += (s.total || 0);
-            if ((s.bestStreak || 0) > bestStreak) bestStreak = s.bestStreak;
-        });
-
-        var accuracy = totalQ > 0 ? Math.round((totalScore / totalQ) * 100) : 0;
-
-        document.getElementById('dash-total-q').textContent = totalQ;
-        document.getElementById('dash-accuracy').textContent = totalQ > 0 ? accuracy + '%' : '-';
-        document.getElementById('dash-streak').textContent = bestStreak;
-        document.getElementById('dash-topics').textContent = topics.length;
-
-        // Doughnut chart
-        var chartCanvas = document.getElementById('dash-chart');
-        var labels = [];
-        var data = [];
-        var colors = [
-            '#4f46e5', '#06b6d4', '#10b981', '#f59e0b', '#ef4444',
-            '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1',
-            '#84cc16', '#0ea5e9'
-        ];
-
-        topics.forEach(function(t) {
-            labels.push(t.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); }));
-            data.push(stats[t].total || 0);
-        });
-
-        if (dashChart) {
-            dashChart.destroy();
-            dashChart = null;
-        }
-
-        if (topics.length > 0 && typeof Chart !== 'undefined') {
-            dashChart = new Chart(chartCanvas, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: colors.slice(0, topics.length),
-                        borderWidth: 2,
-                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--card').trim() || '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#1a1a2e',
-                                padding: 12,
-                                font: { size: 12 }
-                            }
-                        }
-                    }
-                }
-            });
-        } else {
-            chartCanvas.parentElement.querySelector('h3').textContent = topics.length === 0
-                ? 'No activity data yet - complete some trainers!'
-                : 'Questions by Topic';
-        }
-
-        // Per-topic progress bars
-        var barsContainer = document.getElementById('dash-topic-bars');
-        if (topics.length === 0) {
-            barsContainer.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:24px;">Complete some activities to see your progress here.</p>';
-            return;
-        }
-
-        var html = '<div style="background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">';
-        html += '<h3 style="margin:0 0 16px;font-size:1rem;color:var(--text);">Accuracy by Topic</h3>';
-
-        topics.forEach(function(t, i) {
-            var s = stats[t];
-            var topicAcc = s.total > 0 ? Math.round((s.score / s.total) * 100) : 0;
-            var name = t.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-            var color = colors[i % colors.length];
-
-            html += '<div style="margin-bottom:14px;">';
-            html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">';
-            html += '<span style="font-size:0.88rem;font-weight:500;color:var(--text);">' + name + '</span>';
-            html += '<span style="font-size:0.78rem;color:var(--text-light);">' + s.score + '/' + s.total + ' (' + topicAcc + '%)</span>';
-            html += '</div>';
-            html += '<div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;">';
-            html += '<div style="height:100%;width:' + topicAcc + '%;background:' + color + ';border-radius:4px;transition:width 0.5s ease;"></div>';
-            html += '</div>';
-            html += '</div>';
-        });
-
-        html += '</div>';
-        barsContainer.innerHTML = html;
-    }
-    </script>
+    <!-- Subject Init (LAST) -->
+    <script src="js/init.js"></script>
 </body>
 </html>
