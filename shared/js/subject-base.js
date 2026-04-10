@@ -88,8 +88,8 @@
                     } else {
                         var now = new Date();
                         var yr = now.getFullYear();
-                        var may = new Date(yr, 4, 5);
-                        target = now < may ? may : new Date(yr + 1, 4, 5);
+                        var may = new Date(yr, 3, 24);
+                        target = now < may ? may : new Date(yr + 1, 3, 24);
                     }
                     var diff = target.getTime() - Date.now();
                     if (diff > 0) {
@@ -97,12 +97,12 @@
                         banner.className = 'subject-exam-banner';
                         banner.innerHTML = '<div class="subject-exam-banner-left">' +
                             '<div class="subject-exam-banner-icon">&#128197;</div>' +
-                            '<span class="subject-exam-banner-text">eAssessments</span>' +
+                            '<span class="subject-exam-banner-text">IB Written Exams</span>' +
                             '</div>' +
                             '<span class="subject-exam-banner-days" id="subject-cd-display"></span>';
                         banner.style.cursor = 'pointer';
                         banner.title = 'Back to hub';
-                        banner.addEventListener('click', function() { window.location.href = '../hub.html'; });
+                        banner.addEventListener('click', function() { if (typeof showView === 'function') showView('hub'); });
                         var hidden = localStorage.getItem('examCountdownHidden') === 'true';
                         if (!hidden) {
                             var appEl = document.getElementById('app');
