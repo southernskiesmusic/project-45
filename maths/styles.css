@@ -168,6 +168,26 @@
 .level-badge.hl { background: rgba(0,184,148,0.12); color: #00b894; }
 .level-badge.both { background: rgba(139,92,246,0.12); color: #8b5cf6; }
 
+/* ---- Card actions (lesson link inside topic card) ---- */
+.card-actions {
+    margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border, #e0e0e0);
+}
+.card-action-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.78rem; font-weight: 600; color: #00838f;
+    cursor: pointer; padding: 4px 12px; border-radius: 8px;
+    background: #e0f7fa; transition: all 0.2s;
+}
+.card-action-btn:hover {
+    background: #00838f; color: #fff;
+}
+.card-action-btn::before {
+    content: '\25B6'; font-size: 0.65rem;
+}
+body.dark-mode .card-actions { border-top-color: #333; }
+body.dark-mode .card-action-btn { background: rgba(38,198,218,0.15); color: #26c6da; }
+body.dark-mode .card-action-btn:hover { background: #26c6da; color: #1a1a2e; }
+
 /* ---- Course/Level select cards ---- */
 .select-grid {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;

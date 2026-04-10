@@ -429,20 +429,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ── Wire up lesson cards ──
-    document.querySelectorAll('.topic-card[data-lesson]').forEach(function(card) {
-        var lessonId = card.getAttribute('data-lesson');
+    // ── Wire up lesson buttons inside topic cards ──
+    document.querySelectorAll('[data-lesson]').forEach(function(btn) {
+        var lessonId = btn.getAttribute('data-lesson');
         var lessonObj = MATHS_LESSONS[lessonId];
         if (lessonObj && typeof LessonEngine !== 'undefined') {
-            card.onclick = function() {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Don't trigger parent card's trainer
                 showView('lesson');
                 LessonEngine.start(lessonObj);
-            };
-            card.style.cursor = 'pointer';
+            });
         } else {
-            card.style.opacity = '0.6';
-            card.style.cursor = 'default';
-            card.title = 'Lesson coming soon';
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'default';
+            btn.title = 'Lesson coming soon';
         }
     });
 
