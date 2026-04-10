@@ -423,10 +423,26 @@ document.addEventListener('DOMContentLoaded', function() {
             card.onclick = function() { launchActivity(topic); };
             card.style.cursor = 'pointer';
         } else if (!TOPIC_MAP[topic] || TOPIC_MAP[topic].sub) {
-            // Sub-topic without an activity yet
             card.style.opacity = '0.6';
             card.style.cursor = 'default';
             card.title = 'Coming soon';
+        }
+    });
+
+    // ── Wire up lesson cards ──
+    document.querySelectorAll('.topic-card[data-lesson]').forEach(function(card) {
+        var lessonId = card.getAttribute('data-lesson');
+        var lessonObj = MATHS_LESSONS[lessonId];
+        if (lessonObj && typeof LessonEngine !== 'undefined') {
+            card.onclick = function() {
+                showView('lesson');
+                LessonEngine.start(lessonObj);
+            };
+            card.style.cursor = 'pointer';
+        } else {
+            card.style.opacity = '0.6';
+            card.style.cursor = 'default';
+            card.title = 'Lesson coming soon';
         }
     });
 
