@@ -12,6 +12,8 @@ const KINEMATICS = {
        HELPERS
        ──────────────────────────────────────────── */
 
+    roundTo(val, dp) { return Math.round(val * Math.pow(10, dp)) / Math.pow(10, dp); },
+
     shuffle(arr) {
         const a = [...arr];
         for (let i = a.length - 1; i > 0; i--) {
@@ -171,7 +173,7 @@ const KINEMATICS = {
         const vTex = KINEMATICS.buildPolyTex([{c: a, p: 1}, {c: b, p: 0}]);
         const sA = a / 2, sB = b;
         const sTex = KINEMATICS.buildPolyTex([{c: sA, p: 2}, {c: sB, p: 1}]);
-        const answer = MathUtils.roundTo(
+        const answer = KINEMATICS.roundTo(
             (sA * t2 * t2 + sB * t2) - (sA * t1 * t1 + sB * t1), 2
         );
         return {
@@ -189,7 +191,7 @@ const KINEMATICS = {
             ],
             explain: `<strong>Step 1:</strong> Displacement \\(= \\displaystyle\\int_{${t1}}^{${t2}} v(t)\\, dt = \\int_{${t1}}^{${t2}} (${vTex})\\, dt\\).<br><br>` +
                      `<strong>Step 2:</strong> Integrate: \\(= \\left[\\tfrac{${a}}{2}t^2 + ${b}t\\right]_{${t1}}^{${t2}}\\)<br><br>` +
-                     `<strong>Step 3:</strong> Evaluate: \\(= (${MathUtils.roundTo(sA * t2 * t2 + sB * t2, 2)}) - (${MathUtils.roundTo(sA * t1 * t1 + sB * t1, 2)}) = ${answer}\\text{ m}\\)`
+                     `<strong>Step 3:</strong> Evaluate: \\(= (${KINEMATICS.roundTo(sA * t2 * t2 + sB * t2, 2)}) - (${KINEMATICS.roundTo(sA * t1 * t1 + sB * t1, 2)}) = ${answer}\\text{ m}\\)`
         };
     },
 
@@ -200,11 +202,11 @@ const KINEMATICS = {
         const T = p + MathUtils.randInt(1, 4);
         // v(t) = lead*(t - p), negative for t in [0,p], positive for t in [p,T]
         // Displacement = integral from 0 to T = lead * [t^2/2 - pt] from 0 to T
-        const displ = MathUtils.roundTo(lead * (T * T / 2 - p * T), 2);
+        const displ = KINEMATICS.roundTo(lead * (T * T / 2 - p * T), 2);
         // Distance = |integral 0 to p| + |integral p to T|
         const dist1 = Math.abs(lead * (p * p / 2 - p * p)); // = lead*p^2/2
         const dist2 = Math.abs(lead * (T * T / 2 - p * T) - lead * (p * p / 2 - p * p));
-        const distance = MathUtils.roundTo(dist1 + dist2, 2);
+        const distance = KINEMATICS.roundTo(dist1 + dist2, 2);
         const vTex = KINEMATICS.buildPolyTex([{c: lead, p: 1}, {c: -lead * p, p: 0}]);
         const ask = Math.random() > 0.5 ? 'displacement' : 'distance';
         const answer = ask === 'displacement' ? displ : distance;
@@ -237,7 +239,7 @@ const KINEMATICS = {
         const T = MathUtils.randInt(2, 5);
         // v(t) = aVal*t + v0
         // s(t) = aVal*t^2/2 + v0*t + s0
-        const answer = MathUtils.roundTo(aVal * T * T / 2 + v0 * T + s0, 2);
+        const answer = KINEMATICS.roundTo(aVal * T * T / 2 + v0 * T + s0, 2);
         const vTex = KINEMATICS.buildPolyTex([{c: aVal, p: 1}, {c: v0, p: 0}]);
         const sTex = KINEMATICS.buildPolyTex([{c: aVal / 2, p: 2}, {c: v0, p: 1}, {c: s0, p: 0}]);
         return {
@@ -272,7 +274,7 @@ const KINEMATICS = {
         const tMax = u / g;
         const s0 = MathUtils.randInt(0, 20);
         // s(t) = s0 + ut - gt^2/2
-        const maxH = MathUtils.roundTo(s0 + u * tMax - g * tMax * tMax / 2, 2);
+        const maxH = KINEMATICS.roundTo(s0 + u * tMax - g * tMax * tMax / 2, 2);
         return {
             type: 'free',
             rule: 'Maximum Height',
