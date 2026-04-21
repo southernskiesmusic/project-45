@@ -19,7 +19,7 @@ const INT_DIST = {
        ACTIVITY API (MathUtils framework hooks)
        ──────────────────────────────────────────── */
 
-    load() { MathUtils.loadActivity(this); },
+    load() { INT_DIST.fullLoad(); },
 
     init() {
         this.questions = [
@@ -34,7 +34,7 @@ const INT_DIST = {
             () => INT_DIST.qLinePlaneIntersect(),
             () => INT_DIST.qDistanceBetweenParallelPlanes()
         ];
-        MathUtils.initActivity(this);
+        
     },
 
     pool() { return MathUtils.pick(this.questions)(); },

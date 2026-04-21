@@ -14,7 +14,7 @@ const METHODS_PROOF = {
 
     questions: [],   // populated in init()
 
-    load() { MathUtils.loadActivity(this); },
+    load() { METHODS_PROOF._load(); },
 
     init() {
         this.questions = [
@@ -29,7 +29,7 @@ const METHODS_PROOF = {
             { method: 'qDisproveByCounterexample',  weight: 2 },
             { method: 'qConditionalStatement',      weight: 2 }
         ];
-        MathUtils.initActivity(this);
+        
     },
 
     pool() { return MathUtils.pick(this.questions); },

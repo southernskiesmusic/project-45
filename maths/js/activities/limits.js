@@ -7,10 +7,220 @@
 
 const LIMITS = {
 
-    prefix: 'lim-',
-    unload: 'calculus',
+    score: 0,
+    total: 0,
+    streak: 0,
+    answered: false,
+    hintIndex: 0,
+    level: 'all',
+    currentQuestion: null,
 
-    load() { MathUtils.loadActivity(this); },
+    load() {
+        LIMITS.score = 0; LIMITS.total = 0; LIMITS.streak = 0;
+        LIMITS.answered = false; LIMITS.hintIndex = 0;
+        const container = document.getElementById('activity-container');
+        if (!container) return;
+        container.innerHTML = `
+            <button class="back-btn" onclick="LIMITS.unload()">&#8592; Limits &amp; Continuity</button>
+            <header style="text-align:center;margin-bottom:24px;">
+                <h1>Limits &amp; Continuity</h1>
+                <p style="color:var(--text-light);font-size:0.9rem;">IB Math AA 5.1</p>
+            </header>
+            <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+                <button class="btn btn-sm level-filter active" data-level="all" onclick="LIMITS.setLevel('all')">All</button>
+                <button class="btn btn-sm level-filter" data-level="easy" onclick="LIMITS.setLevel('easy')">Easy</button>
+                <button class="btn btn-sm level-filter" data-level="medium" onclick="LIMITS.setLevel('medium')">Medium</button>
+                <button class="btn btn-sm level-filter" data-level="hard" onclick="LIMITS.setLevel('hard')">Hard</button>
+            </div>
+            <div class="score-bar">
+                <div class="score-item"><div class="label">Score</div><div class="value" id="lim-score">0</div></div>
+                <div class="score-item"><div class="label">Total</div><div class="value" id="lim-total">0</div></div>
+                <div class="score-item"><div class="label">Streak</div><div class="value" id="lim-streak">0</div></div>
+                <div class="score-item"><div class="label">Accuracy</div><div class="value" id="lim-accuracy">-</div></div>
+            </div>
+            <div class="question-card">
+                <span class="rule-tag" id="lim-rule"></span>
+                <span class="difficulty-tag" id="lim-difficulty"></span>
+                <div class="question-text" id="lim-text"></div>
+                <div class="question-prompt" id="lim-latex"></div>
+                <div id="lim-options-area"></div>
+            </div>
+            <details class="workout-section"><summary>+ Working Out</summary>
+                <div class="workout-content" contenteditable="true" style="min-height:60px;padding:12px;"></div>
+            </details>
+            <div class="hint-box" id="lim-hint-box"></div>
+            <div class="feedback" id="lim-feedback">
+                <div class="feedback-title" id="lim-feedback-title"></div>
+                <div class="feedback-explanation" id="lim-feedback-explanation"></div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px;">
+                <button class="btn btn-hint" id="lim-hint-btn" onclick="LIMITS.showHint()">Hint</button>
+                <button class="btn btn-primary next-btn" id="lim-next-btn" onclick="LIMITS.next()">Next Question</button>
+            </div>
+        `;
+        LIMITS.next();
+    },
+
+    unload() {
+        const container = document.getElementById('activity-container');
+        if (container) container.innerHTML = '';
+        if (typeof showView === 'function') showView('calculus');
+    },
+
+    next() {
+        LIMITS.answered = false;
+        LIMITS.hintIndex = 0;
+
+        let q;
+        if (LIMITS.level === 'all') {
+            q = LIMITS.pool()();
+        } else {
+            let attempts = 0;
+            do {
+                q = LIMITS.pool()();
+                attempts++;
+            } while (q.difficulty !== LIMITS.level && attempts < 30);
+        }
+        LIMITS.currentQuestion = q;
+
+        const ruleEl = document.getElementById('lim-rule');
+        const diffEl = document.getElementById('lim-difficulty');
+        const textEl = document.getElementById('lim-text');
+        const latexEl = document.getElementById('lim-latex');
+        const optionsEl = document.getElementById('lim-options-area');
+        const feedbackEl = document.getElementById('lim-feedback');
+        const hintBoxEl = document.getElementById('lim-hint-box');
+
+        if (ruleEl) ruleEl.textContent = q.rule;
+        if (diffEl) { diffEl.textContent = q.difficulty; diffEl.className = 'difficulty-tag difficulty-' + q.difficulty; }
+        if (textEl) textEl.innerHTML = q.text;
+        if (latexEl) latexEl.innerHTML = q.latex || '';
+        if (feedbackEl) feedbackEl.className = 'feedback';
+        if (hintBoxEl) hintBoxEl.innerHTML = '';
+
+        if (optionsEl) {
+            if (q.type === 'mc') {
+                optionsEl.innerHTML = '<div class="options-grid">' +
+                    q.options.map(opt =>
+                        `<button class="option-btn" data-value="${opt.value}" onclick="LIMITS.checkMC(this)">\\(${opt.label || opt.tex}\\)</button>`
+                    ).join('') +
+                    '</div>';
+            } else {
+                optionsEl.innerHTML =
+                    `<div class="free-input-area" style="display:flex;align-items:center;gap:10px;margin-top:12px;">` +
+                    `<input type="number" id="lim-input" class="free-input" placeholder="Your answer" step="any" ` +
+                    `onkeydown="if(event.key==='Enter')LIMITS.checkFree()" />` +
+                    `<button class="btn btn-primary" onclick="LIMITS.checkFree()">Check</button>` +
+                    `</div>`;
+            }
+        }
+
+        LIMITS.renderAllKaTeX();
+    },
+
+    checkMC(btn) {
+        if (LIMITS.answered) return;
+        LIMITS.answered = true;
+        LIMITS.total++;
+
+        const isCorrect = parseInt(btn.dataset.value, 10) === 1;
+        if (isCorrect) { LIMITS.score++; LIMITS.streak++; }
+        else { LIMITS.streak = 0; }
+
+        // Style all buttons
+        const allBtns = document.querySelectorAll('#lim-options-area .option-btn');
+        allBtns.forEach(b => {
+            b.disabled = true;
+            if (parseInt(b.dataset.value, 10) === 1) b.classList.add('correct');
+            else b.classList.add('incorrect');
+        });
+
+        LIMITS.updateStats();
+        LIMITS.showFeedback(isCorrect);
+    },
+
+    checkFree() {
+        if (LIMITS.answered) return;
+        const inputEl = document.getElementById('lim-input');
+        if (!inputEl) return;
+        const val = parseFloat(inputEl.value);
+        if (isNaN(val)) { inputEl.focus(); return; }
+
+        LIMITS.answered = true;
+        LIMITS.total++;
+
+        const q = LIMITS.currentQuestion;
+        const isCorrect = MathUtils.approxEqual(val, q.answer, q.tolerance || 0.01);
+        if (isCorrect) { LIMITS.score++; LIMITS.streak++; }
+        else { LIMITS.streak = 0; }
+
+        inputEl.disabled = true;
+
+        LIMITS.updateStats();
+        LIMITS.showFeedback(isCorrect);
+    },
+
+    showFeedback(isCorrect) {
+        const feedbackEl = document.getElementById('lim-feedback');
+        const titleEl = document.getElementById('lim-feedback-title');
+        const explanationEl = document.getElementById('lim-feedback-explanation');
+        if (!feedbackEl) return;
+
+        const q = LIMITS.currentQuestion;
+        feedbackEl.className = 'feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+        if (titleEl) titleEl.textContent = isCorrect ? 'Correct!' : 'Incorrect';
+        if (explanationEl) explanationEl.innerHTML = (q && q.explain) ? q.explain : '';
+
+        LIMITS.renderAllKaTeX();
+    },
+
+    updateStats() {
+        const scoreEl = document.getElementById('lim-score');
+        const totalEl = document.getElementById('lim-total');
+        const streakEl = document.getElementById('lim-streak');
+        const accEl = document.getElementById('lim-accuracy');
+        if (scoreEl) scoreEl.textContent = LIMITS.score;
+        if (totalEl) totalEl.textContent = LIMITS.total;
+        if (streakEl) streakEl.textContent = LIMITS.streak;
+        if (accEl) accEl.textContent = LIMITS.total > 0
+            ? Math.round((LIMITS.score / LIMITS.total) * 100) + '%'
+            : '-';
+    },
+
+    showHint() {
+        const q = LIMITS.currentQuestion;
+        if (!q || !q.hintTex || q.hintTex.length === 0) return;
+        const hintBoxEl = document.getElementById('lim-hint-box');
+        if (!hintBoxEl) return;
+        const idx = LIMITS.hintIndex < q.hintTex.length ? LIMITS.hintIndex : q.hintTex.length - 1;
+        hintBoxEl.innerHTML = `<strong>Hint ${idx + 1}:</strong> \\(${q.hintTex[idx]}\\)`;
+        if (LIMITS.hintIndex < q.hintTex.length - 1) LIMITS.hintIndex++;
+        LIMITS.renderAllKaTeX();
+    },
+
+    setLevel(lvl) {
+        LIMITS.level = lvl;
+        document.querySelectorAll('.level-filter').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.level === lvl);
+        });
+        LIMITS.score = 0; LIMITS.total = 0; LIMITS.streak = 0;
+        LIMITS.updateStats();
+        LIMITS.next();
+    },
+
+    renderAllKaTeX() {
+        const container = document.getElementById('activity-container');
+        if (!container) return;
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(container, {
+                delimiters: [
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                throwOnError: false
+            });
+        }
+    },
 
     init() {
         this.questions = [
@@ -25,7 +235,7 @@ const LIMITS = {
             () => LIMITS.qRemovableDiscontinuity(),
             () => LIMITS.qLimitPolynomial()
         ];
-        MathUtils.initActivity(this);
+        
     },
 
     pool() { return MathUtils.pick(this.questions); },

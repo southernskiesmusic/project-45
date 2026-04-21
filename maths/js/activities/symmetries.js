@@ -7,7 +7,225 @@ const SYMMETRIES = {
     prefix: 'sym-',
     unload: 'functions',
 
-    load() { MathUtils.loadActivity(this); },
+    load() {
+        SYMMETRIES.score = 0; SYMMETRIES.total = 0; SYMMETRIES.streak = 0;
+        SYMMETRIES.answered = false; SYMMETRIES.hintIndex = 0;
+        const container = document.getElementById('activity-container');
+        if (!container) return;
+        container.innerHTML = `
+            <button class="back-btn" onclick="SYMMETRIES.unload()">&#8592; Symmetries</button>
+            <header style="text-align:center;margin-bottom:24px;">
+                <h1>Symmetries of Functions</h1>
+                <p style="color:var(--text-light);font-size:0.9rem;">IB Math AA 2.16 — Even/odd functions, axes of symmetry</p>
+            </header>
+            <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+                <button class="btn btn-sm level-filter active" data-level="all" onclick="SYMMETRIES.setLevel('all')">All</button>
+                <button class="btn btn-sm level-filter" data-level="easy" onclick="SYMMETRIES.setLevel('easy')">Easy</button>
+                <button class="btn btn-sm level-filter" data-level="medium" onclick="SYMMETRIES.setLevel('medium')">Medium</button>
+            </div>
+            <div class="score-bar">
+                <div class="score-item"><div class="label">Score</div><div class="value" id="sym-score">0</div></div>
+                <div class="score-item"><div class="label">Total</div><div class="value" id="sym-total">0</div></div>
+                <div class="score-item"><div class="label">Streak</div><div class="value" id="sym-streak">0</div></div>
+                <div class="score-item"><div class="label">Accuracy</div><div class="value" id="sym-accuracy">-</div></div>
+            </div>
+            <div class="question-card">
+                <span class="rule-tag" id="sym-rule"></span>
+                <span class="difficulty-tag" id="sym-difficulty"></span>
+                <div class="question-text" id="sym-text"></div>
+                <div class="question-prompt" id="sym-latex"></div>
+                <div id="sym-options-area"></div>
+            </div>
+            <details class="workout-section"><summary>+ Working Out</summary>
+                <div class="workout-content" contenteditable="true" style="min-height:60px;padding:12px;"></div>
+            </details>
+            <div class="hint-box" id="sym-hint-box"></div>
+            <div class="feedback" id="sym-feedback">
+                <div class="feedback-title" id="sym-feedback-title"></div>
+                <div class="feedback-explanation" id="sym-feedback-explanation"></div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px;">
+                <button class="btn btn-hint" id="sym-hint-btn" onclick="SYMMETRIES.showHint()">Hint</button>
+                <button class="btn btn-primary next-btn" id="sym-next-btn" onclick="SYMMETRIES.next()">Next Question</button>
+            </div>
+        `;
+        SYMMETRIES.next();
+    },
+
+    unload() {
+        const container = document.getElementById('activity-container');
+        if (container) container.innerHTML = '';
+        showView('functions');
+    },
+
+    next() {
+        SYMMETRIES.answered = false;
+        SYMMETRIES.hintIndex = 0;
+
+        const entry = SYMMETRIES.pool();
+        let q = SYMMETRIES[entry.method]();
+
+        // If level filter is active, keep drawing until we match (with a safety limit)
+        if (SYMMETRIES.currentLevel && SYMMETRIES.currentLevel !== 'all') {
+            let attempts = 0;
+            while (q.difficulty !== SYMMETRIES.currentLevel && attempts < 20) {
+                const e2 = SYMMETRIES.pool();
+                q = SYMMETRIES[e2.method]();
+                attempts++;
+            }
+        }
+
+        SYMMETRIES.q = q;
+
+        const ruleEl   = document.getElementById('sym-rule');
+        const diffEl   = document.getElementById('sym-difficulty');
+        const textEl   = document.getElementById('sym-text');
+        const latexEl  = document.getElementById('sym-latex');
+        const areaEl   = document.getElementById('sym-options-area');
+        const fbEl     = document.getElementById('sym-feedback');
+        const hintEl   = document.getElementById('sym-hint-box');
+
+        if (ruleEl)  ruleEl.textContent  = q.rule       || '';
+        if (diffEl)  diffEl.textContent  = q.difficulty || '';
+        if (textEl)  textEl.innerHTML    = q.text        || '';
+        if (latexEl) latexEl.innerHTML   = q.latex       || '';
+        if (fbEl)    { fbEl.className = 'feedback'; fbEl.style.display = 'none'; }
+        if (hintEl)  hintEl.innerHTML    = '';
+
+        if (areaEl) {
+            if (q.type === 'mc') {
+                areaEl.innerHTML = `<div class="options-grid">${
+                    q.options.map((opt, i) =>
+                        `<button class="option-btn" value="${opt.value}" onclick="SYMMETRIES.checkMC(this)">${opt.label}</button>`
+                    ).join('')
+                }</div>`;
+            } else {
+                areaEl.innerHTML = `
+                    <div class="free-input-row">
+                        <input type="number" id="sym-input" class="free-input" placeholder="Your answer…" step="any"
+                               onkeydown="if(event.key==='Enter') SYMMETRIES.checkFree()">
+                        <button class="btn btn-primary" onclick="SYMMETRIES.checkFree()">Check</button>
+                    </div>`;
+            }
+        }
+
+        SYMMETRIES.renderAllKaTeX();
+    },
+
+    checkMC(btn) {
+        if (SYMMETRIES.answered) return;
+        SYMMETRIES.answered = true;
+
+        const isCorrect = parseInt(btn.value, 10) === 1;
+        const area = document.getElementById('sym-options-area');
+        if (area) {
+            area.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                if (parseInt(b.value, 10) === 1) b.classList.add('correct');
+                else if (b === btn && !isCorrect) b.classList.add('incorrect');
+            });
+        }
+
+        if (isCorrect) { SYMMETRIES.score++; SYMMETRIES.streak++; }
+        else           { SYMMETRIES.streak = 0; }
+        SYMMETRIES.total++;
+
+        SYMMETRIES.updateStats();
+        SYMMETRIES.showFeedback(isCorrect);
+    },
+
+    checkFree() {
+        if (SYMMETRIES.answered) return;
+        const inputEl = document.getElementById('sym-input');
+        if (!inputEl) return;
+        const val = parseFloat(inputEl.value);
+        if (isNaN(val)) return;
+        SYMMETRIES.answered = true;
+
+        const q = SYMMETRIES.q;
+        const isCorrect = Math.abs(val - q.answer) <= (q.tolerance || 0.01);
+
+        inputEl.disabled = true;
+        inputEl.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+        if (isCorrect) { SYMMETRIES.score++; SYMMETRIES.streak++; }
+        else           { SYMMETRIES.streak = 0; }
+        SYMMETRIES.total++;
+
+        SYMMETRIES.updateStats();
+        SYMMETRIES.showFeedback(isCorrect);
+    },
+
+    showFeedback(isCorrect) {
+        const fbEl    = document.getElementById('sym-feedback');
+        const titleEl = document.getElementById('sym-feedback-title');
+        const expEl   = document.getElementById('sym-feedback-explanation');
+        if (!fbEl) return;
+
+        fbEl.style.display = '';
+        fbEl.className = 'feedback ' + (isCorrect ? 'feedback-correct' : 'feedback-incorrect');
+
+        if (titleEl) titleEl.textContent = isCorrect ? 'Correct!' : 'Incorrect';
+        if (expEl)   expEl.innerHTML = SYMMETRIES.q.explain || '';
+
+        SYMMETRIES.renderAllKaTeX();
+    },
+
+    updateStats() {
+        const scoreEl    = document.getElementById('sym-score');
+        const totalEl    = document.getElementById('sym-total');
+        const streakEl   = document.getElementById('sym-streak');
+        const accuracyEl = document.getElementById('sym-accuracy');
+
+        if (scoreEl)    scoreEl.textContent    = SYMMETRIES.score;
+        if (totalEl)    totalEl.textContent    = SYMMETRIES.total;
+        if (streakEl)   streakEl.textContent   = SYMMETRIES.streak;
+        if (accuracyEl) accuracyEl.textContent = SYMMETRIES.total > 0
+            ? Math.round((SYMMETRIES.score / SYMMETRIES.total) * 100) + '%'
+            : '-';
+    },
+
+    showHint() {
+        const q = SYMMETRIES.q;
+        if (!q || !q.hintTex || q.hintTex.length === 0) return;
+        const hintEl = document.getElementById('sym-hint-box');
+        if (!hintEl) return;
+
+        const idx = SYMMETRIES.hintIndex;
+        if (idx >= q.hintTex.length) return;
+
+        const line = `<div class="hint-line">\\(${q.hintTex[idx]}\\)</div>`;
+        hintEl.innerHTML += line;
+        SYMMETRIES.hintIndex++;
+
+        SYMMETRIES.renderAllKaTeX();
+    },
+
+    setLevel(lvl) {
+        SYMMETRIES.currentLevel = lvl;
+
+        document.querySelectorAll('.level-filter').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.level === lvl);
+        });
+
+        SYMMETRIES.score = 0; SYMMETRIES.total = 0; SYMMETRIES.streak = 0;
+        SYMMETRIES.updateStats();
+        SYMMETRIES.next();
+    },
+
+    renderAllKaTeX() {
+        const container = document.getElementById('activity-container');
+        if (!container) return;
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(container, {
+                delimiters: [
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                throwOnError: false
+            });
+        }
+    },
 
     init() {
         this.questions = [
@@ -22,7 +240,7 @@ const SYMMETRIES = {
             { method: 'qEvenFunction',         weight: 1 },
             { method: 'qOddFunction',          weight: 1 }
         ];
-        MathUtils.initActivity(this);
+        
     },
 
     pool() { return MathUtils.pick(this.questions); },
@@ -374,3 +592,5 @@ const SYMMETRIES = {
         };
     }
 };
+
+ACTIVITY_INITS['symmetries'] = () => SYMMETRIES.load();

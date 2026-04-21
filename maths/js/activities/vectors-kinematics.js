@@ -7,7 +7,57 @@ const VEC_KINEM = {
     prefix: 'vk-',
     unload: 'geometry-trig',
 
-    load() { MathUtils.loadActivity(this); },
+    load() {
+        VEC_KINEM.score = 0; VEC_KINEM.total = 0; VEC_KINEM.streak = 0;
+        VEC_KINEM.answered = false; VEC_KINEM.hintIndex = 0;
+        const container = document.getElementById('activity-container');
+        if (!container) return;
+        container.innerHTML = `
+            <button class="back-btn" onclick="VEC_KINEM.unload()">&#8592; Vectors &amp; Kinematics</button>
+            <header style="text-align:center;margin-bottom:24px;">
+                <h1>Vectors &amp; Kinematics</h1>
+                <p style="color:var(--text-light);font-size:0.9rem;">IB Math AA 3.15</p>
+            </header>
+            <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+                <button class="btn btn-sm level-filter active" data-level="all" onclick="VEC_KINEM.setLevel('all')">All</button>
+                <button class="btn btn-sm level-filter" data-level="easy" onclick="VEC_KINEM.setLevel('easy')">Easy</button>
+                <button class="btn btn-sm level-filter" data-level="medium" onclick="VEC_KINEM.setLevel('medium')">Medium</button>
+                <button class="btn btn-sm level-filter" data-level="hard" onclick="VEC_KINEM.setLevel('hard')">Hard</button>
+            </div>
+            <div class="score-bar">
+                <div class="score-item"><div class="label">Score</div><div class="value" id="vk-score">0</div></div>
+                <div class="score-item"><div class="label">Total</div><div class="value" id="vk-total">0</div></div>
+                <div class="score-item"><div class="label">Streak</div><div class="value" id="vk-streak">0</div></div>
+                <div class="score-item"><div class="label">Accuracy</div><div class="value" id="vk-accuracy">-</div></div>
+            </div>
+            <div class="question-card" id="vk-question-card">
+                <span class="rule-tag" id="vk-rule"></span>
+                <span class="difficulty-tag" id="vk-difficulty"></span>
+                <div class="question-text" id="vk-text"></div>
+                <div class="question-prompt" id="vk-latex"></div>
+                <div id="vk-options-area"></div>
+            </div>
+            <details class="workout-section"><summary>+ Working Out</summary>
+                <div class="workout-content" contenteditable="true" style="min-height:60px;padding:12px;"></div>
+            </details>
+            <div class="hint-box" id="vk-hint-box"></div>
+            <div class="feedback" id="vk-feedback">
+                <div class="feedback-title" id="vk-feedback-title"></div>
+                <div class="feedback-explanation" id="vk-feedback-explanation"></div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px;">
+                <button class="btn btn-hint" id="vk-hint-btn" onclick="VEC_KINEM.showHint()">Hint</button>
+                <button class="btn btn-primary next-btn" id="vk-next-btn" onclick="VEC_KINEM.next()">Next Question</button>
+            </div>
+        `;
+        VEC_KINEM.next();
+    },
+
+    unload() {
+        const container = document.getElementById('activity-container');
+        if (container) container.innerHTML = '';
+        if (typeof showView === 'function') showView('geometry-trig');
+    },
 
     init() {
         this.questions = [
@@ -22,7 +72,7 @@ const VEC_KINEM = {
             { method: 'qParticleDirection',    weight: 1 },
             { method: 'qRelativePosition',     weight: 1 },
         ];
-        MathUtils.initActivity(this);
+        
     },
 
     pool() { return MathUtils.pick(this.questions); },
