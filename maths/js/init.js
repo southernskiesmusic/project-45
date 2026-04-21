@@ -454,12 +454,12 @@ if (typeof SubjectBase !== 'undefined') {
         pathways: MATHS_PATHWAYS,
         continueMap: CONTINUE_MAP,
         onTopicClick: function(topic, card) {
-            // Handle sub-topic cards that have activities
-            if (AVAILABLE_ACTIVITIES[topic]) {
-                launchActivity(topic);
-                return true; // suppress default SubjectBase handler
-            }
-            return false;
+            // Main topic area cards navigate to their area view via TOPIC_MAP (SubjectBase default)
+            var mainTopics = ['number-algebra','functions','geometry-trig','stats-probability','calculus'];
+            if (mainTopics.indexOf(topic) !== -1) return false;
+            // All sub-topic cards go to the topic detail page
+            showTopicDetail(topic);
+            return true;
         }
     });
 }
@@ -487,14 +487,130 @@ function launchActivity(topicId) {
     }
 }
 
+/* ── Topic detail state ── */
+var _tdTopicId = null;
+var _tdParent = 'hub';
+var _activityBackTarget = null;
+
+/* ── Raw view switch (no override logic) ── */
+function _rawShowView(viewId) {
+    document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+    var el = document.getElementById('view-' + viewId);
+    if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
+}
+
 /* ── View management ── */
 function showView(viewId) {
-    document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
-    var target = document.getElementById('view-' + viewId);
-    if (target) {
-        target.classList.add('active');
-        window.scrollTo(0, 0);
+    var subjectAreas = ['number-algebra','functions','geometry-trig','stats-probability','calculus','hub'];
+    if (_activityBackTarget && subjectAreas.indexOf(viewId) !== -1) {
+        var target = _activityBackTarget;
+        _activityBackTarget = null;
+        if (target === 'topic-detail' && _tdTopicId) {
+            showTopicDetail(_tdTopicId); // re-render with fresh stats
+        } else {
+            _rawShowView(target);
+        }
+        return;
     }
+    _rawShowView(viewId);
+}
+
+/* ── Topic detail view ── */
+function showTopicDetail(topicId) {
+    _tdTopicId = topicId;
+
+    // Topic name from CONTINUE_MAP
+    var topicName = topicId.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    Object.keys(CONTINUE_MAP).forEach(function(k) {
+        if (CONTINUE_MAP[k].topic === topicId) topicName = CONTINUE_MAP[k].name;
+    });
+
+    // Parent area
+    var act = AVAILABLE_ACTIVITIES[topicId];
+    _tdParent = act ? act.parent : 'hub';
+
+    // Lesson key (functions-domain-range maps to domain-range)
+    var lessonKeyMap = { 'functions-domain-range': 'domain-range' };
+    var lessonKey = lessonKeyMap[topicId] || topicId;
+    var lesson = MATHS_LESSONS[lessonKey];
+    var hasLesson = !!lesson;
+    var hasActivity = !!AVAILABLE_ACTIVITIES[topicId];
+
+    // Stats from localStorage
+    var prefix = ACTIVITY_PREFIXES[topicId];
+    var stats = {};
+    try {
+        var allStats = JSON.parse(localStorage.getItem('maths_activityStats') || '{}');
+        if (prefix && allStats[prefix]) stats = allStats[prefix];
+    } catch(e) {}
+
+    // Populate header
+    document.getElementById('td-title').textContent = topicName;
+    var badgesEl = document.getElementById('td-badges');
+    badgesEl.innerHTML = '';
+    var card = document.querySelector('.topic-card[data-topic="' + topicId + '"]');
+    var levelBadge = card ? card.querySelector('.level-badge') : null;
+    if (levelBadge) {
+        var b = document.createElement('span');
+        b.className = levelBadge.className;
+        b.textContent = levelBadge.textContent;
+        badgesEl.appendChild(b);
+    }
+
+    // Back button
+    document.getElementById('td-back-btn').onclick = function() { showView(_tdParent); };
+
+    // Lesson card
+    var lessonCard = document.getElementById('td-lesson-card');
+    lessonCard.style.display = hasLesson ? '' : 'none';
+    if (hasLesson) {
+        var isDone = typeof LessonEngine !== 'undefined' && LessonEngine.isComplete && LessonEngine.isComplete(lesson.id);
+        document.getElementById('td-lesson-status').innerHTML = isDone
+            ? '<span class="topic-tag lesson-done">Completed \u2713</span>'
+            : '<span class="td-status-dim">Not started</span>';
+        var lBtn = document.getElementById('td-lesson-btn');
+        lBtn.textContent = isDone ? 'Review Lesson' : 'Start Lesson';
+        lBtn.onclick = function() {
+            if (typeof LessonEngine !== 'undefined') {
+                LessonEngine.folder = 'topic-detail';
+                LessonEngine.start(lesson);
+            }
+        };
+    }
+
+    // Practice card
+    var practiceCard = document.getElementById('td-practice-card');
+    practiceCard.style.display = hasActivity ? '' : 'none';
+    if (hasActivity) {
+        var hasStats = (stats.total || 0) > 0;
+        var acc = hasStats ? Math.round((stats.score / stats.total) * 100) : 0;
+        document.getElementById('td-practice-stats').innerHTML = hasStats
+            ? stats.total + ' questions &middot; ' + acc + '% accuracy'
+            : '<span class="td-status-dim">No attempts yet</span>';
+        var pBtn = document.getElementById('td-practice-btn');
+        pBtn.textContent = hasStats ? 'Continue Practice' : 'Start Practice';
+        pBtn.onclick = function() {
+            _activityBackTarget = 'topic-detail';
+            launchActivity(topicId);
+        };
+    }
+
+    // Mastery card
+    var masteryEl = document.getElementById('td-mastery-content');
+    var hasStatsM = (stats.total || 0) > 0;
+    if (hasStatsM) {
+        var accM = Math.round((stats.score / stats.total) * 100);
+        var lvl = accM >= 90 ? 'mastered' : accM >= 70 ? 'proficient' : accM >= 50 ? 'developing' : 'beginner';
+        var lvlLabel = { mastered: 'Mastered', proficient: 'Proficient', developing: 'Developing', beginner: 'Beginner' }[lvl];
+        masteryEl.innerHTML =
+            '<div class="td-mastery-badge ' + lvl + '">' + lvlLabel + '</div>' +
+            '<div class="td-mastery-bar"><div class="td-mastery-fill" style="width:' + accM + '%"></div></div>' +
+            '<p class="td-mastery-stat">' + stats.score + '/' + stats.total + ' correct &middot; Best streak: ' + (stats.bestStreak || 0) + '</p>';
+    } else {
+        masteryEl.innerHTML = '<p class="td-empty">Complete the practice trainer to track mastery.</p>';
+    }
+
+    _rawShowView('topic-detail');
 }
 
 /* ── State ── */
