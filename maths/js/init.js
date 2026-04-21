@@ -530,8 +530,13 @@ function applySelection() {
     document.getElementById('hub-title').textContent = courseName + ' ' + levelName;
     document.getElementById('hub-subtitle').textContent = courseDesc;
 
-    // Filter topic cards: SL sees only SL, HL sees SL + HL
+    // Update all level toggle buttons
     var isHL = selectedLevel === 'hl';
+    document.querySelectorAll('.level-toggle-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-level') === selectedLevel);
+    });
+
+    // Filter topic cards: SL sees only SL, HL sees SL + HL
     document.querySelectorAll('.topic-card[data-topic]').forEach(function(card) {
         var badge = card.querySelector('.level-badge');
         if (!badge) return;
@@ -550,6 +555,13 @@ function applySelection() {
             label.style.display = isHL ? '' : 'none';
         }
     });
+}
+
+/* ── In-page level switcher (no full course-select reload) ── */
+function switchLevel(lvl) {
+    selectedLevel = lvl;
+    try { localStorage.setItem('p45-level', lvl); } catch(e) {}
+    applySelection();
 }
 
 /* ── Change course/level from hub ── */

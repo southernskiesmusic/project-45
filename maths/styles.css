@@ -258,6 +258,26 @@ body.dark-mode .card-action-btn:hover { background: #26c6da; color: #1a1a2e; }
     .select-grid { grid-template-columns: 1fr; max-width: 320px; }
 }
 
+/* ---- Level Toggle (SL / HL pill) ---- */
+.level-toggle {
+    display: inline-flex; gap: 4px; align-items: center;
+    background: var(--border); border-radius: 100px; padding: 3px;
+    margin: 8px 0 4px;
+}
+.level-toggle-btn {
+    padding: 5px 18px; border-radius: 100px; border: none;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
+    cursor: pointer; background: transparent; color: var(--text-light);
+    transition: background 0.18s, color 0.18s;
+}
+.level-toggle-btn.active {
+    background: var(--card); color: var(--primary);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.level-toggle-btn[data-level="hl"].active { color: #00b894; }
+body.dark-mode .level-toggle { background: #2a2a3a; }
+body.dark-mode .level-toggle-btn.active { background: #1e1e2e; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+
 /* ---- Dark mode overrides ---- */
 body.dark-mode .topic-tag.t1 { background: rgba(185,119,14,0.2); color: #f0c040; }
 body.dark-mode .topic-tag.t2 { background: rgba(36,113,163,0.2); color: #5dade2; }
