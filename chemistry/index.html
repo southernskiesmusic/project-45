@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry - Project 45</title>
+    <meta name="description" content="IB Chemistry - Interactive trainers and guided lessons for SL and HL.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../shared/css/subject-base.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/light-mode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../shared/css/flashcards.css" media="print" onload="this.media='all'">
+</head>
+<body>
+    <a href="#app" class="skip-to-content">Skip to content</a>
+    <a href="../hub.html" class="back-to-hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Project 45
+    </a>
+
+    <div id="app" role="main">
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: HUB
+             ═══════════════════════════════════════════════ -->
+        <div id="view-hub" class="view active">
+            <div class="hub-header">
+                <h1>Chemistry</h1>
+                <p id="hub-subtitle">IB DP Chemistry - 2023 Curriculum</p>
+                <div class="auth-bar">
+                    <span id="auth-info"></span>
+                    <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
+                    <button class="btn btn-sm btn-primary" onclick="showDashboard && showDashboard()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+                <div class="settings-dropdown" id="settings-panel">
+                    <div class="settings-item">
+                        <span>Dark Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-toggle" onchange="toggleDark()">
+                            <span>Toggle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <div class="topic-grid">
+                <div class="section-label">IB Chemistry Topics (2023 Curriculum)</div>
+
+                <div class="topic-card" data-topic="topic-a" onclick="showView('topic-a')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">A</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Structure</h2>
+                            <p>Atomic structure, periodicity, bonding, stoichiometry, ideal gases</p>
+                            <span class="topic-tag tA">Topic A</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-b" onclick="showView('topic-b')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">B</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Reactivity</h2>
+                            <p>Energetics, kinetics, equilibrium, redox, electrochemistry</p>
+                            <span class="topic-tag tB">Topic B</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-c" onclick="showView('topic-c')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">C</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Classification</h2>
+                            <p>Periodic trends, transition metals, acids and bases</p>
+                            <span class="topic-tag tC">Topic C</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-d" onclick="showView('topic-d')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">D</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Transformation</h2>
+                            <p>Organic chemistry, functional groups, reaction mechanisms</p>
+                            <span class="topic-tag tD">Topic D</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic A - Structure
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-a" class="view">
+            <button class="back-btn" onclick="showView('hub')">Structure</button>
+            <header>
+                <h1>Topic A: Structure</h1>
+                <p>Quantitative chemistry, atomic models, and bonding</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="stoichiometry">
+                    <h2>Stoichiometry</h2>
+                    <p>Moles, molar mass, empirical formula, percentage composition, limiting reagents</p>
+                    <span class="topic-tag tA">A.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="stoichiometry">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="ideal-gas-chem">
+                    <h2>Ideal Gases</h2>
+                    <p>Ideal gas equation pV = nRT, molar volume, gas stoichiometry</p>
+                    <span class="topic-tag tA">A.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="ideal-gas-chem">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>The Periodic Table</h2>
+                    <p>Periodicity, electron configuration, ionisation energy, atomic radius</p>
+                    <span class="topic-tag tA">A.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Chemical Bonding</h2>
+                    <p>Ionic, covalent and metallic bonding, Lewis structures, VSEPR theory</p>
+                    <span class="topic-tag tA">A.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic B - Reactivity
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-b" class="view">
+            <button class="back-btn" onclick="showView('hub')">Reactivity</button>
+            <header>
+                <h1>Topic B: Reactivity</h1>
+                <p>Energetics, kinetics, and equilibrium</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="energetics">
+                    <h2>Energetics</h2>
+                    <p>Calorimetry, enthalpy changes, Hess's law, bond enthalpies</p>
+                    <span class="topic-tag tB">B.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="energetics">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="kinetics">
+                    <h2>Kinetics</h2>
+                    <p>Reaction rate, collision theory, activation energy, rate expression, Arrhenius</p>
+                    <span class="topic-tag tB">B.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="kinetics">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="equilibrium">
+                    <h2>Equilibrium</h2>
+                    <p>K&#x1D9C; expression, Le Chatelier's principle, equilibrium calculations</p>
+                    <span class="topic-tag tB">B.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="equilibrium">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Redox</h2>
+                    <p>Oxidation states, oxidising/reducing agents, half-equations, electrochemical cells</p>
+                    <span class="topic-tag tB">B.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic C - Classification
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-c" class="view">
+            <button class="back-btn" onclick="showView('hub')">Classification</button>
+            <header>
+                <h1>Topic C: Classification</h1>
+                <p>Periodic trends and acids and bases</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="acids-bases">
+                    <h2>Acids and Bases</h2>
+                    <p>Bronsted-Lowry theory, pH, strong and weak acids, Ka, buffers</p>
+                    <span class="topic-tag tC">C.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="acids-bases">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Periodic Trends</h2>
+                    <p>Reactivity series, properties of groups 1, 2, 17, and the transition metals</p>
+                    <span class="topic-tag tC">C.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic D - Transformation
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-d" class="view">
+            <button class="back-btn" onclick="showView('hub')">Transformation</button>
+            <header>
+                <h1>Topic D: Transformation</h1>
+                <p>Organic chemistry and reaction mechanisms</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">Coming Soon</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Functional Groups</h2>
+                    <p>Alkanes, alkenes, alcohols, aldehydes, ketones, carboxylic acids, esters</p>
+                    <span class="topic-tag tD">D.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Organic Reactions</h2>
+                    <p>Addition, substitution, condensation, hydrolysis, elimination reactions</p>
+                    <span class="topic-tag tD">D.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: ACTIVITY
+             ═══════════════════════════════════════════════ -->
+        <div id="view-activity" class="view">
+            <div id="activity-container"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: LESSON
+             ═══════════════════════════════════════════════ -->
+        <div id="view-lesson" class="view">
+            <button class="back-btn" id="lesson-back-btn">Back</button>
+            <header><h2 id="lesson-title"></h2><p id="lesson-subtitle"></p></header>
+            <div class="lesson-progress"><div class="lesson-progress-fill" id="lesson-progress-fill"></div></div>
+            <div class="lesson-content" id="lesson-content"></div>
+            <div class="lesson-nav" id="lesson-nav"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: DASHBOARD
+             ═══════════════════════════════════════════════ -->
+        <div id="view-dashboard" class="view">
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Progress Dashboard</h2></header>
+            <div id="dash-content"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: FLASHCARDS
+             ═══════════════════════════════════════════════ -->
+        <div id="view-flashcards" class="view">
+            <button class="back-btn" data-back="hub">Back</button>
+            <header><h2>Flashcards</h2></header>
+            <div id="fc-container"></div>
+        </div>
+
+    </div><!-- #app -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+
+    <!-- Config + Infrastructure -->
+    <script src="../shared/js/firebase-config.js"></script>
+    <script src="../shared/js/escape.js"></script>
+    <script src="../shared/js/error-boundary.js"></script>
+    <script src="../shared/js/analytics.js"></script>
+    <script src="../shared/js/cookie-consent.js"></script>
+    <script src="../shared/js/page-flash.js"></script>
+
+    <!-- Core Utils -->
+    <script>var STORAGE_PREFIX = 'chemistry_';</script>
+    <script src="js/utils.js"></script>
+    <script src="../shared/js/activity-utils.js"></script>
+
+    <!-- UI Systems -->
+    <script src="../shared/js/floating-back.js"></script>
+    <script src="../shared/js/scratchpad.js"></script>
+
+    <!-- Activities -->
+    <script src="js/activities/stoichiometry.js"></script>
+    <script src="js/activities/ideal-gas-chem.js"></script>
+    <script src="js/activities/energetics.js"></script>
+    <script src="js/activities/kinetics.js"></script>
+    <script src="js/activities/equilibrium.js"></script>
+    <script src="js/activities/acids-bases.js"></script>
+
+    <!-- Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../shared/js/dashboard-base.js"></script>
+
+    <!-- Auth -->
+    <script src="../shared/js/auth-base.js"></script>
+
+    <!-- Lesson Engine + Lessons -->
+    <script src="../shared/js/lesson-engine.js"></script>
+    <script src="js/lessons/stoichiometry.js"></script>
+    <script src="js/lessons/ideal-gas-chem.js"></script>
+    <script src="js/lessons/energetics.js"></script>
+    <script src="js/lessons/kinetics.js"></script>
+    <script src="js/lessons/equilibrium.js"></script>
+    <script src="js/lessons/acids-bases.js"></script>
+
+    <!-- SRS + Flashcards -->
+    <script src="../shared/js/srs.js"></script>
+    <script src="../shared/js/flashcard-engine.js"></script>
+
+    <!-- Subject Base (MUST be before init.js) -->
+    <script src="../shared/js/subject-base.js"></script>
+
+    <!-- Subject Init (LAST) -->
+    <script src="js/init.js"></script>
+</body>
+</html>

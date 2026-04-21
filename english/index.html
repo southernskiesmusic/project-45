@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English A - Project 45</title>
+    <meta name="description" content="IB English A Language and Literature - Interactive trainers and guided lessons.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="../shared/css/subject-base.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/light-mode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../shared/css/flashcards.css" media="print" onload="this.media='all'">
+</head>
+<body>
+    <a href="#app" class="skip-to-content">Skip to content</a>
+    <a href="../hub.html" class="back-to-hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Project 45
+    </a>
+
+    <div id="app" role="main">
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: HUB
+             ═══════════════════════════════════════════════ -->
+        <div id="view-hub" class="view active">
+            <div class="hub-header">
+                <h1>English A</h1>
+                <p id="hub-subtitle">IB English A: Language and Literature</p>
+                <div class="auth-bar">
+                    <span id="auth-info"></span>
+                    <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
+                    <button class="btn btn-sm btn-primary" onclick="showDashboard && showDashboard()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+                <div class="settings-dropdown" id="settings-panel">
+                    <div class="settings-item">
+                        <span>Dark Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-toggle" onchange="toggleDark()">
+                            <span>Toggle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <div class="topic-grid">
+                <div class="section-label">IB English A: Language and Literature</div>
+
+                <div class="topic-card" data-topic="topic-a" onclick="showView('topic-a')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">A</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Literary Analysis</h2>
+                            <p>Literary devices, stylistic features, narrative voice, text analysis</p>
+                            <span class="topic-tag tA">Part A</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-b" onclick="showView('topic-b')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">B</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Paper Skills</h2>
+                            <p>Paper 1 commentary, text types, global issues, Paper 2 essay writing</p>
+                            <span class="topic-tag tB">Part B</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic A - Literary Analysis
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-a" class="view">
+            <button class="back-btn" onclick="showView('hub')">Literary Analysis</button>
+            <header>
+                <h1>Part A: Literary Analysis</h1>
+                <p>Literary devices, narrative techniques, and stylistic analysis</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="literary-devices">
+                    <h2>Literary Devices</h2>
+                    <p>Metaphor, simile, personification, irony, symbolism, alliteration, and more</p>
+                    <span class="topic-tag tA">A.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="literary-devices">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="text-types">
+                    <h2>Text Types</h2>
+                    <p>Features and conventions of different non-literary and literary text types</p>
+                    <span class="topic-tag tA">A.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="text-types">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="narrative-voice">
+                    <h2>Narrative Voice</h2>
+                    <p>Point of view, focalization, reliable vs unreliable narrators, free indirect discourse</p>
+                    <span class="topic-tag tA">A.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="narrative-voice">Guided Lesson</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic B - Paper Skills
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-b" class="view">
+            <button class="back-btn" onclick="showView('hub')">Paper Skills</button>
+            <header>
+                <h1>Part B: Paper Skills</h1>
+                <p>Exam technique for Paper 1, Paper 2, and the Individual Oral</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="paper1-skills">
+                    <h2>Paper 1 Skills</h2>
+                    <p>Unseen text analysis, commentary structure, guiding questions, HL essay</p>
+                    <span class="topic-tag tB">B.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="paper1-skills">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="global-issues">
+                    <h2>Global Issues</h2>
+                    <p>Transnational and global concerns, applying a global issue as a lens to texts</p>
+                    <span class="topic-tag tB">B.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="global-issues">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="paper2-essay">
+                    <h2>Paper 2 Essay</h2>
+                    <p>Comparative essay structure, thesis writing, embedding evidence, SL vs HL</p>
+                    <span class="topic-tag tB">B.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="paper2-essay">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Individual Oral</h2>
+                    <p>Extract selection, global issue connection, 10-minute oral structure</p>
+                    <span class="topic-tag tB">B.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: ACTIVITY
+             ═══════════════════════════════════════════════ -->
+        <div id="view-activity" class="view">
+            <div id="activity-container"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: LESSON
+             ═══════════════════════════════════════════════ -->
+        <div id="view-lesson" class="view">
+            <button class="back-btn" id="lesson-back-btn">Back</button>
+            <header><h2 id="lesson-title"></h2><p id="lesson-subtitle"></p></header>
+            <div class="lesson-progress"><div class="lesson-progress-fill" id="lesson-progress-fill"></div></div>
+            <div class="lesson-content" id="lesson-content"></div>
+            <div class="lesson-nav" id="lesson-nav"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: DASHBOARD
+             ═══════════════════════════════════════════════ -->
+        <div id="view-dashboard" class="view">
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Progress Dashboard</h2></header>
+            <div id="dash-content"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: FLASHCARDS
+             ═══════════════════════════════════════════════ -->
+        <div id="view-flashcards" class="view">
+            <button class="back-btn" data-back="hub">Back</button>
+            <header><h2>Flashcards</h2></header>
+            <div id="fc-container"></div>
+        </div>
+
+    </div><!-- #app -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+
+    <!-- Config + Infrastructure -->
+    <script src="../shared/js/firebase-config.js"></script>
+    <script src="../shared/js/escape.js"></script>
+    <script src="../shared/js/error-boundary.js"></script>
+    <script src="../shared/js/analytics.js"></script>
+    <script src="../shared/js/cookie-consent.js"></script>
+    <script src="../shared/js/page-flash.js"></script>
+
+    <!-- Core Utils -->
+    <script>var STORAGE_PREFIX = 'english_';</script>
+    <script src="js/utils.js"></script>
+    <script src="../shared/js/activity-utils.js"></script>
+
+    <!-- UI Systems -->
+    <script src="../shared/js/floating-back.js"></script>
+    <script src="../shared/js/scratchpad.js"></script>
+
+    <!-- Activities -->
+    <script src="js/activities/literary-devices.js"></script>
+    <script src="js/activities/text-types.js"></script>
+    <script src="js/activities/narrative-voice.js"></script>
+    <script src="js/activities/paper1-skills.js"></script>
+    <script src="js/activities/global-issues.js"></script>
+    <script src="js/activities/paper2-essay.js"></script>
+
+    <!-- Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../shared/js/dashboard-base.js"></script>
+
+    <!-- Auth -->
+    <script src="../shared/js/auth-base.js"></script>
+
+    <!-- Lesson Engine + Lessons -->
+    <script src="../shared/js/lesson-engine.js"></script>
+    <script src="js/lessons/literary-devices.js"></script>
+    <script src="js/lessons/text-types.js"></script>
+    <script src="js/lessons/narrative-voice.js"></script>
+    <script src="js/lessons/paper1-skills.js"></script>
+    <script src="js/lessons/global-issues.js"></script>
+    <script src="js/lessons/paper2-essay.js"></script>
+
+    <!-- SRS + Flashcards -->
+    <script src="../shared/js/srs.js"></script>
+    <script src="../shared/js/flashcard-engine.js"></script>
+
+    <!-- Subject Base (MUST be before init.js) -->
+    <script src="../shared/js/subject-base.js"></script>
+
+    <!-- Subject Init (LAST) -->
+    <script src="js/init.js"></script>
+</body>
+</html>

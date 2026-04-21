@@ -106,7 +106,8 @@ var PaperAIFeedback = (function() {
         var fnNames = {
             physics: 'markPhysicsPaper', chemistry: 'markChemistryPaper', biology: 'markBiologyPaper',
             maths: 'markMathsPaper', history: 'markHistoryPaper', geography: 'markGeographyPaper',
-            'integrated-humanities': 'markIHPaper'
+            'integrated-humanities': 'markIHPaper',
+            suitability: 'markSuitabilityTest'
         };
         var fnName = fnNames[subjectKey] || 'markPaper';
         var markFn = firebase.functions().httpsCallable(fnName);

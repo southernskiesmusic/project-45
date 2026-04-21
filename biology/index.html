@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology - Project 45</title>
+    <meta name="description" content="IB Biology - Interactive trainers and guided lessons for SL and HL.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../shared/css/subject-base.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/light-mode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../shared/css/flashcards.css" media="print" onload="this.media='all'">
+</head>
+<body>
+    <a href="#app" class="skip-to-content">Skip to content</a>
+    <a href="../hub.html" class="back-to-hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Project 45
+    </a>
+
+    <div id="app" role="main">
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: HUB
+             ═══════════════════════════════════════════════ -->
+        <div id="view-hub" class="view active">
+            <div class="hub-header">
+                <h1>Biology</h1>
+                <p id="hub-subtitle">IB DP Biology - 2023 Curriculum</p>
+                <div class="auth-bar">
+                    <span id="auth-info"></span>
+                    <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
+                    <button class="btn btn-sm btn-primary" onclick="showDashboard && showDashboard()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+                <div class="settings-dropdown" id="settings-panel">
+                    <div class="settings-item">
+                        <span>Dark Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-toggle" onchange="toggleDark()">
+                            <span>Toggle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <div class="topic-grid">
+                <div class="section-label">IB Biology Topics (2023 Curriculum)</div>
+
+                <div class="topic-card" data-topic="topic-a" onclick="showView('topic-a')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">A</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Unity and Diversity</h2>
+                            <p>Cell theory, classification, cell structure, biomolecules, origins of life</p>
+                            <span class="topic-tag tA">Topic A</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-b" onclick="showView('topic-b')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">B</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Form and Function</h2>
+                            <p>Membranes, cell processes, genetics, DNA structure, inheritance</p>
+                            <span class="topic-tag tB">Topic B</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-c" onclick="showView('topic-c')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">C</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Interaction and Interdependence</h2>
+                            <p>Ecology, nutrient cycles, ecosystem services, energy flow</p>
+                            <span class="topic-tag tC">Topic C</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-d" onclick="showView('topic-d')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">D</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Continuity and Change</h2>
+                            <p>Cell division, evolution, natural selection, speciation</p>
+                            <span class="topic-tag tD">Topic D</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic A - Unity and Diversity
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-a" class="view">
+            <button class="back-btn" onclick="showView('hub')">Unity and Diversity</button>
+            <header>
+                <h1>Topic A: Unity and Diversity</h1>
+                <p>Cell structure, classification, and biomolecules</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="cell-biology">
+                    <h2>Cell Biology</h2>
+                    <p>Prokaryote vs eukaryote, organelles, cell theory, ultra-structure</p>
+                    <span class="topic-tag tA">A.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="cell-biology">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="biomolecules">
+                    <h2>Biomolecules</h2>
+                    <p>Carbohydrates, proteins, lipids, nucleic acids, enzymes</p>
+                    <span class="topic-tag tA">A.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="biomolecules">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Classification and Phylogeny</h2>
+                    <p>Taxonomy, phylogenetic trees, binomial nomenclature, domains</p>
+                    <span class="topic-tag tA">A.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic B - Form and Function
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-b" class="view">
+            <button class="back-btn" onclick="showView('hub')">Form and Function</button>
+            <header>
+                <h1>Topic B: Form and Function</h1>
+                <p>Genetics, respiration, and molecular biology</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="genetics">
+                    <h2>Genetics</h2>
+                    <p>Mendel's laws, Punnett squares, inheritance patterns, sex-linkage</p>
+                    <span class="topic-tag tB">B.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="genetics">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="dna-genetics">
+                    <h2>DNA and Gene Expression</h2>
+                    <p>DNA structure, replication, transcription, translation, mutations</p>
+                    <span class="topic-tag tB">B.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="dna-genetics">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="cell-respiration">
+                    <h2>Cell Respiration</h2>
+                    <p>ATP synthesis, glycolysis, aerobic and anaerobic respiration, Krebs cycle</p>
+                    <span class="topic-tag tB">B.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="cell-respiration">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Photosynthesis</h2>
+                    <p>Light reactions, Calvin cycle, photosystems, chloroplast structure</p>
+                    <span class="topic-tag tB">B.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic C - Interaction and Interdependence
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-c" class="view">
+            <button class="back-btn" onclick="showView('hub')">Interaction and Interdependence</button>
+            <header>
+                <h1>Topic C: Interaction and Interdependence</h1>
+                <p>Ecology and energy flow</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="ecology">
+                    <h2>Ecology</h2>
+                    <p>Trophic levels, food webs, energy flow, carbon and nitrogen cycles</p>
+                    <span class="topic-tag tC">C.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="ecology">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Conservation Biology</h2>
+                    <p>Biodiversity, threats, conservation strategies, population dynamics</p>
+                    <span class="topic-tag tC">C.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic D - Continuity and Change
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-d" class="view">
+            <button class="back-btn" onclick="showView('hub')">Continuity and Change</button>
+            <header>
+                <h1>Topic D: Continuity and Change</h1>
+                <p>Cell division, evolution, and natural selection</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">Coming Soon</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Cell Division</h2>
+                    <p>Mitosis, meiosis, cell cycle, cancer, karyotypes</p>
+                    <span class="topic-tag tD">D.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Evolution</h2>
+                    <p>Natural selection, speciation, Hardy-Weinberg, evidence for evolution</p>
+                    <span class="topic-tag tD">D.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: ACTIVITY
+             ═══════════════════════════════════════════════ -->
+        <div id="view-activity" class="view">
+            <div id="activity-container"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: LESSON
+             ═══════════════════════════════════════════════ -->
+        <div id="view-lesson" class="view">
+            <button class="back-btn" id="lesson-back-btn">Back</button>
+            <header><h2 id="lesson-title"></h2><p id="lesson-subtitle"></p></header>
+            <div class="lesson-progress"><div class="lesson-progress-fill" id="lesson-progress-fill"></div></div>
+            <div class="lesson-content" id="lesson-content"></div>
+            <div class="lesson-nav" id="lesson-nav"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: DASHBOARD
+             ═══════════════════════════════════════════════ -->
+        <div id="view-dashboard" class="view">
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Progress Dashboard</h2></header>
+            <div id="dash-content"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: FLASHCARDS
+             ═══════════════════════════════════════════════ -->
+        <div id="view-flashcards" class="view">
+            <button class="back-btn" data-back="hub">Back</button>
+            <header><h2>Flashcards</h2></header>
+            <div id="fc-container"></div>
+        </div>
+
+    </div><!-- #app -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+
+    <!-- Config + Infrastructure -->
+    <script src="../shared/js/firebase-config.js"></script>
+    <script src="../shared/js/escape.js"></script>
+    <script src="../shared/js/error-boundary.js"></script>
+    <script src="../shared/js/analytics.js"></script>
+    <script src="../shared/js/cookie-consent.js"></script>
+    <script src="../shared/js/page-flash.js"></script>
+
+    <!-- Core Utils -->
+    <script>var STORAGE_PREFIX = 'biology_';</script>
+    <script src="js/utils.js"></script>
+    <script src="../shared/js/activity-utils.js"></script>
+
+    <!-- UI Systems -->
+    <script src="../shared/js/floating-back.js"></script>
+    <script src="../shared/js/scratchpad.js"></script>
+
+    <!-- Activities -->
+    <script src="js/activities/cell-biology.js"></script>
+    <script src="js/activities/genetics.js"></script>
+    <script src="js/activities/ecology.js"></script>
+    <script src="js/activities/cell-respiration.js"></script>
+    <script src="js/activities/biomolecules.js"></script>
+    <script src="js/activities/dna-genetics.js"></script>
+
+    <!-- Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../shared/js/dashboard-base.js"></script>
+
+    <!-- Auth -->
+    <script src="../shared/js/auth-base.js"></script>
+
+    <!-- Lesson Engine + Lessons -->
+    <script src="../shared/js/lesson-engine.js"></script>
+    <script src="js/lessons/cell-biology.js"></script>
+    <script src="js/lessons/genetics.js"></script>
+    <script src="js/lessons/ecology.js"></script>
+    <script src="js/lessons/cell-respiration.js"></script>
+    <script src="js/lessons/biomolecules.js"></script>
+    <script src="js/lessons/dna-genetics.js"></script>
+
+    <!-- SRS + Flashcards -->
+    <script src="../shared/js/srs.js"></script>
+    <script src="../shared/js/flashcard-engine.js"></script>
+
+    <!-- Subject Base (MUST be before init.js) -->
+    <script src="../shared/js/subject-base.js"></script>
+
+    <!-- Subject Init (LAST) -->
+    <script src="js/init.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* Chemistry - subject-specific overrides */
+
+:root {
+    --primary: #10B981;
+    --primary-light: #d1fae5;
+}
+
+/* Topic tag variants - IB Chemistry topics */
+.topic-tag.tA { background: #d1fae5; color: #065f46; }
+.topic-tag.tB { background: #dbeafe; color: #1e40af; }
+.topic-tag.tC { background: #ede9fe; color: #5b21b6; }
+.topic-tag.tD { background: #fde68a; color: #92400e; }
+.topic-tag.tE { background: #fee2e2; color: #991b1b; }
+
+/* Search bar */
+.search-bar { position: relative; margin-bottom: 20px; }
+.search-input {
+    width: 100%; padding: 14px 18px; font-size: 1rem; border: 2px solid transparent;
+    border-radius: var(--radius); background: var(--card); color: var(--text);
+    box-shadow: var(--shadow); transition: border-color 0.2s; font-family: inherit;
+}
+.search-input:focus { border-color: var(--primary); outline: 2px solid var(--primary); outline-offset: 2px; }
+.search-input::placeholder { color: var(--text-light); opacity: 0.6; }
+.search-results {
+    display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: var(--card); border-radius: var(--radius); box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    max-height: 340px; overflow-y: auto; z-index: 100; padding: 8px 0;
+}
+.search-results.show { display: block; }
+.search-result {
+    padding: 10px 18px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+    transition: background 0.15s;
+}
+.search-result:hover, .search-result.active { background: var(--primary-light); }
+.search-result-icon { font-size: 1.1rem; opacity: 0.6; flex-shrink: 0; }
+.search-result-text { flex: 1; }
+.search-result-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.search-result-sub { font-size: 0.78rem; color: var(--text-light); }
+.search-result-type {
+    font-size: 0.68rem; font-weight: 600; padding: 2px 8px; border-radius: 8px;
+    flex-shrink: 0; text-transform: uppercase;
+}
+.search-result-type.topic { background: var(--primary-light); color: #065f46; }
+.search-result-type.activity { background: var(--success-light); color: var(--success); }
+.search-result-type.lesson { background: #d1fae5; color: #047857; }
+.topic-card.search-hidden { display: none; }
+
+.coming-soon-small {
+    display: inline-block;
+    font-size: 0.65rem; font-weight: 700; padding: 2px 8px;
+    border-radius: 8px; background: var(--border); color: var(--text-light);
+    text-transform: uppercase; letter-spacing: 0.04em; margin-left: 8px;
+}
+
+.topic-card-inner { display: flex; align-items: flex-start; gap: 14px; }
+.topic-card-icon { flex-shrink: 0; width: 48px; height: 48px; color: var(--primary); opacity: 0.7; }
+.topic-card-icon svg { width: 100%; height: 100%; }
+.topic-card-body { flex: 1; min-width: 0; }
