@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics - Project 45</title>
+    <meta name="description" content="IB Physics - Interactive trainers and guided lessons for SL and HL.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="../shared/css/subject-base.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/light-mode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../shared/css/flashcards.css" media="print" onload="this.media='all'">
+</head>
+<body>
+    <a href="#app" class="skip-to-content">Skip to content</a>
+    <a href="../" class="back-to-hub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Project 45
+    </a>
+
+    <div id="app" role="main">
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: HUB - Topic selection
+             ═══════════════════════════════════════════════ -->
+        <div id="view-hub" class="view active">
+            <div class="hub-header">
+                <h1>Physics</h1>
+                <p id="hub-subtitle">IB DP Physics - 2023 Curriculum</p>
+                <div class="auth-bar">
+                    <span id="auth-info"></span>
+                    <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
+                    <button class="btn btn-sm btn-primary" onclick="showDashboard && showDashboard()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="btn-settings" onclick="document.getElementById('settings-panel').classList.toggle('show')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </button>
+                </div>
+                <div class="settings-dropdown" id="settings-panel">
+                    <div class="settings-item">
+                        <span>Dark Mode</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-toggle" onchange="toggleDark()">
+                            <span>Toggle</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <!-- Topic Cards -->
+            <div class="topic-grid">
+                <div class="section-label">IB Physics Topics (2023 Curriculum)</div>
+
+                <div class="topic-card" data-topic="topic-a" onclick="showView('topic-a')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">A</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Space, Time and Motion</h2>
+                            <p>Kinematics, Newton's laws, momentum, energy, power, special relativity</p>
+                            <span class="topic-tag tA">Topic A</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-b" onclick="showView('topic-b')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">B</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>The Particulate Nature of Matter</h2>
+                            <p>Thermal energy, greenhouse effect, gas laws, thermodynamics, circuits</p>
+                            <span class="topic-tag tB">Topic B</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-c" onclick="showView('topic-c')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">C</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Wave Behaviour</h2>
+                            <p>SHM, travelling waves, reflection, diffraction, standing waves, Doppler</p>
+                            <span class="topic-tag tC">Topic C</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-d" onclick="showView('topic-d')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">D</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Fields</h2>
+                            <p>Gravitational fields, electric fields, magnetic fields, induction</p>
+                            <span class="topic-tag tD">Topic D</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="topic-e" onclick="showView('topic-e')">
+                    <div class="topic-card-inner">
+                        <div class="topic-card-icon">
+                            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <text x="10" y="32" font-size="22" font-weight="700" fill="currentColor" stroke="none">E</text>
+                            </svg>
+                        </div>
+                        <div class="topic-card-body">
+                            <h2>Nuclear and Quantum Physics</h2>
+                            <p>Atomic structure, radioactivity, fission, fusion, quantum models</p>
+                            <span class="topic-tag tE">Topic E</span>
+                            <span class="level-badge both">SL + HL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic A - Space, Time and Motion
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-a" class="view">
+            <button class="back-btn" onclick="showView('hub')">Space, Time and Motion</button>
+            <header>
+                <h1>Topic A: Space, Time and Motion</h1>
+                <p>Kinematics, dynamics, energy, and momentum</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="kinematics-1d">
+                    <h2>Kinematics</h2>
+                    <p>SUVAT equations, motion graphs, free fall, projectile motion</p>
+                    <span class="topic-tag tA">A.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="kinematics-1d">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="dynamics">
+                    <h2>Forces and Dynamics</h2>
+                    <p>Newton's three laws, weight, normal force, friction, momentum, impulse</p>
+                    <span class="topic-tag tA">A.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="dynamics">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="energy-power">
+                    <h2>Work, Energy and Power</h2>
+                    <p>Kinetic energy, gravitational PE, conservation of energy, power, efficiency</p>
+                    <span class="topic-tag tA">A.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="energy-power">Guided Lesson</span></div>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Rigid Body Mechanics</h2>
+                    <p>Torque, moment of inertia, angular momentum, rotational kinetic energy</p>
+                    <span class="topic-tag tA">A.4</span>
+                    <span class="level-badge hl">HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Galilean and Special Relativity</h2>
+                    <p>Reference frames, time dilation, length contraction, spacetime diagrams</p>
+                    <span class="topic-tag tA">A.5</span>
+                    <span class="level-badge hl">HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic B - Particulate Nature of Matter
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-b" class="view">
+            <button class="back-btn" onclick="showView('hub')">Particulate Nature of Matter</button>
+            <header>
+                <h1>Topic B: The Particulate Nature of Matter</h1>
+                <p>Thermal physics, gas laws, and circuits</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Thermal Energy Transfers</h2>
+                    <p>Internal energy, specific heat capacity, latent heat, calorimetry</p>
+                    <span class="topic-tag tB">B.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Greenhouse Effect</h2>
+                    <p>Blackbody radiation, Wien's law, Stefan-Boltzmann, climate models</p>
+                    <span class="topic-tag tB">B.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" data-topic="gas-laws">
+                    <h2>Gas Laws</h2>
+                    <p>Boyle's law, Charles's law, ideal gas equation, kinetic theory</p>
+                    <span class="topic-tag tB">B.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="gas-laws">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" data-topic="circuits">
+                    <h2>Electric Circuits</h2>
+                    <p>Ohm's law, series and parallel resistors, power, internal resistance</p>
+                    <span class="topic-tag tB">B.5</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="circuits">Guided Lesson</span></div>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Thermodynamics</h2>
+                    <p>First law, entropy, heat engines, Carnot efficiency</p>
+                    <span class="topic-tag tB">B.4</span>
+                    <span class="level-badge hl">HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic C - Wave Behaviour
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-c" class="view">
+            <button class="back-btn" onclick="showView('hub')">Wave Behaviour</button>
+            <header>
+                <h1>Topic C: Wave Behaviour</h1>
+                <p>Simple harmonic motion, waves, and the Doppler effect</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">Coming Soon</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Simple Harmonic Motion</h2>
+                    <p>Period, frequency, amplitude, energy, pendulum, spring-mass system</p>
+                    <span class="topic-tag tC">C.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Wave Model</h2>
+                    <p>Transverse and longitudinal waves, superposition, intensity</p>
+                    <span class="topic-tag tC">C.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Wave Phenomena</h2>
+                    <p>Reflection, refraction, diffraction, interference, single slit, double slit</p>
+                    <span class="topic-tag tC">C.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Standing Waves and Resonance</h2>
+                    <p>Nodes, antinodes, harmonics, resonance, strings, closed and open pipes</p>
+                    <span class="topic-tag tC">C.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Doppler Effect</h2>
+                    <p>Moving source and observer, redshift, applications in medicine and astronomy</p>
+                    <span class="topic-tag tC">C.5</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic D - Fields
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-d" class="view">
+            <button class="back-btn" onclick="showView('hub')">Fields</button>
+            <header>
+                <h1>Topic D: Fields</h1>
+                <p>Gravitational, electric, and magnetic fields</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">SL + HL Content</div>
+
+                <div class="topic-card" data-topic="grav-fields">
+                    <h2>Gravitational Fields</h2>
+                    <p>Newton's law of gravitation, field strength, orbital motion, Kepler's laws</p>
+                    <span class="topic-tag tD">D.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <div class="card-actions"><span class="card-action-btn" data-lesson="grav-fields">Guided Lesson</span></div>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Electric and Magnetic Fields</h2>
+                    <p>Coulomb's law, field lines, electric potential, magnetic force on moving charges</p>
+                    <span class="topic-tag tD">D.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Motion in Electromagnetic Fields</h2>
+                    <p>Charged particle in E and B fields, mass spectrometer, Hall effect</p>
+                    <span class="topic-tag tD">D.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="section-label">HL Content</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Induction</h2>
+                    <p>Faraday's law, Lenz's law, AC generation, transformers</p>
+                    <span class="topic-tag tD">D.4</span>
+                    <span class="level-badge hl">HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: Topic E - Nuclear and Quantum
+             ═══════════════════════════════════════════════ -->
+        <div id="view-topic-e" class="view">
+            <button class="back-btn" onclick="showView('hub')">Nuclear and Quantum Physics</button>
+            <header>
+                <h1>Topic E: Nuclear and Quantum Physics</h1>
+                <p>Atomic structure, radioactivity, fission, fusion, and quantum models</p>
+            </header>
+            <div class="topic-grid">
+                <div class="section-label">Coming Soon</div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Structure of the Atom</h2>
+                    <p>Bohr model, emission spectra, energy levels, photon emission and absorption</p>
+                    <span class="topic-tag tE">E.1</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Quantum Models of the Atom</h2>
+                    <p>Wave-particle duality, de Broglie wavelength, photoelectric effect</p>
+                    <span class="topic-tag tE">E.2</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Radioactive Decay</h2>
+                    <p>Alpha, beta, gamma decay, activity, half-life, decay constant</p>
+                    <span class="topic-tag tE">E.3</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Fission</h2>
+                    <p>Binding energy, mass defect, chain reactions, nuclear reactors</p>
+                    <span class="topic-tag tE">E.4</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+
+                <div class="topic-card" style="opacity:0.5;pointer-events:none;">
+                    <h2>Fusion and Stars</h2>
+                    <p>Nuclear fusion, stellar spectra, H-R diagram, stellar evolution</p>
+                    <span class="topic-tag tE">E.5</span>
+                    <span class="level-badge both">SL + HL</span>
+                    <span class="coming-soon-small">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: ACTIVITY
+             ═══════════════════════════════════════════════ -->
+        <div id="view-activity" class="view">
+            <div id="activity-container"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: LESSON
+             ═══════════════════════════════════════════════ -->
+        <div id="view-lesson" class="view">
+            <button class="back-btn" id="lesson-back-btn">Back</button>
+            <header><h2 id="lesson-title"></h2><p id="lesson-subtitle"></p></header>
+            <div class="lesson-progress"><div class="lesson-progress-fill" id="lesson-progress-fill"></div></div>
+            <div class="lesson-content" id="lesson-content"></div>
+            <div class="lesson-nav" id="lesson-nav"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: DASHBOARD
+             ═══════════════════════════════════════════════ -->
+        <div id="view-dashboard" class="view">
+            <button class="back-btn" data-back="hub">All Topics</button>
+            <header><h2>Progress Dashboard</h2></header>
+            <div id="dash-content"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             VIEW: FLASHCARDS
+             ═══════════════════════════════════════════════ -->
+        <div id="view-flashcards" class="view">
+            <button class="back-btn" data-back="hub">Back</button>
+            <header><h2>Flashcards</h2></header>
+            <div id="fc-container"></div>
+        </div>
+
+    </div><!-- #app -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+
+    <!-- Config + Infrastructure -->
+    <script src="../shared/js/firebase-config.js"></script>
+    <script src="../shared/js/escape.js"></script>
+    <script src="../shared/js/error-boundary.js"></script>
+    <script src="../shared/js/analytics.js"></script>
+    <script src="../shared/js/cookie-consent.js"></script>
+    <script src="../shared/js/page-flash.js"></script>
+
+    <!-- Core Utils -->
+    <script>var STORAGE_PREFIX = 'physics_';</script>
+    <script src="js/utils.js"></script>
+    <script src="../shared/js/activity-utils.js"></script>
+
+    <!-- UI Systems -->
+    <script src="../shared/js/floating-back.js"></script>
+    <script src="../shared/js/scratchpad.js"></script>
+
+    <!-- Activities -->
+    <script src="js/activities/kinematics-1d.js"></script>
+    <script src="js/activities/dynamics.js"></script>
+    <script src="js/activities/energy-power.js"></script>
+    <script src="js/activities/gas-laws.js"></script>
+    <script src="js/activities/circuits.js"></script>
+    <script src="js/activities/grav-fields.js"></script>
+
+    <!-- Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="../shared/js/dashboard-base.js"></script>
+
+    <!-- Auth -->
+    <script src="../shared/js/auth-base.js"></script>
+
+    <!-- Lesson Engine + Lessons -->
+    <script src="../shared/js/lesson-engine.js"></script>
+    <script src="js/lessons/kinematics-1d.js"></script>
+    <script src="js/lessons/dynamics.js"></script>
+    <script src="js/lessons/energy-power.js"></script>
+    <script src="js/lessons/gas-laws.js"></script>
+    <script src="js/lessons/circuits.js"></script>
+    <script src="js/lessons/grav-fields.js"></script>
+
+    <!-- SRS + Flashcards -->
+    <script src="../shared/js/srs.js"></script>
+    <script src="../shared/js/flashcard-engine.js"></script>
+
+    <!-- Subject Base (MUST be before init.js) -->
+    <script src="../shared/js/subject-base.js"></script>
+
+    <!-- Subject Init (LAST) -->
+    <script src="js/init.js"></script>
+</body>
+</html>
