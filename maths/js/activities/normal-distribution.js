@@ -531,6 +531,111 @@ const NORMAL_DIST = {
         };
     },
 
+    /**
+     * 11. qProbMultiStep - Medium (Multi-step, GDC)
+     * P(X < x) via standardisation + GDC lookup. Two steps: z, then Phi(z).
+     */
+    qProbMultiStep() {
+        const validZ = [-2.0, -1.5, -1.0, -0.5, 0.5, 1.0, 1.5, 2.0];
+        const z = MathUtils.pick(validZ);
+        const sigma = MathUtils.pick([2, 4, 5, 10]);
+        const mu = MathUtils.randInt(20, 80) * 2;
+        const x = mu + z * sigma;
+        const prob = this.Phi(z);
+
+        return {
+            type: 'multi-step',
+            calc: 'gdc',
+            rule: 'P(X<x) with GDC',
+            difficulty: 'medium',
+            text: `A random variable \\(X \\sim N(${mu},\\,${sigma}^2)\\). Using your GDC, find \\(P(X < ${x})\\) to 4 decimal places. Work step-by-step.`,
+            latex: '',
+            answer: prob,
+            answerTex: prob.toFixed(4),
+            options: [],
+            steps: [
+                {
+                    prompt: `Standardise: \\(z = \\dfrac{x - \\mu}{\\sigma} = \\dfrac{${x} - ${mu}}{${sigma}} = \\)`,
+                    answer: z,
+                    tolerance: 0.01,
+                    answerTex: String(z),
+                    hint: `Compute \\((${x} - ${mu}) \\div ${sigma}\\).`
+                },
+                {
+                    prompt: `Using your GDC (or z-table), find \\(P(Z < ${z}) = \\)`,
+                    answer: prob,
+                    tolerance: 0.001,
+                    answerTex: prob.toFixed(4),
+                    hint: `On a GDC, use normalCDF(-1E99, ${z}, 0, 1).`
+                }
+            ],
+            hintTex: [
+                `z = \\frac{${x}-${mu}}{${sigma}} = ${z}`,
+                `P(Z < ${z}) = ${prob.toFixed(4)}`
+            ],
+            explain: `<strong>Step 1:</strong> Standardise \\(z = \\dfrac{${x} - ${mu}}{${sigma}} = ${z}\\).<br><br>` +
+                     `<strong>Step 2:</strong> \\(P(X < ${x}) = P(Z < ${z}) = ${prob.toFixed(4)}\\).`
+        };
+    },
+
+    /**
+     * 12. qProbBetweenMultiStep - Hard (Multi-step, GDC)
+     * P(a < X < b) via two standardisations + Phi(z2) - Phi(z1).
+     */
+    qProbBetweenMultiStep() {
+        const validZ = [-2.0, -1.5, -1.0, -0.5, 0.5, 1.0, 1.5, 2.0];
+        let z1 = MathUtils.pick(validZ);
+        let z2;
+        do { z2 = MathUtils.pick(validZ); } while (z2 <= z1);
+        const sigma = MathUtils.pick([2, 4, 5, 10]);
+        const mu = MathUtils.randInt(20, 80) * 2;
+        const a = mu + z1 * sigma;
+        const b = mu + z2 * sigma;
+        const prob = parseFloat((this.Phi(z2) - this.Phi(z1)).toFixed(4));
+
+        return {
+            type: 'multi-step',
+            calc: 'gdc',
+            rule: 'P(a<X<b) with GDC',
+            difficulty: 'hard',
+            text: `A random variable \\(X \\sim N(${mu},\\,${sigma}^2)\\). Find \\(P(${a} < X < ${b})\\) to 4 decimal places.`,
+            latex: '',
+            answer: prob,
+            answerTex: prob.toFixed(4),
+            options: [],
+            steps: [
+                {
+                    prompt: `Standardise the lower bound: \\(z_1 = \\dfrac{${a} - ${mu}}{${sigma}} = \\)`,
+                    answer: z1,
+                    tolerance: 0.01,
+                    answerTex: String(z1),
+                    hint: `\\((${a} - ${mu}) \\div ${sigma}\\).`
+                },
+                {
+                    prompt: `Standardise the upper bound: \\(z_2 = \\dfrac{${b} - ${mu}}{${sigma}} = \\)`,
+                    answer: z2,
+                    tolerance: 0.01,
+                    answerTex: String(z2),
+                    hint: `\\((${b} - ${mu}) \\div ${sigma}\\).`
+                },
+                {
+                    prompt: `Compute \\(\\Phi(${z2}) - \\Phi(${z1}) = \\)`,
+                    answer: prob,
+                    tolerance: 0.001,
+                    answerTex: prob.toFixed(4),
+                    hint: `On a GDC, normalCDF(${a}, ${b}, ${mu}, ${sigma}).`
+                }
+            ],
+            hintTex: [
+                `z_1 = ${z1}, \\; z_2 = ${z2}`,
+                `P = \\Phi(${z2}) - \\Phi(${z1}) = ${prob.toFixed(4)}`
+            ],
+            explain: `<strong>Step 1:</strong> \\(z_1 = \\dfrac{${a} - ${mu}}{${sigma}} = ${z1}\\).<br><br>` +
+                     `<strong>Step 2:</strong> \\(z_2 = \\dfrac{${b} - ${mu}}{${sigma}} = ${z2}\\).<br><br>` +
+                     `<strong>Step 3:</strong> \\(P(${a} < X < ${b}) = \\Phi(${z2}) - \\Phi(${z1}) = ${this.Phi(z2).toFixed(4)} - ${this.Phi(z1).toFixed(4)} = ${prob.toFixed(4)}\\).`
+        };
+    },
+
     /* ────────────────────────────────────────────
        POOL & PICKER
        ──────────────────────────────────────────── */
@@ -538,16 +643,18 @@ const NORMAL_DIST = {
     /** Return a weighted-random question from the pool */
     pickQuestion() {
         const pool = [
-            { fn: () => NORMAL_DIST.qStandardize(),       weight: 3, difficulty: 'easy'   },
-            { fn: () => NORMAL_DIST.qProbLessThan(),      weight: 3, difficulty: 'easy'   },
-            { fn: () => NORMAL_DIST.qProbGreaterThan(),   weight: 3, difficulty: 'easy'   },
-            { fn: () => NORMAL_DIST.qProbBetween(),       weight: 2, difficulty: 'medium' },
-            { fn: () => NORMAL_DIST.qSymmetricInterval(), weight: 2, difficulty: 'medium' },
-            { fn: () => NORMAL_DIST.qFindX(),             weight: 2, difficulty: 'medium' },
-            { fn: () => NORMAL_DIST.qFindMean(),          weight: 1, difficulty: 'hard'   },
-            { fn: () => NORMAL_DIST.qFindSigma(),         weight: 1, difficulty: 'hard'   },
-            { fn: () => NORMAL_DIST.qNormalContext(),     weight: 2, difficulty: 'medium' },
-            { fn: () => NORMAL_DIST.qCompareProbs(),      weight: 1, difficulty: 'hard'   }
+            { fn: () => NORMAL_DIST.qStandardize(),              weight: 3, difficulty: 'easy'   },
+            { fn: () => NORMAL_DIST.qProbLessThan(),             weight: 3, difficulty: 'easy'   },
+            { fn: () => NORMAL_DIST.qProbGreaterThan(),          weight: 3, difficulty: 'easy'   },
+            { fn: () => NORMAL_DIST.qProbBetween(),              weight: 2, difficulty: 'medium' },
+            { fn: () => NORMAL_DIST.qSymmetricInterval(),        weight: 2, difficulty: 'medium' },
+            { fn: () => NORMAL_DIST.qFindX(),                    weight: 2, difficulty: 'medium' },
+            { fn: () => NORMAL_DIST.qFindMean(),                 weight: 1, difficulty: 'hard'   },
+            { fn: () => NORMAL_DIST.qFindSigma(),                weight: 1, difficulty: 'hard'   },
+            { fn: () => NORMAL_DIST.qNormalContext(),            weight: 2, difficulty: 'medium' },
+            { fn: () => NORMAL_DIST.qCompareProbs(),             weight: 1, difficulty: 'hard'   },
+            { fn: () => NORMAL_DIST.qProbMultiStep(),            weight: 2, difficulty: 'medium' },
+            { fn: () => NORMAL_DIST.qProbBetweenMultiStep(),     weight: 2, difficulty: 'hard'   }
         ];
 
         let filtered = pool;
@@ -655,6 +762,7 @@ const NORMAL_DIST = {
     unload() {
         const container = document.getElementById('activity-container');
         if (container) container.innerHTML = '';
+        if (typeof setCalcMode === 'function') setCalcMode('any');
         if (typeof showView === 'function') showView('stats-probability');
     },
 
@@ -681,8 +789,12 @@ const NORMAL_DIST = {
     next() {
         NORMAL_DIST.answered = false;
         NORMAL_DIST.hintIndex = 0;
+        NORMAL_DIST._msAttempts = [];
         NORMAL_DIST.currentQ = NORMAL_DIST.pickQuestion();
         const q = NORMAL_DIST.currentQ;
+
+        // Calc mode per question (gdc / none / any)
+        if (typeof setCalcMode === 'function') setCalcMode(q.calc || 'any');
 
         // Rule tag
         const ruleEl = document.getElementById('norm-rule');
@@ -701,7 +813,9 @@ const NORMAL_DIST = {
 
         // Options area
         const optArea = document.getElementById('norm-options-area');
-        if (q.type === 'mc') {
+        if (q.type === 'multi-step') {
+            NORMAL_DIST.renderMultiStep(q);
+        } else if (q.type === 'mc') {
             let html = '<div class="options-grid">';
             q.options.forEach((opt, i) => {
                 html += `<button class="option-btn" data-i="${i}" data-value="${opt.value}" onclick="NORMAL_DIST.checkMC(this)">\\(${opt.tex}\\)</button>`;
@@ -758,6 +872,102 @@ const NORMAL_DIST = {
         }
 
         NORMAL_DIST.renderAllKaTeX();
+    },
+
+    /* ────────────────────────────────────────────
+       UI: renderMultiStep()  —  progressive-reveal flow
+       ──────────────────────────────────────────── */
+
+    renderMultiStep(q) {
+        const optArea = document.getElementById('norm-options-area');
+        if (!optArea) return;
+        let html = '<div class="multi-step-container">';
+        q.steps.forEach((step, i) => {
+            const hidden = i === 0 ? '' : 'style="display:none;"';
+            html +=
+                `<div class="ms-step" data-step="${i}" ${hidden}>` +
+                    `<div class="ms-step-num">Step ${i + 1} of ${q.steps.length}</div>` +
+                    `<div class="ms-step-prompt">${step.prompt}</div>` +
+                    `<div class="input-area">` +
+                        `<input type="number" step="any" class="lr-math-field" id="norm-ms-${i}" ` +
+                               `placeholder="Your answer" autocomplete="off" ` +
+                               `onkeydown="if(event.key==='Enter')NORMAL_DIST.checkMultiStep(${i})">` +
+                        `<button class="btn btn-primary" onclick="NORMAL_DIST.checkMultiStep(${i})">Submit</button>` +
+                    `</div>` +
+                    `<div class="ms-step-feedback" id="norm-ms-fb-${i}"></div>` +
+                `</div>`;
+        });
+        html += '</div>';
+        optArea.innerHTML = html;
+        setTimeout(() => {
+            const inp = document.getElementById('norm-ms-0');
+            if (inp) inp.focus();
+        }, 100);
+    },
+
+    /* ────────────────────────────────────────────
+       UI: checkMultiStep()
+       ──────────────────────────────────────────── */
+
+    checkMultiStep(stepIdx) {
+        if (NORMAL_DIST.answered) return;
+        const q = NORMAL_DIST.currentQ;
+        if (!q || !q.steps || !q.steps[stepIdx]) return;
+        const step = q.steps[stepIdx];
+        const inp = document.getElementById('norm-ms-' + stepIdx);
+        if (!inp || inp.disabled) return;
+
+        const val = parseFloat(inp.value);
+        if (isNaN(val)) {
+            inp.style.borderColor = '#ef4444';
+            inp.placeholder = 'Enter a number';
+            return;
+        }
+
+        const tol = step.tolerance || 0.01;
+        const isCorrect = Math.abs(val - step.answer) <= tol;
+        const fb = document.getElementById('norm-ms-fb-' + stepIdx);
+        NORMAL_DIST._msAttempts[stepIdx] = (NORMAL_DIST._msAttempts[stepIdx] || 0) + 1;
+
+        if (isCorrect) {
+            inp.disabled = true;
+            inp.style.borderColor = 'var(--success)';
+            inp.style.background = 'var(--success-light)';
+            const submitBtn = inp.parentElement.querySelector('.btn-primary');
+            if (submitBtn) submitBtn.disabled = true;
+            if (fb) fb.innerHTML = '<span class="ms-correct">✓ Correct</span>';
+
+            const nextIdx = stepIdx + 1;
+            if (nextIdx < q.steps.length) {
+                const nextEl = document.querySelector('.ms-step[data-step="' + nextIdx + '"]');
+                if (nextEl) {
+                    nextEl.style.display = '';
+                    setTimeout(() => {
+                        const nextInp = document.getElementById('norm-ms-' + nextIdx);
+                        if (nextInp) nextInp.focus();
+                    }, 100);
+                }
+                NORMAL_DIST.renderAllKaTeX();
+            } else {
+                // All steps correct — question complete.
+                NORMAL_DIST.answered = true;
+                NORMAL_DIST.total++;
+                const allFirstTry = NORMAL_DIST._msAttempts.slice(0, q.steps.length).every(a => a === 1);
+                if (allFirstTry) { NORMAL_DIST.score++; NORMAL_DIST.streak++; }
+                else { NORMAL_DIST.streak = 0; }
+                NORMAL_DIST.showFeedback(allFirstTry);
+                NORMAL_DIST.updateStats();
+            }
+        } else {
+            inp.style.borderColor = 'var(--error)';
+            inp.style.background = 'var(--error-light)';
+            if (fb) {
+                let msg = '✗ Try again.';
+                if (step.hint) msg += ' <em>Hint: ' + step.hint + '</em>';
+                fb.innerHTML = '<span class="ms-incorrect">' + msg + '</span>';
+            }
+            NORMAL_DIST.renderAllKaTeX();
+        }
     },
 
     /* ────────────────────────────────────────────

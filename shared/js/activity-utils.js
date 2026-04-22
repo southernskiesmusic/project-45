@@ -255,6 +255,40 @@ function copyCalcToWorkout(workoutId) {
 }
 
 // ===================================================================
+// CALCULATOR MODE (per-question GDC gating)
+// ===================================================================
+// mode: 'none' | 'gdc' | 'any'
+// - 'none': hide floating calc button, stamp "No calculator" badge on question card
+// - 'gdc' or 'any' (default): show button, remove badge
+function setCalcMode(mode) {
+    mode = mode || 'any';
+    var btn = document.getElementById('calc-btn');
+    var badge = document.getElementById('no-calc-badge');
+
+    if (mode === 'none') {
+        if (btn) {
+            btn.style.display = 'none';
+            btn.classList.remove('active');
+        }
+        var modal = document.getElementById('calc-modal');
+        if (modal) modal.classList.remove('show');
+        if (!badge) {
+            var card = document.querySelector('.question-card');
+            if (card) {
+                var b = document.createElement('span');
+                b.id = 'no-calc-badge';
+                b.className = 'no-calc-badge';
+                b.textContent = 'No calculator';
+                card.insertBefore(b, card.firstChild);
+            }
+        }
+    } else {
+        if (btn) btn.style.display = '';
+        if (badge) badge.remove();
+    }
+}
+
+// ===================================================================
 // VIEW NAVIGATION
 // ===================================================================
 function showView(id) {
