@@ -89,6 +89,27 @@ const Pathway = {
         return all[idx + 1];
     },
 
+    // Returns the lesson id for the most recently touched activity, if that lesson
+    // is (a) in the pathway and (b) not already complete. Requires _lessonPrefixMap
+    // (prefix -> lesson id) to be set by the host page.
+    _recentLesson() {
+        if (!this._lessonPrefixMap) return null;
+        if (typeof getAllActivityStats !== 'function') return null;
+        var stats = getAllActivityStats();
+        var pathwayLessons = this.allLessons();
+        var best = null, bestTs = 0;
+        for (var prefix in stats) {
+            var s = stats[prefix];
+            if (!s || !s.lastTs || s.lastTs <= bestTs) continue;
+            var lid = this._lessonPrefixMap[prefix];
+            if (!lid || pathwayLessons.indexOf(lid) < 0) continue;
+            if (LessonEngine.isComplete(lid)) continue;
+            bestTs = s.lastTs;
+            best = lid;
+        }
+        return best;
+    },
+
     _lessonTitle(lessonId, lessonsMap) {
         var l = (lessonsMap || this._lessonsMap)[lessonId];
         return l ? l.title : lessonId;
@@ -150,8 +171,10 @@ const Pathway = {
     updateContinueBtn(lessonsMap) {
         var container = document.getElementById('pathway-continue');
         if (!container) return;
-        var nextId = this.nextLesson();
         var overall = this.overallProgress();
+        var recentId = this._recentLesson();
+        var nextId = recentId || this.nextLesson();
+        var label = recentId ? 'Continue where you left off' : 'Continue Learning';
         if (!nextId) {
             container.innerHTML = '<div class="pathway-continue-card pathway-complete">' +
                 '<div class="pathway-continue-icon">\u2728</div>' +
@@ -170,7 +193,7 @@ const Pathway = {
         container.innerHTML = '<div class="pathway-continue-card" onclick="Pathway._startLesson(\'' + nextId + '\')" style="cursor:pointer">' +
             '<div class="pathway-continue-icon">\u25B6\uFE0F</div>' +
             '<div class="pathway-continue-info">' +
-            '<div class="pathway-continue-label">Continue Learning</div>' +
+            '<div class="pathway-continue-label">' + label + '</div>' +
             '<div class="pathway-continue-name">' + title + '</div>' +
             '<div class="pathway-continue-sub">' + topicName + ' \u2022 ' + overall.done + '/' + overall.total + ' lessons done</div>' +
             '</div>' +

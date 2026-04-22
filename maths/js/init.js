@@ -332,6 +332,20 @@ var ACTIVITY_PREFIXES = {
     'intersections-distances':     'intd'
 };
 
+// ── Reverse prefix→lesson map for Pathway's recency-aware "Continue" card ──
+// Built from ACTIVITY_PREFIXES, with the functions-domain-range → domain-range
+// key mismatch accounted for.
+(function buildLessonPrefixMap() {
+    if (typeof Pathway === 'undefined') return;
+    var map = {};
+    Object.keys(ACTIVITY_PREFIXES).forEach(function(topicId) {
+        var prefix = ACTIVITY_PREFIXES[topicId];
+        var lessonKey = topicId === 'functions-domain-range' ? 'domain-range' : topicId;
+        if (MATHS_LESSONS[lessonKey]) map[prefix] = lessonKey;
+    });
+    Pathway._lessonPrefixMap = map;
+})();
+
 // ── Available activities registry ──
 var AVAILABLE_ACTIVITIES = {};
 if (typeof NUMBERS_ROUNDING !== 'undefined') AVAILABLE_ACTIVITIES['numbers-rounding'] = { obj: NUMBERS_ROUNDING, parent: 'number-algebra' };
