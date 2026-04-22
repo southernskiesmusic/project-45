@@ -230,9 +230,37 @@ var CONTINUE_MAP = {
 };
 
 // ── Pathway config ──
+// Each main IB AA topic groups its sub-topic lessons. Missing lessons (no LESSON_X
+// defined yet) are filtered out so users don't click dead nodes.
+function _pwFilter(keys) {
+    return keys.filter(function(k) { return MATHS_LESSONS[k]; });
+}
 var MATHS_PATHWAYS = [
-    { id: 'functions', name: 'Functions', icon: 'f(x)', lessons: ['lines', 'exponents', 'logarithms'], activity: 'lines', activityPrefix: 'lines' },
-    { id: 'number-algebra', name: 'Number & Algebra', icon: '#', lessons: ['arithmetic-sequences', 'geometric-sequences', 'binomial-theorem'], activity: 'arithmetic-sequences', activityPrefix: 'arithseq' }
+    {
+        id: 'number-algebra', name: 'Number & Algebra', icon: '#',
+        lessons: _pwFilter(['numbers-rounding','arithmetic-sequences','geometric-sequences','binomial-theorem','financial-maths','deductive-proof','methods-of-proof','mathematical-induction','systems-of-equations','complex-numbers-cartesian','complex-numbers-polar']),
+        activity: 'arithmetic-sequences', activityPrefix: 'arithseq'
+    },
+    {
+        id: 'functions', name: 'Functions', icon: 'f(x)',
+        lessons: _pwFilter(['lines','quadratics','domain-range','composition-inverse','transformations','asymptotes','exponents','logarithms','exponential-equations','polynomials','rational-functions','modulus','symmetries']),
+        activity: 'lines', activityPrefix: 'lines'
+    },
+    {
+        id: 'geometry-trig', name: 'Geometry & Trig', icon: '△',
+        lessons: _pwFilter(['3d-geometry-triangles','arcs-sectors','unit-circle','trig-equations','trig-functions','further-trig-identities','further-trig-functions','vectors-algebra','vector-lines','vectors-kinematics','cross-product','planes','intersections-distances']),
+        activity: 'unit-circle', activityPrefix: 'unitcircle'
+    },
+    {
+        id: 'stats-probability', name: 'Stats & Probability', icon: '📊',
+        lessons: _pwFilter(['stats-basic','linear-regression','probability-venn','probability-trees','discrete-distributions','binomial-distribution','normal-distribution','continuous-distributions','counting-probability']),
+        activity: 'probability-venn', activityPrefix: 'pvenn'
+    },
+    {
+        id: 'calculus', name: 'Calculus', icon: '∫',
+        lessons: _pwFilter(['limits','derivatives-basic','chain-rule','tangent-normal','monotony-concavity','graph-of-f','optimisation','indefinite-integrals','definite-integrals','kinematics','more-derivatives','implicit-differentiation','related-rates','limits-lhopital','more-integrals','integration-by-parts','further-areas-volumes','differential-equations','maclaurin-series']),
+        activity: 'derivatives-basic', activityPrefix: 'derivatives'
+    }
 ];
 
 // ── Activity prefixes (for stats tracking) ──
@@ -505,6 +533,13 @@ function _rawShowView(viewId) {
 
 /* ── View management ── */
 function showView(viewId) {
+    // Pathway activity nodes pass a sub-topic id (e.g. 'lines'). Route to launchActivity
+    // and mark pathway as the back target so the back button returns to the flowchart.
+    if (TOPIC_MAP[viewId] && TOPIC_MAP[viewId].view === 'activity') {
+        _activityBackTarget = 'pathway';
+        launchActivity(viewId);
+        return;
+    }
     var subjectAreas = ['number-algebra','functions','geometry-trig','stats-probability','calculus','hub'];
     if (_activityBackTarget && subjectAreas.indexOf(viewId) !== -1) {
         var target = _activityBackTarget;
@@ -982,7 +1017,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.desmosCalc = Desmos.GraphingCalculator(container, {
                     settingsMenu: false,
                     border: false,
-                    expressionsCollapsed: false
+                    expressionsCollapsed: false,
+                    graphpaper: false,
+                    keypad: false,
+                    zoomButtons: false,
+                    lockViewport: true
                 });
             }
         }

@@ -302,16 +302,6 @@ const Pathway = {
         this._lessonsMap = lessonsMap || {};
         this.updateHubProgress();
         this.updateContinueBtn();
-        if (!this._isProTier()) {
-            var fc = document.getElementById('pathway-flowchart');
-            if (fc) fc.innerHTML =
-                '<div style="text-align:center;padding:40px 20px;">' +
-                '<div style="font-size:2.5rem;margin-bottom:12px;">&#x1F512;</div>' +
-                '<h3 style="margin-bottom:6px;">Pro Feature</h3>' +
-                '<p style="color:var(--text-light);margin-bottom:16px;">Upgrade to Pro to unlock the guided Learning Pathway.</p>' +
-                '<a href="../hub.html#pricing" style="display:inline-block;background:#4361ee;color:#fff;padding:12px 28px;border-radius:12px;font-weight:700;text-decoration:none;">Upgrade to Pro</a></div>';
-            return;
-        }
         this.renderFlowchart();
     },
 

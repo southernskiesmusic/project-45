@@ -131,6 +131,10 @@
                     <span id="auth-info"></span>
                     <button class="btn btn-sm btn-primary" id="auth-btn">Sign in</button>
                     <button class="btn btn-sm" onclick="changeCourse()" style="background:var(--border);color:var(--text-light);">Change Course</button>
+                    <button class="btn btn-sm btn-primary" id="btn-pathway" onclick="showView('pathway'); if(typeof Pathway!=='undefined') Pathway.renderFlowchart();">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h4l3-14h4l3 14h2"/></svg>
+                        Learning Pathway
+                    </button>
                     <button class="btn btn-sm btn-primary" onclick="showDashboard()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                         Dashboard
@@ -156,6 +160,9 @@
                 <input type="text" class="search-input" id="search-input" placeholder="Search topics, activities, lessons..." autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
+
+            <!-- Learning Pathway - Continue Learning card -->
+            <div id="pathway-continue"></div>
 
             <!-- Topic Cards -->
             <div class="topic-grid">
