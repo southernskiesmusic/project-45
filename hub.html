@@ -626,6 +626,9 @@ body::before {
 
 <script>
 (function() {
+    // ── Firebase init ──
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+
     // ── Theme ──
     var theme = localStorage.getItem('p45-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', theme);
