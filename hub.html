@@ -233,6 +233,130 @@ body::before {
     .subject-grid { grid-template-columns: 1fr; }
     .topbar { padding: 0 16px; }
 }
+
+/* ── ONBOARDING OVERLAY ── */
+.onboard-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.onboard-overlay.show { opacity: 1; pointer-events: all; }
+.onboard-modal {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 20px; padding: 36px 32px;
+    width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+}
+.onboard-steps { display: flex; align-items: center; margin-bottom: 28px; }
+.onboard-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+    background: var(--surface2); color: var(--text3); border: 2px solid var(--border);
+    transition: all 0.3s;
+}
+.onboard-dot.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.onboard-dot.done { background: var(--success); color: #fff; border-color: var(--success); }
+.onboard-line { flex: 1; height: 2px; background: var(--border); }
+.onboard-step h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+.onboard-step > p { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; line-height: 1.5; }
+.onboard-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.onboard-field > span { font-size: 0.85rem; font-weight: 600; color: var(--text2); }
+.onboard-field input,
+.onboard-field select {
+    padding: 10px 14px; border-radius: 10px;
+    border: 1.5px solid var(--border2); background: var(--surface);
+    color: var(--text); font-family: var(--font-body); font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+}
+.onboard-field input:focus,
+.onboard-field select:focus { border-color: var(--accent); }
+[data-theme="light"] .onboard-field select option { background: #fff; }
+.subject-group { border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.subject-group.locked { opacity: 0.55; }
+.subject-group-header { display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; }
+.subject-group-req { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); background: rgba(79,110,247,0.12); padding: 2px 8px; border-radius: 20px; }
+.subject-group-lock { font-size: 0.72rem; color: var(--text3); }
+.subject-group-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill-label { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; border: 1.5px solid var(--border2); font-size: 0.84rem; cursor: pointer; transition: all 0.2s; user-select: none; }
+.pill-label:hover { border-color: var(--accent); }
+.pill-label input { display: none; }
+.pill-label:has(input:checked) { background: rgba(79,110,247,0.15); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.pill-label.soon { opacity: 0.45; pointer-events: none; }
+.subject-group-error { font-size: 0.78rem; color: #ef4444; margin-top: 8px; display: none; }
+.subject-group-error.visible { display: block; }
+.onboard-skip { display: block; margin: 14px auto 0; background: none; border: none; color: var(--text3); font-size: 0.82rem; cursor: pointer; text-decoration: underline; font-family: var(--font-body); }
+.onboard-skip:hover { color: var(--text2); }
+.btn { padding: 11px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-body); transition: all 0.2s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
+.btn-secondary:hover { border-color: var(--accent); }
+
+/* ── WELCOME SLIDER (tw-) ── */
+.tw-overlay { position: fixed; inset: 0; z-index: 9500; background: #08080f; display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+.tw-overlay.active { opacity: 1; pointer-events: all; }
+.tw-track { display: flex; flex: 1; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+.tw-slide { min-width: 100vw; display: flex; align-items: center; justify-content: center; }
+.tw-s1 { background: linear-gradient(135deg, #08080f 0%, #0d1526 50%, #08080f 100%); }
+.tw-s2 { background: linear-gradient(135deg, #08080f 0%, #0d1a18 50%, #08080f 100%); }
+.tw-s3 { background: linear-gradient(135deg, #08080f 0%, #150d26 50%, #08080f 100%); }
+.tw-slide-inner { text-align: center; padding: 40px 32px; max-width: 520px; }
+.tw-logo { margin-bottom: 28px; }
+.tw-h1 { font-family: 'Clash Display', sans-serif; font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 700; color: #F2F0EB; line-height: 1.1; margin-bottom: 16px; }
+.tw-h2 { font-family: 'Clash Display', sans-serif; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 700; color: #F2F0EB; line-height: 1.1; margin-bottom: 16px; }
+.tw-sub, .tw-body { font-size: 1rem; color: #B0ACA5; line-height: 1.6; }
+.tw-icon-wrap { margin-bottom: 24px; }
+.tw-icon { font-size: 3.5rem; }
+.tw-controls { padding: 24px 32px 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.tw-dots { display: flex; gap: 8px; }
+.tw-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
+.tw-dot.active { background: #4f6ef7; width: 24px; border-radius: 4px; }
+.tw-dot.done { background: rgba(79,110,247,0.4); }
+.tw-next { padding: 14px 40px; border-radius: 12px; font-size: 1rem; font-weight: 700; background: #4f6ef7; color: #fff; border: none; cursor: pointer; font-family: inherit; transition: opacity 0.2s, transform 0.2s; min-width: 160px; }
+.tw-next:hover { opacity: 0.85; transform: translateY(-1px); }
+.tw-progress { height: 3px; background: rgba(255,255,255,0.08); }
+.tw-progress-fill { height: 100%; background: #4f6ef7; transition: width 0.4s ease; }
+
+/* ── TUTORIAL SPOTLIGHT (tut-) ── */
+.tut-overlay { position: fixed; inset: 0; z-index: 9400; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.tut-overlay.active { opacity: 1; pointer-events: all; }
+.tut-backdrop {
+    position: absolute; inset: 0;
+    --spot-top: 0px; --spot-left: 0px; --spot-width: 0px; --spot-height: 0px;
+    background: rgba(0,0,0,0.78);
+    -webkit-mask-image: radial-gradient(ellipse var(--spot-width) var(--spot-height) at calc(var(--spot-left) + var(--spot-width)/2) calc(var(--spot-top) + var(--spot-height)/2), transparent 88%, black 100%);
+    mask-image: radial-gradient(ellipse var(--spot-width) var(--spot-height) at calc(var(--spot-left) + var(--spot-width)/2) calc(var(--spot-top) + var(--spot-height)/2), transparent 88%, black 100%);
+}
+.tut-tooltip { position: fixed; z-index: 9401; width: 320px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+.tut-step-indicator { display: flex; gap: 6px; margin-bottom: 12px; }
+.tut-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); }
+.tut-dot.active { background: var(--accent); width: 18px; border-radius: 3px; }
+.tut-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+.tut-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 16px; }
+.tut-actions { display: flex; align-items: center; justify-content: space-between; }
+.tut-skip { background: none; border: none; color: var(--text3); font-size: 0.82rem; cursor: pointer; font-family: var(--font-body); }
+.tut-skip:hover { color: var(--text2); }
+.tut-nav { display: flex; gap: 8px; }
+.tut-btn { padding: 8px 16px; border-radius: 8px; font-size: 0.84rem; font-weight: 600; cursor: pointer; font-family: var(--font-body); border: none; transition: all 0.2s; }
+.tut-btn-back { background: var(--surface2); color: var(--text2); }
+.tut-btn-back:hover { color: var(--text); }
+.tut-btn-next { background: var(--accent); color: #fff; }
+.tut-btn-next:hover { opacity: 0.85; }
+
+/* ── WELCOME BACK (wb-) ── */
+.wb-overlay { position: fixed; inset: 0; z-index: 9300; background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.wb-overlay.show { opacity: 1; pointer-events: all; }
+.wb-card { background: var(--bg2); border: 1px solid var(--border2); border-radius: 20px; padding: 36px 32px; text-align: center; max-width: 380px; width: 100%; transform: translateY(20px); transition: transform 0.3s; }
+.wb-overlay.show .wb-card { transform: translateY(0); }
+.wb-emoji { font-size: 3rem; margin-bottom: 16px; }
+.wb-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+.wb-text { font-size: 0.9rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px; }
+.wb-btn { display: block; padding: 13px 20px; border-radius: 12px; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.95rem; text-decoration: none; margin-bottom: 12px; transition: opacity 0.2s; }
+.wb-btn:hover { opacity: 0.85; }
+.wb-dismiss { background: none; border: none; color: var(--text3); font-size: 0.85rem; cursor: pointer; font-family: var(--font-body); }
+.wb-dismiss:hover { color: var(--text2); }
 </style>
 </head>
 <body>
@@ -367,6 +491,139 @@ body::before {
 
 </main>
 
+<!-- ══════════════════════════════════════════════════════════════
+     ONBOARDING MODAL
+══════════════════════════════════════════════════════════════ -->
+<div class="onboard-overlay" id="onboard-overlay">
+    <div class="onboard-modal" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
+        <div class="onboard-steps">
+            <span class="onboard-dot active" id="onboard-dot-1">1</span>
+            <span class="onboard-line"></span>
+            <span class="onboard-dot" id="onboard-dot-2">2</span>
+        </div>
+
+        <!-- Step 1: Profile -->
+        <div class="onboard-step" id="onboard-step-1">
+            <h2 id="onboard-title">Welcome! Tell us about yourself</h2>
+            <p>This helps personalise your hub and track your progress.</p>
+            <label class="onboard-field">
+                <span>Display Name</span>
+                <input type="text" id="onboard-name" placeholder="e.g. Alex" maxlength="30" autocomplete="off">
+            </label>
+            <label class="onboard-field">
+                <span>Country</span>
+                <select id="onboard-country">
+                    <option value="">Select your country</option>
+                    <option value="AE">&#127462;&#127466; UAE</option>
+                    <option value="AR">&#127462;&#127479; Argentina</option>
+                    <option value="AU">&#127462;&#127482; Australia</option>
+                    <option value="BE">&#127463;&#127466; Belgium</option>
+                    <option value="BR">&#127463;&#127479; Brazil</option>
+                    <option value="CA">&#127464;&#127462; Canada</option>
+                    <option value="CH">&#127464;&#127469; Switzerland</option>
+                    <option value="CN">&#127464;&#127475; China</option>
+                    <option value="DE">&#127465;&#127466; Germany</option>
+                    <option value="EG">&#127466;&#127468; Egypt</option>
+                    <option value="ES">&#127466;&#127480; Spain</option>
+                    <option value="FR">&#127467;&#127479; France</option>
+                    <option value="GB">&#127468;&#127463; United Kingdom</option>
+                    <option value="HK">&#127469;&#127472; Hong Kong</option>
+                    <option value="ID">&#127470;&#127465; Indonesia</option>
+                    <option value="IE">&#127470;&#127466; Ireland</option>
+                    <option value="IN">&#127470;&#127475; India</option>
+                    <option value="IT">&#127470;&#127481; Italy</option>
+                    <option value="JP">&#127471;&#127477; Japan</option>
+                    <option value="KE">&#127472;&#127466; Kenya</option>
+                    <option value="KR">&#127472;&#127479; South Korea</option>
+                    <option value="KW">&#127472;&#127484; Kuwait</option>
+                    <option value="MY">&#127474;&#127486; Malaysia</option>
+                    <option value="NG">&#127475;&#127468; Nigeria</option>
+                    <option value="NL">&#127475;&#127473; Netherlands</option>
+                    <option value="NZ">&#127475;&#127487; New Zealand</option>
+                    <option value="PH">&#127477;&#127469; Philippines</option>
+                    <option value="PK">&#127477;&#127472; Pakistan</option>
+                    <option value="QA">&#127478;&#127462; Qatar</option>
+                    <option value="SA">&#127480;&#127462; Saudi Arabia</option>
+                    <option value="SE">&#127480;&#127466; Sweden</option>
+                    <option value="SG">&#127480;&#127468; Singapore</option>
+                    <option value="TR">&#127481;&#127479; Turkey</option>
+                    <option value="TW">&#127481;&#127484; Taiwan</option>
+                    <option value="US">&#127482;&#127480; United States</option>
+                    <option value="ZA">&#127487;&#127462; South Africa</option>
+                </select>
+            </label>
+            <label class="onboard-field">
+                <span>School <span style="font-weight:400;color:var(--text3);font-size:0.82em;">(optional)</span></span>
+                <input type="text" id="onboard-school" placeholder="e.g. North London Collegiate">
+            </label>
+            <label class="onboard-field">
+                <span>IB Year</span>
+                <select id="onboard-year">
+                    <option value="">Select your year</option>
+                    <option value="dp1">DP1 (Year 1)</option>
+                    <option value="dp2">DP2 (Year 2)</option>
+                </select>
+            </label>
+            <button class="btn btn-primary" id="onboard-next-1" style="width:100%;margin-top:8px;">Next</button>
+            <p style="font-size:0.74rem;color:var(--text3);text-align:center;margin-top:10px;">You must be 13 or older, or have parental consent, to use this platform.</p>
+            <button class="onboard-skip" id="onboard-skip-1">Skip for now</button>
+        </div>
+
+        <!-- Step 2: Subjects -->
+        <div class="onboard-step" id="onboard-step-2" style="display:none">
+            <h2>Which subjects are you taking?</h2>
+            <p>Select your IB DP subjects. You can update this later in settings.</p>
+
+            <!-- Group 5: Maths -->
+            <div class="subject-group">
+                <div class="subject-group-header">
+                    <span>&#128202; Mathematics</span>
+                    <span class="subject-group-req">Required</span>
+                </div>
+                <div class="subject-group-options">
+                    <label class="pill-label"><input type="radio" name="onboard-maths" value="aa-sl"> AA SL</label>
+                    <label class="pill-label"><input type="radio" name="onboard-maths" value="aa-hl"> AA HL</label>
+                    <label class="pill-label soon"><input type="radio" name="onboard-maths" value="ai-sl" disabled> AI SL <span style="font-size:0.7rem;opacity:0.7;">Soon</span></label>
+                    <label class="pill-label soon"><input type="radio" name="onboard-maths" value="ai-hl" disabled> AI HL <span style="font-size:0.7rem;opacity:0.7;">Soon</span></label>
+                </div>
+                <div class="subject-group-error" id="err-maths">Please select a maths course</div>
+            </div>
+
+            <!-- Group 4: Sciences -->
+            <div class="subject-group">
+                <div class="subject-group-header">
+                    <span>&#9879; Sciences</span>
+                    <span class="subject-group-req">Pick at least 1</span>
+                </div>
+                <div class="subject-group-options">
+                    <label class="pill-label"><input type="checkbox" name="onboard-science" value="physics"> Physics</label>
+                    <label class="pill-label"><input type="checkbox" name="onboard-science" value="chemistry"> Chemistry</label>
+                    <label class="pill-label"><input type="checkbox" name="onboard-science" value="biology"> Biology</label>
+                </div>
+                <div class="subject-group-error" id="err-sciences">Please select at least 1 science</div>
+            </div>
+
+            <!-- Group 1: English A -->
+            <div class="subject-group locked">
+                <div class="subject-group-header">
+                    <span>&#128214; English A</span>
+                    <span class="subject-group-lock">Always included</span>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:16px;">
+                <button class="btn btn-secondary" id="onboard-back-2">Back</button>
+                <button class="btn btn-primary" id="onboard-save" style="flex:1;" disabled>Save &amp; continue</button>
+            </div>
+            <button class="onboard-skip" id="onboard-skip-2">Skip for now</button>
+        </div>
+    </div>
+</div>
+
+<script src="shared/js/tutorial.js"></script>
+<script src="shared/js/auth-gate.js"></script>
+<script src="shared/js/welcome-back.js"></script>
+
 <script>
 (function() {
     // ── Theme ──
@@ -389,8 +646,22 @@ body::before {
         if (user) {
             authBtn.style.display = 'none';
             signOut.style.display = '';
-            authInfo.textContent = user.displayName || user.email || '';
+            var saved = localStorage.getItem('p45_displayName');
+            authInfo.textContent = saved || user.displayName || user.email || '';
             if (hero) hero.style.display = 'none';
+
+            // Trigger onboarding for new users
+            var hasProfile = localStorage.getItem('p45_displayName') && localStorage.getItem('p45_country') && localStorage.getItem('p45_year');
+            var hasSubjects = localStorage.getItem('p45_subjects');
+            if (!hasProfile || !hasSubjects) {
+                setTimeout(function() {
+                    if (!Tutorial.hasCompleted()) {
+                        Tutorial.showWelcome(function() { openOnboarding(1); });
+                    } else {
+                        openOnboarding(1);
+                    }
+                }, 300);
+            }
         } else {
             authBtn.style.display = '';
             signOut.style.display = 'none';
@@ -408,6 +679,97 @@ body::before {
     document.getElementById('hero-sign-in').addEventListener('click', signInWithGoogle);
     document.getElementById('sign-out-btn').addEventListener('click', function() {
         auth.signOut();
+    });
+
+    // ── Onboarding ──
+    function openOnboarding(step) {
+        var overlay = document.getElementById('onboard-overlay');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        _showOnboardStep(step);
+    }
+
+    function closeOnboarding() {
+        var overlay = document.getElementById('onboard-overlay');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+        setTimeout(function() { Tutorial.start(); }, 400);
+    }
+
+    function _showOnboardStep(step) {
+        var s1 = document.getElementById('onboard-step-1');
+        var s2 = document.getElementById('onboard-step-2');
+        var d1 = document.getElementById('onboard-dot-1');
+        var d2 = document.getElementById('onboard-dot-2');
+        if (step === 1) {
+            s1.style.display = ''; s2.style.display = 'none';
+            d1.className = 'onboard-dot active'; d2.className = 'onboard-dot';
+        } else {
+            s1.style.display = 'none'; s2.style.display = '';
+            d1.className = 'onboard-dot done'; d2.className = 'onboard-dot active';
+        }
+    }
+
+    // Step 1 → Next
+    document.getElementById('onboard-next-1').addEventListener('click', function() {
+        var name    = document.getElementById('onboard-name').value.trim();
+        var country = document.getElementById('onboard-country').value;
+        var year    = document.getElementById('onboard-year').value;
+        if (!name || !country || !year) {
+            if (!name)    document.getElementById('onboard-name').style.borderColor = '#ef4444';
+            if (!country) document.getElementById('onboard-country').style.borderColor = '#ef4444';
+            if (!year)    document.getElementById('onboard-year').style.borderColor = '#ef4444';
+            return;
+        }
+        try {
+            localStorage.setItem('p45_displayName', name);
+            localStorage.setItem('p45_country', country);
+            localStorage.setItem('p45_school', document.getElementById('onboard-school').value.trim());
+            localStorage.setItem('p45_year', year);
+            document.getElementById('auth-info').textContent = name;
+        } catch(e) {}
+        _showOnboardStep(2);
+    });
+
+    // Step 2 → Back
+    document.getElementById('onboard-back-2').addEventListener('click', function() { _showOnboardStep(1); });
+
+    // Step 2 → enable Save when maths + science selected
+    function _checkStep2() {
+        var maths   = document.querySelector('input[name="onboard-maths"]:checked');
+        var sciences = document.querySelectorAll('input[name="onboard-science"]:checked');
+        document.getElementById('onboard-save').disabled = !(maths && sciences.length >= 1);
+    }
+    document.querySelectorAll('input[name="onboard-maths"]').forEach(function(el) { el.addEventListener('change', _checkStep2); });
+    document.querySelectorAll('input[name="onboard-science"]').forEach(function(el) { el.addEventListener('change', _checkStep2); });
+
+    // Step 2 → Save
+    document.getElementById('onboard-save').addEventListener('click', function() {
+        var maths   = document.querySelector('input[name="onboard-maths"]:checked');
+        var sciences = Array.from(document.querySelectorAll('input[name="onboard-science"]:checked')).map(function(el) { return el.value; });
+        var errM = document.getElementById('err-maths');
+        var errS = document.getElementById('err-sciences');
+        var valid = true;
+        if (!maths) { errM.classList.add('visible'); valid = false; } else { errM.classList.remove('visible'); }
+        if (!sciences.length) { errS.classList.add('visible'); valid = false; } else { errS.classList.remove('visible'); }
+        if (!valid) return;
+
+        var mathsVal = maths.value; // e.g. 'aa-sl'
+        var parts = mathsVal.split('-'); // ['aa','sl']
+        try {
+            localStorage.setItem('p45-course', parts[0] || 'aa');
+            localStorage.setItem('p45-level', parts[1] || 'sl');
+            localStorage.setItem('p45_subjects', JSON.stringify({ maths: mathsVal, sciences: sciences, english: true }));
+            localStorage.setItem('p45_onboardDone', '1');
+        } catch(e) {}
+        closeOnboarding();
+    });
+
+    // Skip buttons
+    document.getElementById('onboard-skip-1').addEventListener('click', function() { _showOnboardStep(2); });
+    document.getElementById('onboard-skip-2').addEventListener('click', function() {
+        try { localStorage.setItem('p45_onboardDone', '1'); } catch(e) {}
+        closeOnboarding();
     });
 
     // ── Continue card (from maths localStorage) ──
