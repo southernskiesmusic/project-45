@@ -593,4 +593,4 @@ const SYMMETRIES = {
     }
 };
 
-ACTIVITY_INITS['symmetries'] = () => SYMMETRIES.load();
+if (typeof ACTIVITY_INITS !== 'undefined') ACTIVITY_INITS['symmetries'] = () => SYMMETRIES.load();

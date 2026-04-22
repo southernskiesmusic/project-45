@@ -199,11 +199,12 @@ const LessonEngine = {
         if (q.type === 'mc') {
             h += '<div class="options-grid">';
             q.options.forEach((o, i) => {
-                // Only wrap in \( \) if the option contains LaTeX commands or is purely numeric/symbolic
-                // Plain text options (sentences with spaces) should render as-is
-                const hasLatex = /\\[a-zA-Z(]/.test(o);
-                const isPureNumeric = /^[\d\s\.\+\-\*\/\^=<>(),%]+$/.test(o.trim());
-                const display = hasLatex ? (o.includes('\\(') ? o : '\\(' + o + '\\)') : isPureNumeric ? '\\(' + o + '\\)' : o;
+                // Support both string options and activity-format object options {value, tex, label}
+                const text = typeof o === 'string' ? o : (o.label || o.tex || '');
+                const hasDelimiters = text.includes('\\(') || text.includes('$$');
+                const hasLatex = !hasDelimiters && /\\[a-zA-Z]/.test(text);
+                const isPureNumeric = !hasLatex && /^[\d\s\.\+\-\*\/\^=<>(),%]+$/.test(text.trim());
+                const display = hasDelimiters ? text : hasLatex ? '\\(' + text + '\\)' : isPureNumeric ? '\\(' + text + '\\)' : text;
                 h += '<button class="option-btn" data-i="' + i + '" onclick="LessonEngine.checkMC(this)">' +
                     display + '</button>';
             });
@@ -264,16 +265,32 @@ const LessonEngine = {
         this.practiceTotal++;
         const q = this.practiceQ;
         const chosenIdx = parseInt(btn.dataset.i);
-        // Use render-time snapshot for robust comparison (guards against any mutation)
         const opts = this._mcOptionsSnap || q.options;
-        const correctAnswer = this._mcCorrectText || (q.answer !== undefined ? q.answer : (q.options && q.correctIdx < q.options.length ? q.options[q.correctIdx] : ''));
-        const correct = opts[chosenIdx] === correctAnswer;
+        const chosenOpt = opts[chosenIdx];
+
+        // Determine correctness: handle string options (correctIdx), object options (value:1), or answer comparison
+        let correct;
+        if (this._mcCorrectText !== null && this._mcCorrectText !== undefined) {
+            correct = chosenOpt === this._mcCorrectText;
+        } else if (typeof chosenOpt === 'object' && chosenOpt !== null) {
+            correct = chosenOpt.value === 1;
+        } else {
+            correct = q.answer !== undefined ? String(chosenOpt) === String(q.answer) : false;
+        }
         if (correct) this.practiceCorrect++;
 
         // Highlight buttons
         document.querySelectorAll('#lesson-content .option-btn').forEach(b => {
-            const val = opts[parseInt(b.dataset.i)];
-            if (val === correctAnswer) b.classList.add('correct');
+            const bOpt = opts[parseInt(b.dataset.i)];
+            let isCorrect;
+            if (this._mcCorrectText !== null && this._mcCorrectText !== undefined) {
+                isCorrect = bOpt === this._mcCorrectText;
+            } else if (typeof bOpt === 'object' && bOpt !== null) {
+                isCorrect = bOpt.value === 1;
+            } else {
+                isCorrect = q.answer !== undefined ? String(bOpt) === String(q.answer) : false;
+            }
+            if (isCorrect) b.classList.add('correct');
             else if (b === btn) b.classList.add('incorrect');
             b.disabled = true;
         });

@@ -101,9 +101,12 @@ const LIMITS = {
         if (optionsEl) {
             if (q.type === 'mc') {
                 optionsEl.innerHTML = '<div class="options-grid">' +
-                    q.options.map(opt =>
-                        `<button class="option-btn" data-value="${opt.value}" onclick="LIMITS.checkMC(this)">\\(${opt.label || opt.tex}\\)</button>`
-                    ).join('') +
+                    q.options.map(opt => {
+                        const optText = opt.label || opt.tex || '';
+                        const hasDelims = optText.includes('\\(') || optText.includes('$$');
+                        const display = hasDelims ? optText : `\\(${optText}\\)`;
+                        return `<button class="option-btn" data-value="${opt.value}" onclick="LIMITS.checkMC(this)">${display}</button>`;
+                    }).join('') +
                     '</div>';
             } else {
                 optionsEl.innerHTML =

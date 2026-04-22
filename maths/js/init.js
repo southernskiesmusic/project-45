@@ -458,7 +458,11 @@ if (typeof SubjectBase !== 'undefined') {
             var mainTopics = ['number-algebra','functions','geometry-trig','stats-probability','calculus'];
             if (mainTopics.indexOf(topic) !== -1) return false;
             // All sub-topic cards go to the topic detail page
-            showTopicDetail(topic);
+            try {
+                showTopicDetail(topic);
+            } catch(e) {
+                console.error('showTopicDetail failed for', topic, e);
+            }
             return true;
         }
     });

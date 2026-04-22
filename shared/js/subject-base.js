@@ -159,7 +159,7 @@
 
             // ==================== TRAINER INITS ====================
             for (var i = 0; i < trainerInits.length; i++) {
-                trainerInits[i]();
+                try { trainerInits[i](); } catch(e) { console.error('Trainer init failed:', e); }
             }
 
             // ==================== FLASHCARD ENGINE ====================
