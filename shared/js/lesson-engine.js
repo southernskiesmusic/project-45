@@ -146,8 +146,13 @@ const LessonEngine = {
 
     renderExample(screen, content, nav) {
         this.exampleStepIdx = 0;
-        let h = this._imageHtml(screen) + '<h3>' + screen.title + '</h3>' +
-            '<p class="question-prompt" style="font-size:1.15rem;margin-bottom:16px;">' + (screen.problemMath === false ? screen.problem : '\\(' + screen.problem + '\\)') + '</p>';
+        // Wrap problem in \(..\) only if it's plain math (no existing delimiters, no HTML, and author didn't opt out).
+        const prob = screen.problem || '';
+        const hasDelim = prob.indexOf('\\(') !== -1 || prob.indexOf('$$') !== -1 || prob.trimStart().charAt(0) === '<';
+        const problemHtml = (screen.problemMath === false || hasDelim) ? prob : '\\(' + prob + '\\)';
+        let h = this._imageHtml(screen) +
+            (screen.title ? '<h3>' + screen.title + '</h3>' : '') +
+            '<p class="question-prompt" style="font-size:1.15rem;margin-bottom:16px;">' + problemHtml + '</p>';
         screen.steps.forEach((step, i) => {
             h += '<div class="lesson-step" id="lesson-step-' + i + '">' + (typeof step === 'string' ? step : step.text) + '</div>';
         });
@@ -237,12 +242,17 @@ const LessonEngine = {
             '<button class="btn btn-hint" onclick="LessonEngine.back()"' + (this.screenIdx <= 0 ? ' disabled' : '') + '>&larr; Back</button>' +
             '</div>';
 
-        // Set up Enter key on math field after render
+        // Set up Enter key on math field after render, and auto-focus so
+        // the user doesn't need to click in (MathLive's shadow DOM binds
+        // asynchronously, which makes the first click unreliable).
         setTimeout(() => {
             const mf = document.getElementById('lesson-mf');
-            if (mf) mf.addEventListener('keydown', e => {
-                if (e.key === 'Enter') { e.preventDefault(); LessonEngine.checkFree(); }
-            });
+            if (mf) {
+                mf.addEventListener('keydown', e => {
+                    if (e.key === 'Enter') { e.preventDefault(); LessonEngine.checkFree(); }
+                });
+                try { mf.focus({ preventScroll: true }); } catch(e) {}
+            }
             const orderList = document.getElementById('lesson-order-list');
             if (orderList && typeof Sortable !== 'undefined') {
                 this._orderSortable = Sortable.create(orderList, {
