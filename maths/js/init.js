@@ -843,11 +843,11 @@ function renderDashboard() {
 // ================================================================
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ── Wire up sub-topic cards with available activities ──
+    // ── Mark unavailable sub-topic cards as Coming Soon ──
+    // (Clicks are handled by SubjectBase, which routes to showTopicDetail.)
     document.querySelectorAll('.view:not(#view-hub) .topic-card[data-topic]').forEach(function(card) {
         var topic = card.getAttribute('data-topic');
         if (AVAILABLE_ACTIVITIES[topic]) {
-            card.onclick = function() { launchActivity(topic); };
             card.style.cursor = 'pointer';
         } else if (!TOPIC_MAP[topic] || TOPIC_MAP[topic].sub) {
             card.style.opacity = '0.6';

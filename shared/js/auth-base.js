@@ -172,8 +172,12 @@
                     }
                     // Daily streak (global, unprefixed)
                     if (cloud.dailyStreak) {
-                        mergeCloudStreak(cloud.dailyStreak, cloud.streakServerTs);
-                        updateDailyStreakUI();
+                        if (typeof mergeCloudStreak === 'function') {
+                            mergeCloudStreak(cloud.dailyStreak, cloud.streakServerTs);
+                        } else {
+                            localStorage.setItem('dailyStreak', JSON.stringify(cloud.dailyStreak));
+                        }
+                        if (typeof updateDailyStreakUI === 'function') updateDailyStreakUI();
                     }
                     // Timed challenges
                     if (p.timedChallenges) {
@@ -205,8 +209,12 @@
                     }
                     // Streak freezes (global, unprefixed)
                     if (cloud.streakFreezes) {
-                        mergeCloudFreezes(cloud.streakFreezes);
-                        updateFreezeUI();
+                        if (typeof mergeCloudFreezes === 'function') {
+                            mergeCloudFreezes(cloud.streakFreezes);
+                        } else {
+                            localStorage.setItem('streakFreezes', JSON.stringify(cloud.streakFreezes));
+                        }
+                        if (typeof updateFreezeUI === 'function') updateFreezeUI();
                     }
                     // XP data (global)
                     if (cloud.p56_xp) {

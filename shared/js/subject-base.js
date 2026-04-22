@@ -1020,28 +1020,5 @@
 
     window.SubjectBase = SubjectBase;
 
-    // ── Auto-load viral share engine on subject pages ──
-    // Dynamically inject the script since not all pages include it in HTML
-    (function() {
-        if (typeof ShareEngine !== 'undefined') return; // already loaded
-        var isSubject = location.pathname.indexOf('/maths') !== -1 ||
-            location.pathname.indexOf('/physics') !== -1 ||
-            location.pathname.indexOf('/chemistry') !== -1 ||
-            location.pathname.indexOf('/biology') !== -1 ||
-            location.pathname.indexOf('/lal') !== -1 ||
-            location.pathname.indexOf('/humanities') !== -1 ||
-            location.pathname.indexOf('/arts') !== -1 ||
-            location.pathname.indexOf('/mfl') !== -1;
-        if (!isSubject) return;
-        var s = document.createElement('script');
-        s.src = (location.pathname.indexOf('/history/') !== -1 || location.pathname.indexOf('/geography/') !== -1 ||
-                 location.pathname.indexOf('/integrated-humanities/') !== -1 || location.pathname.indexOf('/english/') !== -1 ||
-                 location.pathname.indexOf('/french/') !== -1 || location.pathname.indexOf('/hindi/') !== -1 ||
-                 location.pathname.indexOf('/visual-art/') !== -1 || location.pathname.indexOf('/music/') !== -1 ||
-                 location.pathname.indexOf('/drama/') !== -1 || location.pathname.indexOf('/design/') !== -1 ||
-                 location.pathname.indexOf('/personal-project/') !== -1)
-            ? '../../js/viral-share-engine.js' : '../js/viral-share-engine.js';
-        s.defer = true;
-        document.head.appendChild(s);
-    })();
+    // Viral share engine injection removed: file not ported to P45 (was causing 404).
 })();
