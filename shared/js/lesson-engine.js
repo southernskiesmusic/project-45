@@ -249,7 +249,14 @@ const LessonEngine = {
             const mf = document.getElementById('lesson-mf');
             if (mf) {
                 mf.addEventListener('keydown', e => {
-                    if (e.key === 'Enter') { e.preventDefault(); LessonEngine.checkFree(); }
+                    if (e.key !== 'Enter') return;
+                    e.preventDefault();
+                    if (LessonEngine.practiceAnswered) {
+                        const cont = document.getElementById('lesson-continue-btn');
+                        if (cont) cont.click();
+                    } else {
+                        LessonEngine.checkFree();
+                    }
                 });
                 try { mf.focus({ preventScroll: true }); } catch(e) {}
             }
