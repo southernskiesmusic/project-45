@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" media="print" onload="this.media='all'">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <!-- Desmos Graphing Calculator API -->
+    <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="../shared/css/subject-base.css">
     <link rel="stylesheet" href="styles.css">
@@ -453,6 +455,21 @@
             <button class="back-btn" data-back="hub">Back</button>
             <header><h2>Flashcards</h2></header>
             <div id="fc-container"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             FLOATING CALCULATOR (Desmos)
+             ═══════════════════════════════════════════════ -->
+        <button class="calc-btn" id="calc-btn" title="Calculator">&#129518;</button>
+        <div class="calc-modal" id="calc-modal">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg);border-bottom:1px solid var(--border);">
+                <span style="font-weight:600;font-size:0.85rem;color:var(--text);">Calculator</span>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="calc-clear-btn" id="calc-clear-btn">Clear</button>
+                    <button style="background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-light);line-height:1;" id="calc-close-btn" title="Close">&times;</button>
+                </div>
+            </div>
+            <div class="calc-container" id="calc-container"></div>
         </div>
 
     </div><!-- #app -->

@@ -177,3 +177,53 @@ function renderPhysicsDashboard() {
         if (localStorage.getItem('physics-dark') === 'true') document.body.classList.add('dark-mode');
     } catch(e) {}
 })();
+
+// ── Desmos Floating Calculator ──
+document.addEventListener('DOMContentLoaded', function() {
+    var calcBtn = document.getElementById('calc-btn');
+    if (typeof Desmos === 'undefined' && calcBtn) calcBtn.style.display = 'none';
+    var calcModal = document.getElementById('calc-modal');
+    var calcCloseBtn = document.getElementById('calc-close-btn');
+    var calcClearBtn = document.getElementById('calc-clear-btn');
+    window.desmosCalc = null;
+
+    if (!calcBtn || !calcModal) return;
+
+    function openCalc() {
+        if (typeof Desmos === 'undefined') {
+            alert('Calculator is loading. Please try again in a moment.');
+            return;
+        }
+        calcModal.classList.add('show');
+        calcBtn.classList.add('active');
+        if (!window.desmosCalc) {
+            var container = document.getElementById('calc-container');
+            window.desmosCalc = Desmos.GraphingCalculator(container, {
+                settingsMenu: false,
+                border: false,
+                expressionsCollapsed: false,
+                graphpaper: false,
+                keypad: false,
+                zoomButtons: false,
+                lockViewport: true
+            });
+        }
+    }
+
+    function closeCalc() {
+        calcModal.classList.remove('show');
+        calcBtn.classList.remove('active');
+    }
+
+    calcBtn.addEventListener('click', function() {
+        calcModal.classList.contains('show') ? closeCalc() : openCalc();
+    });
+
+    if (calcCloseBtn) calcCloseBtn.addEventListener('click', closeCalc);
+
+    if (calcClearBtn) {
+        calcClearBtn.addEventListener('click', function() {
+            if (window.desmosCalc) window.desmosCalc.setBlank();
+        });
+    }
+});
