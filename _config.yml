@@ -1,0 +1,13 @@
+# GitHub Pages (Jekyll) build settings.
+# Everything in the repo is published unless excluded here. Keep backend
+# source, plans and Firebase config off the public site.
+exclude:
+  - functions/
+  - PLAN.md
+  - firestore.rules
+  - firestore.indexes.json
+  - firebase.json
+  - node_modules/
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
